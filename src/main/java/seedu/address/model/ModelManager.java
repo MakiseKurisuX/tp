@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.time.LocalDateTime;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -96,11 +97,13 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+        addressBook.setLastUpdated(LocalDateTime.now());
     }
 
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
+        addressBook.setLastUpdated(LocalDateTime.now());
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
@@ -109,6 +112,7 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+        addressBook.setLastUpdated(LocalDateTime.now());
     }
 
     //=========== Filtered Person List Accessors =============================================================
