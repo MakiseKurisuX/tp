@@ -1,7 +1,5 @@
 package seedu.address.model;
 
-import java.time.LocalDateTime;
-
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 
@@ -15,7 +13,5 @@ public interface ReadOnlyAddressBook {
      * This list will not contain any duplicate persons.
      */
     ObservableList<Person> getPersonList();
-
-    LocalDateTime getLastUpdated();
 
 }

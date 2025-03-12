@@ -1,8 +1,5 @@
 package seedu.address.storage;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,17 +21,15 @@ class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 
-    private static final String DATE_TIME_PATTERN = "M/d/yyyy HHmm";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+    private final List<JsonAdaptedPerson> persons = new ArrayList<>();
 
-
-    @JsonProperty("persons")
-    private List<JsonAdaptedPerson> persons = new ArrayList<>();
-
-    @JsonProperty("lastUpdated")
-    private JsonAdaptedDateTime lastUpdated;
-
-    public JsonSerializableAddressBook() {}
+    /**
+     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
+     */
+    @JsonCreator
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+        this.persons.addAll(persons);
+    }
 
     /**
      * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
@@ -42,8 +37,7 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).toList());
-        lastUpdated = new JsonAdaptedDateTime(source.getLastUpdated());
+        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
     }
 
     /**
@@ -60,7 +54,6 @@ class JsonSerializableAddressBook {
             }
             addressBook.addPerson(person);
         }
-        addressBook.setLastUpdated(lastUpdated.toModelType()); 
         return addressBook;
     }
 
