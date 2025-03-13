@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <TableView fx:id="renewalsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="clientColumn" text="Client" />
+            <TableColumn fx:id="policyColumn" text="Policy" />
+            <TableColumn fx:id="renewalDateColumn" text="Renewal Date" />
+            <TableColumn fx:id="daysLeftColumn" text="Days left" />
+            <TableColumn fx:id="typeColumn" text="Type" />
+            <TableColumn fx:id="contactColumn" text="Contact" />
+        </columns>
+    </TableView>
+</VBox>

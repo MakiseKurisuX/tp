@@ -52,20 +52,17 @@
     -fx-background-color: transparent;
 }
 
-.table-view .column-header, .table-view .filler {
+.table-view .column-header,
+.table-view .filler {
     -fx-size: 35;
     -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
-    -fx-border-color:
-        transparent
-        transparent
-        derive(-fx-base, 80%)
-        transparent;
+    -fx-border-color: transparent transparent derive(-fx-base, 80%) transparent;
     -fx-border-insets: 0 10 1 0;
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 20pt;
+    -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-alignment: center-left;
@@ -74,6 +71,22 @@
 
 .table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-focus-color;
+}
+
+.table-row-cell {
+    -fx-background-color: #1d1d1d;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #242424;
+}
+
+.table-cell {
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-padding: 5 10 5 10;
 }
 
 .split-pane:horizontal .split-pane-divider {
@@ -95,7 +108,7 @@
 
 .list-cell {
     -fx-label-padding: 0 0 0 0;
-    -fx-graphic-text-gap : 0;
+    -fx-graphic-text-gap: 0;
     -fx-padding: 0 0 0 0;
 }
 
@@ -133,13 +146,13 @@
 }
 
 .stack-pane {
-     -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: derive(#1d1d1d, 20%);
 }
 
 .pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
-     -fx-border-top-width: 1px;
+    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-border-color: derive(#1d1d1d, 10%);
+    -fx-border-top-width: 1px;
 }
 
 .status-bar {
@@ -228,9 +241,10 @@
     -fx-background-color: #3a3a3a;
 }
 
-.button:pressed, .button:default:hover:pressed {
-  -fx-background-color: white;
-  -fx-text-fill: #1d1d1d;
+.button:pressed,
+.button:default:hover:pressed {
+    -fx-background-color: white;
+    -fx-text-fill: #1d1d1d;
 }
 
 .button:focused {
@@ -241,7 +255,8 @@
     -fx-border-insets: 1 1 1 1, 0;
 }
 
-.button:disabled, .button:default:disabled {
+.button:disabled,
+.button:default:disabled {
     -fx-opacity: 0.4;
     -fx-background-color: #1d1d1d;
     -fx-text-fill: white;
@@ -290,20 +305,24 @@
     -fx-background-insets: 3;
 }
 
-.scroll-bar .increment-button, .scroll-bar .decrement-button {
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
     -fx-background-color: transparent;
     -fx-padding: 0 0 0 0;
 }
 
-.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
     -fx-shape: " ";
 }
 
-.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow {
     -fx-padding: 1 8 1 8;
 }
 
-.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+.scroll-bar:horizontal .increment-arrow,
+.scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
 }
 
@@ -314,7 +333,7 @@
 
 #commandTypeLabel {
     -fx-font-size: 11px;
-    -fx-text-fill: #F70D1A;
+    -fx-text-fill: #f70d1a;
 }
 
 #commandTextField {
@@ -328,7 +347,9 @@
     -fx-text-fill: white;
 }
 
-#filterField, #personListPanel, #personWebpage {
+#filterField,
+#personListPanel,
+#personWebpage {
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
 }
 

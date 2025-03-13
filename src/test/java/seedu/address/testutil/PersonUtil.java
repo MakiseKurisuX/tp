@@ -11,7 +11,11 @@ import java.util.Set;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.Policy;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -58,6 +62,32 @@ public class PersonUtil {
                 sb.append(PREFIX_TAG);
             } else {
                 tags.forEach(s -> sb.append(PREFIX_TAG).append(s.tagName).append(" "));
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Returns the part of command string for the given {@code FindPersonsPredicate}'s predicate.
+     */
+    public static String getFindPersonDetails(FindPersonsPredicate predicate) {
+        StringBuilder sb = new StringBuilder();
+        if (predicate.getNamePredicate().isPresent()) {
+            if (predicate.getNamePredicate().get().getNames().isPresent()) {
+                Set<Name> names = predicate.getNamePredicate().get().getNames().get();
+                names.forEach(s -> sb.append(PREFIX_NAME).append(s.fullName).append(" "));
+            }
+        }
+        if (predicate.getPhonePredicate().isPresent()) {
+            if (predicate.getPhonePredicate().get().getNumbers().isPresent()) {
+                Set<Phone> numbers = predicate.getPhonePredicate().get().getNumbers().get();
+                numbers.forEach(s -> sb.append(PREFIX_PHONE).append(s.value).append(" "));
+            }
+        }
+        if (predicate.getPolicyPredicate().isPresent()) {
+            if (predicate.getPolicyPredicate().get().getPolicies().isPresent()) {
+                Set<Policy> numbers = predicate.getPolicyPredicate().get().getPolicies().get();
+                numbers.forEach(s -> sb.append(PREFIX_POLICY).append(s.policyNumber).append(" "));
             }
         }
         return sb.toString();

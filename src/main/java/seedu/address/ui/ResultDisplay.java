@@ -25,4 +25,11 @@ public class ResultDisplay extends UiPart<Region> {
         resultDisplay.setText(feedbackToUser);
     }
 
+    /**
+     * Gets the current feedback text.
+     */
+    public String getText() {
+        return resultDisplay.getText();
+    }
+
 }

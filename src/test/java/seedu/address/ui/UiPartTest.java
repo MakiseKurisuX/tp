@@ -81,7 +81,6 @@ public class UiPartTest {
         assertNotNull(testFileUrl, testFilePathInView + " does not exist.");
         return testFileUrl;
     }
-
     /**
      * UiPart used for testing.
      * It should only be used with invalid FXML files or the valid file located at {@link VALID_FILE_PATH}.

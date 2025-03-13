@@ -39,6 +39,33 @@ public class StringUtil {
     }
 
     /**
+     * Returns true if the {@code sentence} contains the {@code searchTerm} as a partial or full word.
+     * Ignores case.
+     * <br>examples:<pre>
+     *     containsPartialWordIgnoreCase("ABc def ghi", "abc") == true
+     *     containsPartialWordIgnoreCase("ABc def ghi", "DEF") == true
+     *     containsPartialWordIgnoreCase("ABc def ghi", "AB") == true  // partial word match
+     *     containsPartialWordIgnoreCase("ABc def ghi", "ef gh") == true  // multi-word search term
+     *     containsPartialWordIgnoreCase("ABc def ghi", "abc def") == true  // multi-word search term
+     *     containsPartialWordIgnoreCase("ABc def ghi", "xyz") == false // no match
+     *     </pre>
+     * @param sentence cannot be null
+     * @param searchTerm cannot be null, cannot be empty
+     */
+    public static boolean containsPartialWordIgnoreCase(String sentence, String searchTerm) {
+        requireNonNull(sentence);
+        requireNonNull(searchTerm);
+
+        String preppedSearchTerm = searchTerm.trim().toLowerCase();
+        checkArgument(!preppedSearchTerm.isEmpty(), "Search term parameter cannot be empty");
+
+        String preppedSentence = sentence.toLowerCase();
+
+        return preppedSentence.contains(preppedSearchTerm);
+    }
+
+
+    /**
      * Returns a detailed message of the t, including the stack trace.
      */
     public static String getDetails(Throwable t) {

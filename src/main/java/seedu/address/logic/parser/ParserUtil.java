@@ -52,6 +52,18 @@ public class ParserUtil {
     }
 
     /**
+     * Parses {@code Collection<String> names} into a {@code Set<Name>}.
+     */
+    public static Set<Name> parseNames(Collection<String> names) throws ParseException {
+        requireNonNull(names);
+        final Set<Name> nameSet = new HashSet<>();
+        for (String name : names) {
+            nameSet.add(parseName(name));
+        }
+        return nameSet;
+    }
+
+    /**
      * Parses a {@code String phone} into a {@code Phone}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -64,6 +76,18 @@ public class ParserUtil {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
         return new Phone(trimmedPhone);
+    }
+
+    /**
+     * Parses {@code Collection<String> phones} into a {@code Set<Phone>}.
+     */
+    public static Set<Phone> parsePhones(Collection<String> phones) throws ParseException {
+        requireNonNull(phones);
+        final Set<Phone> phoneSet = new HashSet<>();
+        for (String phone : phones) {
+            phoneSet.add(parsePhone(phone));
+        }
+        return phoneSet;
     }
 
     /**
@@ -109,6 +133,18 @@ public class ParserUtil {
             throw new ParseException(Policy.MESSAGE_CONSTRAINTS);
         }
         return new Policy(trimmedPolicy);
+    }
+
+    /**
+     * Parses {@code Collection<String> policy} into a {@code Set<Policy>}.
+     */
+    public static Set<Policy> parsePolicies(Collection<String> policies) throws ParseException {
+        requireNonNull(policies);
+        final Set<Policy> policySet = new HashSet<>();
+        for (String policy : policies) {
+            policySet.add(parsePolicy(policy));
+        }
+        return policySet;
     }
 
     /**

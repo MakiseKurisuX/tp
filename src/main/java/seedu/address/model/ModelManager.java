@@ -4,9 +4,15 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -22,6 +28,9 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final ObservableList<Person> renewalsListSource;
+    private final FilteredList<Person> filteredRenewalsList;
+    private Comparator<Person> renewalsComparator;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,6 +43,9 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        renewalsListSource = FXCollections.observableArrayList();
+        filteredRenewalsList = new FilteredList<>(renewalsListSource);
+        renewalsComparator = null;
     }
 
     public ModelManager() {
@@ -123,9 +135,67 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Person> getRenewalsList() {
+        return FXCollections.unmodifiableObservableList(filteredRenewalsList);
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateRenewalsList(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        // Clear the current renewals list
+        renewalsListSource.clear();
+        // Add all persons that match the predicate
+        List<Person> matchingPersons = addressBook.getPersonList().stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+        renewalsListSource.addAll(matchingPersons);
+        // Apply sorting if a comparator is set
+        if (renewalsComparator != null) {
+            updateSortedRenewalsList(renewalsComparator);
+        }
+    }
+
+    @Override
+    public void updateSortedPersonList(Comparator<Person> comparator) {
+        requireNonNull(comparator);
+        ObservableList<Person> backingList = FXCollections.observableArrayList(filteredPersons);
+        FXCollections.sort(backingList, comparator);
+        filteredPersons.setPredicate(person -> backingList.contains(person));
+    }
+
+    @Override
+    public void updateSortedRenewalsList(Comparator<Person> comparator) {
+        requireNonNull(comparator);
+        this.renewalsComparator = comparator;
+        // Create a sorted copy of the current list
+        List<Person> sortedList = new ArrayList<>(renewalsListSource);
+        sortedList.sort(comparator);
+        // Clear and repopulate the source list in the sorted order
+        renewalsListSource.clear();
+        renewalsListSource.addAll(sortedList);
+    }
+
+    /**
+     * Returns the current renewals comparator.
+     * This method is for testing purposes only.
+     */
+    public Comparator<Person> getRenewalsComparator() {
+        return renewalsComparator;
+    }
+
+    /**
+     * Sets a predicate on the filtered renewals list.
+     * This method is for testing purposes only.
+     */
+    public void setFilteredRenewalsListPredicate(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        filteredRenewalsList.setPredicate(predicate);
     }
 
     @Override
@@ -142,7 +212,8 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredRenewalsList.equals(otherModelManager.filteredRenewalsList)
+                && Objects.equals(renewalsComparator, otherModelManager.renewalsComparator);
     }
-
 }

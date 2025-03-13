@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
@@ -86,6 +87,18 @@ public class LogicManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void setGetGuiSettings_success() {
+        GuiSettings guiSettings = new GuiSettings(1000, 500, 300, 200);
+        logic.setGuiSettings(guiSettings);
+        assertEquals(guiSettings, logic.getModel().getGuiSettings());
+    }
+
+    @Test
+    public void getModel_success() {
+        assertEquals(model, logic.getModel());
     }
 
     /**

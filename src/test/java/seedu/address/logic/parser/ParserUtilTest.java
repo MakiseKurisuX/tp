@@ -29,8 +29,10 @@ public class ParserUtilTest {
     private static final String INVALID_POLICY = "123a";
     private static final String INVALID_TAG = "#friend";
 
-    private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_PHONE = "123456";
+    private static final String VALID_NAME_1 = "Rachel Walker";
+    private static final String VALID_NAME_2 = "Johnson Goh";
+    private static final String VALID_PHONE_1 = "123456";
+    private static final String VALID_PHONE_2 = "789012";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_POLICY = "123456";
@@ -71,15 +73,38 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
+        Name expectedName = new Name(VALID_NAME_1);
+        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME_1));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
+        String nameWithWhitespace = WHITESPACE + VALID_NAME_1 + WHITESPACE;
+        Name expectedName = new Name(VALID_NAME_1);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
+    }
+
+    @Test
+    public void parseNames_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseNames(null));
+    }
+
+    @Test
+    public void parseNames_collectionWithInvalidNames_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePhones(Arrays.asList(VALID_NAME_1, INVALID_NAME)));
+    }
+
+    @Test
+    public void parseNames_emptyCollection_returnsEmptySet() throws Exception {
+        assertTrue(ParserUtil.parsePhones(Collections.emptyList()).isEmpty());
+    }
+
+    @Test
+    public void parseNames_collectionWithValidNames_returnsNameSet() throws Exception {
+        Set<Name> actualNameSet = ParserUtil.parseNames(Arrays.asList(VALID_NAME_1, VALID_NAME_2));
+        Set<Name> expectedNameSet = new HashSet<Name>(Arrays.asList(new Name(VALID_NAME_1), new Name(VALID_NAME_2)));
+
+        assertEquals(expectedNameSet, actualNameSet);
     }
 
     @Test
@@ -94,15 +119,39 @@ public class ParserUtilTest {
 
     @Test
     public void parsePhone_validValueWithoutWhitespace_returnsPhone() throws Exception {
-        Phone expectedPhone = new Phone(VALID_PHONE);
-        assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_PHONE));
+        Phone expectedPhone = new Phone(VALID_PHONE_1);
+        assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_PHONE_1));
     }
 
     @Test
     public void parsePhone_validValueWithWhitespace_returnsTrimmedPhone() throws Exception {
-        String phoneWithWhitespace = WHITESPACE + VALID_PHONE + WHITESPACE;
-        Phone expectedPhone = new Phone(VALID_PHONE);
+        String phoneWithWhitespace = WHITESPACE + VALID_PHONE_1 + WHITESPACE;
+        Phone expectedPhone = new Phone(VALID_PHONE_1);
         assertEquals(expectedPhone, ParserUtil.parsePhone(phoneWithWhitespace));
+    }
+
+    @Test
+    public void parsePhones_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parsePhones(null));
+    }
+
+    @Test
+    public void parsePhones_collectionWithInvalidPhones_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePhones(Arrays.asList(VALID_PHONE_1, INVALID_PHONE)));
+    }
+
+    @Test
+    public void parsePhones_emptyCollection_returnsEmptySet() throws Exception {
+        assertTrue(ParserUtil.parsePhones(Collections.emptyList()).isEmpty());
+    }
+
+    @Test
+    public void parsePhones_collectionWithValidPhones_returnsPhoneSet() throws Exception {
+        Set<Phone> actualPhoneSet = ParserUtil.parsePhones(Arrays.asList(VALID_PHONE_1, VALID_PHONE_2));
+        Set<Phone> expectedPhoneSet = new HashSet<Phone>(Arrays.asList(
+                new Phone(VALID_PHONE_1), new Phone(VALID_PHONE_2)));
+
+        assertEquals(expectedPhoneSet, actualPhoneSet);
     }
 
     @Test

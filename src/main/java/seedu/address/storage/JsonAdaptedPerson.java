@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final String policy;
+    private final String renewalDate;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -38,12 +41,14 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("policy") String policy, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("policy") String policy, @JsonProperty("renewalDate") String renewalDate,
+            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.policy = policy;
+        this.renewalDate = renewalDate;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -58,6 +63,7 @@ class JsonAdaptedPerson {
         email = source.getEmail().value;
         address = source.getAddress().value;
         policy = source.getPolicy().policyNumber;
+        renewalDate = source.getPolicy().renewalDate.format(Policy.DATE_FORMATTER);
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -113,10 +119,46 @@ class JsonAdaptedPerson {
         if (!Policy.isValidPolicy(policy)) {
             throw new IllegalValueException(Policy.MESSAGE_CONSTRAINTS);
         }
-        final Policy modelPolicy = new Policy(policy);
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelPolicy, modelTags);
+        // Handle null renewal date - create Policy with default renewal date (1 year from now)
+        if (renewalDate == null) {
+            final Policy modelPolicy = new Policy(policy);
+            final Set<Tag> modelTags = new HashSet<>(personTags);
+            return new Person(modelName, modelPhone, modelEmail, modelAddress, modelPolicy, modelTags);
+        }
+
+        // Handle invalid renewal date format
+        if (!Policy.isValidRenewalDate(renewalDate)) {
+            throw new IllegalValueException(Policy.DATE_CONSTRAINTS);
+        }
+
+        // Create Policy with specified renewal date
+        try {
+            // Try to parse the date first to catch invalid dates like Feb 29 in non-leap years
+            try {
+                LocalDate.parse(renewalDate, Policy.DATE_FORMATTER);
+            } catch (DateTimeParseException e) {
+                throw new IllegalValueException(Policy.DATE_CONSTRAINTS);
+            }
+            final Policy modelPolicy = createPolicy(policy, renewalDate);
+            final Set<Tag> modelTags = new HashSet<>(personTags);
+            return new Person(modelName, modelPhone, modelEmail, modelAddress, modelPolicy, modelTags);
+        } catch (RuntimeException e) {
+            // This catches RuntimeException and its subclasses:
+            // - IllegalArgumentException (from Policy constructor)
+            // - DateTimeParseException (from LocalDate.parse)
+            // - Any other exceptions thrown by the createPolicy method (for test cases)
+            // These exceptions might occur when creating a Policy object with a date that passes format validation
+            // but is invalid (e.g., February 29 in a non-leap year)
+            throw new IllegalValueException(Policy.DATE_CONSTRAINTS);
+        }
     }
 
+    /**
+     * Creates a Policy object with the given policy number and renewal date.
+     * This method can be overridden in tests to simulate exceptions.
+     */
+    protected Policy createPolicy(String policyNumber, String renewalDate) {
+        return new Policy(policyNumber, renewalDate);
+    }
 }
