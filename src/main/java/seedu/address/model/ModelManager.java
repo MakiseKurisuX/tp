@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -108,11 +109,13 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+        addressBook.setLastUpdated(LocalDateTime.now());
     }
 
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
+        addressBook.setLastUpdated(LocalDateTime.now());
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
@@ -121,6 +124,7 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+        addressBook.setLastUpdated(LocalDateTime.now());
     }
 
     //=========== Filtered Person List Accessors =============================================================

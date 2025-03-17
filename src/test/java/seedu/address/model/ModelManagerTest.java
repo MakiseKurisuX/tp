@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -11,6 +12,7 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -209,6 +211,38 @@ public class ModelManagerTest {
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
     }
+
+    @Test
+    public void addPerson_updatesLastUpdated() {
+        modelManager.addPerson(ALICE);
+        // After adding a person, lastUpdated should be set.
+        assertNotNull(modelManager.getAddressBook().getLastUpdated());
+    }
+
+    @Test
+    public void deletePerson_updatesLastUpdated() {
+        modelManager.addPerson(ALICE);
+        LocalDateTime afterAdd = modelManager.getAddressBook().getLastUpdated();
+        // Delete the person and check that lastUpdated is updated.
+        modelManager.deletePerson(ALICE);
+        LocalDateTime afterDelete = modelManager.getAddressBook().getLastUpdated();
+        assertNotNull(afterDelete);
+        // It is expected that the time will progress; thus afterDelete should be after or equal to afterAdd.
+        assertTrue(afterDelete.isAfter(afterAdd) || afterDelete.isEqual(afterAdd));
+    }
+
+    @Test
+    public void setPerson_updatesLastUpdated() {
+        modelManager.addPerson(ALICE);
+        LocalDateTime afterAdd = modelManager.getAddressBook().getLastUpdated();
+        // Replace ALICE with BENSON (using a typical person) to test that lastUpdated is updated.
+        modelManager.setPerson(ALICE, BENSON);
+        LocalDateTime afterSet = modelManager.getAddressBook().getLastUpdated();
+        assertNotNull(afterSet);
+        // Ensure that lastUpdated is updated.
+        assertTrue(afterSet.isAfter(afterAdd) || afterSet.isEqual(afterAdd));
+    }
+
     @Test
     public void equals_differentRenewalsComparator_returnsFalse() {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();

@@ -10,16 +10,14 @@ import java.util.List;
  */
 public class SerializableTestClass {
     public static final String JSON_STRING_REPRESENTATION = String.format("{%n"
-            + "  \"name\" : \"This is a test class\",%n"
-            + "  \"listOfLocalDateTimes\" : "
-            + "[ \"-999999999-01-01T00:00:00\", \"+999999999-12-31T23:59:59.999999999\", "
-            + "\"0001-01-01T01:01:00\" ],%n"
-            + "  \"mapOfIntegerToString\" : {%n"
-            + "    \"1\" : \"One\",%n"
-            + "    \"2\" : \"Two\",%n"
-            + "    \"3\" : \"Three\"%n"
-            + "  }%n"
-            + "}");
+                + "  \"name\" : \"This is a test class\",%n"
+                + "  \"listOfLocalDateTimes\" : [ \"1/1/1000 0000\", \"12/31/9999 2359\", \"1/1/0001 0101\" ],%n"
+                + "  \"mapOfIntegerToString\" : {%n"
+                + "    \"1\" : \"One\",%n"
+                + "    \"2\" : \"Two\",%n"
+                + "    \"3\" : \"Three\"%n"
+                + "  }%n"
+                + "}");
 
     private static final String NAME_TEST_VALUE = "This is a test class";
 
@@ -35,8 +33,8 @@ public class SerializableTestClass {
     public static List<LocalDateTime> getListTestValues() {
         List<LocalDateTime> listOfLocalDateTimes = new ArrayList<>();
 
-        listOfLocalDateTimes.add(LocalDateTime.MIN);
-        listOfLocalDateTimes.add(LocalDateTime.MAX);
+        listOfLocalDateTimes.add(LocalDateTime.of(1000, 1, 1, 0, 0));
+        listOfLocalDateTimes.add(LocalDateTime.of(9999, 12, 31, 23, 59));
         listOfLocalDateTimes.add(LocalDateTime.of(1, 1, 1, 1, 1));
 
         return listOfLocalDateTimes;

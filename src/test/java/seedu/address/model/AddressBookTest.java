@@ -9,6 +9,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -89,19 +90,42 @@ public class AddressBookTest {
         assertEquals(expected, addressBook.toString());
     }
 
+    @Test
+    public void setAndGetLastUpdated_validValue_success() {
+        LocalDateTime fixedTime = LocalDateTime.of(2025, 3, 13, 12, 0);
+        addressBook.setLastUpdated(fixedTime);
+        assertEquals(fixedTime, addressBook.getLastUpdated());
+    }
+
+    @Test
+    public void equals_ignoreLastUpdated() {
+        AddressBook ab1 = getTypicalAddressBook();
+        AddressBook ab2 = getTypicalAddressBook();
+        ab1.setLastUpdated(LocalDateTime.of(2025, 3, 13, 12, 0));
+        ab2.setLastUpdated(LocalDateTime.of(2025, 3, 14, 12, 0));
+        assertTrue(ab1.equals(ab2));
+    }
+
     /**
      * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final LocalDateTime lastUpdated;
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
+            this.lastUpdated = LocalDateTime.now();
         }
 
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        @Override
+        public LocalDateTime getLastUpdated() {
+            return lastUpdated;
         }
     }
 
