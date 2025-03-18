@@ -1,0 +1,7 @@
+coverage:
+  ignore:
+    - "src/main/java/seedu/address/ui/**/*"
+  status:
+    project:
+      default:
+        target: 70%
