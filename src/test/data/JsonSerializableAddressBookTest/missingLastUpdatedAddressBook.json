@@ -1,0 +1,13 @@
+{
+    "persons": [
+        {
+            "name": "Alex Yeoh",
+            "phone": "87438807",
+            "email": "alexyeoh@example.com",
+            "address": "Blk 30 Geylang Street 29, #06-40",
+            "policy": "123456",
+            "renewalDate": "15-04-2025",
+            "tags": ["friends"]
+        }
+    ]
+}

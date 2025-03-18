@@ -2,10 +2,12 @@ package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +22,10 @@ public class JsonSerializableAddressBookTest {
     private static final Path TYPICAL_PERSONS_FILE = TEST_DATA_FOLDER.resolve("typicalPersonsAddressBook.json");
     private static final Path INVALID_PERSON_FILE = TEST_DATA_FOLDER.resolve("invalidPersonAddressBook.json");
     private static final Path DUPLICATE_PERSON_FILE = TEST_DATA_FOLDER.resolve("duplicatePersonAddressBook.json");
-    private static final Path INVALID_LAST_UPDATED_FILE =
-                                                    TEST_DATA_FOLDER.resolve("invalidLastUpdatedAddressBook.json");
+    private static final Path INVALID_LAST_UPDATED_FILE = TEST_DATA_FOLDER
+                                                    .resolve("invalidLastUpdatedAddressBook.json");
+    private static final Path MISSING_LAST_UPDATED_FILE = TEST_DATA_FOLDER
+                                                    .resolve("missingLastUpdatedAddressBook.json");
 
     @Test
     public void toModelType_typicalPersonsFile_success() throws Exception {
@@ -48,4 +52,17 @@ public class JsonSerializableAddressBookTest {
                 dataFromFile::toModelType);
     }
 
+    @Test
+    public void toModelType_missingLastUpdated_success() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(MISSING_LAST_UPDATED_FILE,
+                JsonSerializableAddressBook.class).get();
+        AddressBook addressBook = dataFromFile.toModelType();
+        // Verify that lastUpdated was set to a default value
+        assertNotNull(addressBook.getLastUpdated());
+        // Verify it's a recent timestamp (within the last minute)
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime lastUpdated = addressBook.getLastUpdated();
+        long secondsDiff = java.time.Duration.between(lastUpdated, now).getSeconds();
+        assertTrue(secondsDiff < 60, "Last updated timestamp should be recent");
+    }
 }

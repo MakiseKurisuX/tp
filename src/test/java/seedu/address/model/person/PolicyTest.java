@@ -37,7 +37,7 @@ public class PolicyTest {
     @Test
     public void constructor_invalidDateFormat_throwsIllegalArgumentException() {
         // This date string matches the regex but is not a valid date
-        String invalidButMatchingDate = "3133-02-2024"; // February 31st doesn't exist
+        String invalidButMatchingDate = "3133-02-2024"; //wrong date format
         assertThrows(IllegalArgumentException.class, () -> new Policy(VALID_POLICY_NUMBER, invalidButMatchingDate));
     }
 
