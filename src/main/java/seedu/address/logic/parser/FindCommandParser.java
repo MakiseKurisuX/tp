@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
@@ -11,6 +12,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.AddressContainsKeywordsPredicate;
+import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
 import seedu.address.model.person.PolicyContainsNumbersPredicate;
@@ -28,7 +30,8 @@ public class FindCommandParser implements Parser<FindCommand> {
     public FindCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_ADDRESS, PREFIX_POLICY);
+                ArgumentTokenizer.tokenize(
+                        args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_POLICY);
 
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
@@ -43,6 +46,10 @@ public class FindCommandParser implements Parser<FindCommand> {
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
             findPersonsPredicate.setPhonePredicate(new PhoneContainsNumbersPredicate(
                     ParserUtil.parsePhones(argMultimap.getAllValues(PREFIX_PHONE))));
+        }
+        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
+            findPersonsPredicate.setEmailPredicate(new EmailContainsKeywordsPredicate(
+                    ParserUtil.parseEmails(argMultimap.getAllValues(PREFIX_EMAIL))));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             findPersonsPredicate.setAddressPredicate(new AddressContainsKeywordsPredicate(

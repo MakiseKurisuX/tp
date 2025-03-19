@@ -14,6 +14,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -88,6 +89,12 @@ public class PersonUtil {
             if (predicate.getPhonePredicate().get().getNumbers().isPresent()) {
                 Set<Phone> numbers = predicate.getPhonePredicate().get().getNumbers().get();
                 numbers.forEach(s -> sb.append(PREFIX_PHONE).append(s.value).append(" "));
+            }
+        }
+        if (predicate.getEmailPredicate().isPresent()) {
+            if (predicate.getEmailPredicate().get().getEmails().isPresent()) {
+                Set<Email> emails = predicate.getEmailPredicate().get().getEmails().get();
+                emails.forEach(s -> sb.append(PREFIX_EMAIL).append(s.value).append(" "));
             }
         }
         if (predicate.getAddressPredicate().isPresent()) {

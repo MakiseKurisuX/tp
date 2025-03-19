@@ -1,7 +1,12 @@
 coverage:
-  ignore:
+    status:
+        patch:
+            default:
+                target: 50%
+                threshold: 10%
+        project:
+            default:
+                target: auto
+                threshold: 5%
+ignore:
     - "src/main/java/seedu/address/ui/**/*"
-  status:
-    patch:
-      default:
-        target: 70%

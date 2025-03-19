@@ -39,10 +39,10 @@ Given below is a quick overview of main components and how they interact with ea
 
 The bulk of the app's work is done by the following four components:
 
-* [**`UI`**](#ui-component): The UI of InsureBook.
-* [**`Logic`**](#logic-component): The command executor.
-* [**`Model`**](#model-component): Holds the data of InsureBook in memory.
-* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+-   [**`UI`**](#ui-component): The UI of InsureBook.
+-   [**`Logic`**](#logic-component): The command executor.
+-   [**`Model`**](#model-component): Holds the data of InsureBook in memory.
+-   [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
@@ -54,8 +54,8 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 
 Each of the four main components (also shown in the diagram above),
 
-* defines its _API_ in an `interface` with the same name as the Component.
-* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
+-   defines its _API_ in an `interface` with the same name as the Component.
+-   implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
@@ -75,10 +75,28 @@ The `UI` component uses the JavaFx UI framework. The layout of these UI parts ar
 
 The `UI` component,
 
-* executes user commands using the `Logic` component.
-* listens for changes to `Model` data so that the UI can be updated with the modified data.
-* keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` and `Policy` objects residing in the `Model`.
+-   executes user commands using the `Logic` component.
+-   listens for changes to `Model` data so that the UI can be updated with the modified data.
+-   keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
+-   depends on some classes in the `Model` component, as it displays `Person` and `Policy` objects residing in the `Model`.
+
+#### Person Card UI
+
+The person card UI is implemented using the following components:
+
+-   `PersonListCard.fxml`: Defines the layout of each person card, including:
+
+    -   Name and ID
+    -   Contact information (phone, email, address)
+    -   Policy information (policy number and renewal date)
+    -   Tags
+
+-   `PersonCard.java`: Controls the display of person information in the card:
+    -   Binds UI elements to person data
+    -   Formats the renewal date display with the prefix "Renewal date: " for clarity
+    -   Manages tag display
+
+The person card provides a compact view of all essential client information, making it easy for insurance agents to quickly access client details and track policy renewals. The renewal date is prominently displayed with a clear label to help agents quickly identify when policies need to be renewed.
 
 ### Logic component
 
@@ -111,8 +129,8 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 
 How the parsing works:
 
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+-   When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
+-   All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
 
@@ -122,10 +140,10 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+-   stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+-   stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+-   stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+-   does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
 
@@ -143,9 +161,9 @@ The `Model` component,
 
 The `Storage` component,
 
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
-* depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
+-   can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
+-   inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+-   depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
 
@@ -165,18 +183,18 @@ The policy renewal feature allows insurance agents to track and manage policy re
 
 The `Policy` class represents an insurance policy and contains:
 
-* Policy number (in format POL-XXX)
-* Renewal date
-* Methods to calculate days until renewal
+-   Policy number (in format POL-XXX)
+-   Renewal date
+-   Methods to calculate days until renewal
 
 #### ViewRenewalsCommand
 
 The `ViewRenewalsCommand` allows users to view policies due for renewal within a specified number of days:
 
-* Takes a parameter for number of days (1-365)
-* Optional sort parameter (by name or date)
-* Filters the person list based on policy renewal dates
-* Updates the UI to show filtered results
+-   Takes a parameter for number of days (1-365)
+-   Optional sort parameter (by name or date)
+-   Filters the person list based on policy renewal dates
+-   Updates the UI to show filtered results
 
 #### Implementation
 
@@ -186,10 +204,10 @@ The renewal tracking mechanism is facilitated by the `Policy` class and the `Vie
 2. The parser validates the days parameter (must be 1-365) and optional sort parameter.
 3. A new `ViewRenewalsCommand` is created with the validated parameters.
 4. When executed, the command:
-   * Filters the person list to include only those with policies due within the specified days
-   * Updates the model's filtered person list
-   * Updates the renewals table in the UI
-   * Returns a command result with the number of matching entries
+    - Filters the person list to include only those with policies due within the specified days
+    - Updates the model's filtered person list
+    - Updates the renewals table in the UI
+    - Returns a command result with the number of matching entries
 
 The following sequence diagram shows how the viewrenewals operation works:
 
@@ -199,25 +217,25 @@ The following sequence diagram shows how the viewrenewals operation works:
 
 **Aspect: How to calculate renewal due dates**
 
-* **Alternative 1 (current choice):** Calculate days until renewal on demand
+-   **Alternative 1 (current choice):** Calculate days until renewal on demand
 
-  * Pros: More memory efficient
-  * Cons: May impact performance if calculated frequently
+    -   Pros: More memory efficient
+    -   Cons: May impact performance if calculated frequently
 
-* **Alternative 2:** Store days until renewal as a field
-  * Pros: Faster retrieval
-  * Cons: Needs to be updated daily
+-   **Alternative 2:** Store days until renewal as a field
+    -   Pros: Faster retrieval
+    -   Cons: Needs to be updated daily
 
 **Aspect: Where to implement filtering logic**
 
-* **Alternative 1 (current choice):** In the command
+-   **Alternative 1 (current choice):** In the command
 
-  * Pros: Keeps filtering logic with the command that needs it
-  * Cons: Logic might be duplicated if needed elsewhere
+    -   Pros: Keeps filtering logic with the command that needs it
+    -   Cons: Logic might be duplicated if needed elsewhere
 
-* **Alternative 2:** In the Model
-    *   Pros: Centralizes filtering logic
-    *   Cons: Makes Model more complex
+-   **Alternative 2:** In the Model
+    -   Pros: Centralizes filtering logic
+    -   Cons: Makes Model more complex
 
 ### \[Proposed\] Undo/redo feature
 
@@ -225,9 +243,9 @@ The following sequence diagram shows how the viewrenewals operation works:
 
 The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+-   `VersionedAddressBook#commit()` — Saves the current address book state in its history.
+-   `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
+-   `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
 
 These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
 
@@ -300,15 +318,15 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 **Aspect: How undo & redo executes:**
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+-   **Alternative 1 (current choice):** Saves the entire address book.
 
-    *   Pros: Easy to implement.
-    *   Cons: May have performance issues in terms of memory usage.
+    -   Pros: Easy to implement.
+    -   Cons: May have performance issues in terms of memory usage.
 
-*   **Alternative 2:** Individual command knows how to undo/redo by
+-   **Alternative 2:** Individual command knows how to undo/redo by
     itself.
-    *   Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-    *   Cons: We must ensure that the implementation of each individual command are correct.
+    -   Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
+    -   Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
 
@@ -320,11 +338,11 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
-* [Documentation guide](Documentation.md)
-* [Testing guide](Testing.md)
-* [Logging guide](Logging.md)
-* [Configuration guide](Configuration.md)
-* [DevOps guide](DevOps.md)
+-   [Documentation guide](Documentation.md)
+-   [Testing guide](Testing.md)
+-   [Logging guide](Logging.md)
+-   [Configuration guide](Configuration.md)
+-   [DevOps guide](DevOps.md)
 
 ---
 
@@ -334,12 +352,12 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* Insurance Agents who need to keep track of Customers / Potential Customers
-* Moderate Tech saviness.
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+-   Insurance Agents who need to keep track of Customers / Potential Customers
+-   Moderate Tech saviness.
+-   prefer desktop apps over other types
+-   can type fast
+-   prefers typing to mouse interactions
+-   is reasonably comfortable using CLI apps
 
 **Value proposition**: It solves the issue of managing a large clientele by simplifying client tracking, automating follow-ups, and staying organized. By using InsureBook, insurance agents can focus more on growth and client retention, rather than spending more time on admin tasks and more time on sales.
 
@@ -381,13 +399,13 @@ _{More to be added}_
 
 **Extensions**
 
-* 4a. The provided details are invalid.
+-   4a. The provided details are invalid.
 
-    *   4a1. System shows an error message.
-    *   4a2. Use case resumes at step 2.
+    -   4a1. System shows an error message.
+    -   4a2. Use case resumes at step 2.
 
-* 4b. A client with the same name and phone number already exists.
-    *   4b1. System shows a duplicate warning and rejects the addition.
+-   4b. A client with the same name and phone number already exists.
+    -   4b1. System shows a duplicate warning and rejects the addition.
 
 ---
 
@@ -420,13 +438,13 @@ _{More to be added}_
 
 **Extensions**
 
-*   4a. Provided details are invalid.
+-   4a. Provided details are invalid.
 
-    *   4a1. System shows an error message.
-    *   4a2. Use case resumes at step 2.
+    -   4a1. System shows an error message.
+    -   4a2. Use case resumes at step 2.
 
-*   4b. Client does not exist.
-    *   4b1. System shows an error message.
+-   4b. Client does not exist.
+    -   4b1. System shows an error message.
 
 ---
 
@@ -443,13 +461,13 @@ _{More to be added}_
 
 **Extensions**
 
-*   2a. The list is empty.
+-   2a. The list is empty.
 
-    *   2a1. System shows "No clients available."
+    -   2a1. System shows "No clients available."
 
-*   3a. The given index is invalid.
-    *   3a1. System shows an error message.
-    *   3a2. Use case resumes at step 2.
+-   3a. The given index is invalid.
+    -   3a1. System shows an error message.
+    -   3a2. Use case resumes at step 2.
 
 ---
 
@@ -464,8 +482,8 @@ _{More to be added}_
 
 **Extensions**
 
-*   2a. No matching clients found.
-    *   2a1. System shows "No clients found."
+-   2a. No matching clients found.
+    -   2a1. System shows "No clients found."
 
 ---
 
@@ -480,8 +498,8 @@ _{More to be added}_
 
 **Extensions**
 
-*   2a. No clients match the criteria.
-    *   2a1. System shows "No upcoming renewals."
+-   2a. No clients match the criteria.
+    -   2a1. System shows "No upcoming renewals."
 
 ---
 
@@ -496,12 +514,12 @@ _{More to be added}_
 
 **Extensions**
 
-*   2a. Tag exceeds character limit.
+-   2a. Tag exceeds character limit.
 
-    *   2a1. System truncates the tag and shows a warning.
+    -   2a1. System truncates the tag and shows a warning.
 
-*   2b. Tag is a duplicate.
-    *   2b1. System shows "Tag already exists."
+-   2b. Tag is a duplicate.
+    -   2b1. System shows "Tag already exists."
 
 ---
 
@@ -516,8 +534,8 @@ _{More to be added}_
 
 **Extensions**
 
-*   2a. Client does not have a policy renewal date.
-    *   2a1. System shows an error message.
+-   2a. Client does not have a policy renewal date.
+    -   2a1. System shows an error message.
 
 ---
 
@@ -531,8 +549,8 @@ _{More to be added}_
 
 **Extensions**
 
-*   1a. System encounters an error while saving.
-    *   1a1. System shows an error message.
+-   1a. System encounters an error while saving.
+    -   1a1. System shows an error message.
 
 ---
 
@@ -547,8 +565,8 @@ _{More to be added}_
 
 **Extensions**
 
-*   2a. No clients match the specified tags.
-    *   2a1. System shows "No clients found for the selected tags."
+-   2a. No clients match the specified tags.
+    -   2a1. System shows "No clients found for the selected tags."
 
 ---
 

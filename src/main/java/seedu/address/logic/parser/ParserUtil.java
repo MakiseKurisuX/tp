@@ -134,6 +134,18 @@ public class ParserUtil {
     }
 
     /**
+     * Parses {@code Collection<String> emails} into a {@code Set<Email>}.
+     */
+    public static Set<Email> parseEmails(Collection<String> emails) throws ParseException {
+        requireNonNull(emails);
+        final Set<Email> emailSet = new HashSet<>();
+        for (String email : emails) {
+            emailSet.add(parseEmail(email));
+        }
+        return emailSet;
+    }
+
+    /**
      * Parses a {@code String policy} into a {@code Policy}.
      * Leading and trailing whitespaces will be trimmed.
      *
