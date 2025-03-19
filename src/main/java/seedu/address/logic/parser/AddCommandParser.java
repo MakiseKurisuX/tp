@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
@@ -19,6 +20,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -34,7 +36,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_POLICY, PREFIX_TAG);
+                        PREFIX_POLICY, PREFIX_RENEWAL_DATE, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL,
                 PREFIX_POLICY) || !argMultimap.getPreamble().isEmpty()) {
@@ -42,12 +44,30 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                PREFIX_POLICY);
+                PREFIX_POLICY, PREFIX_RENEWAL_DATE);
+
+        // Validate policy first since it's a common error
+        String policyStr = argMultimap.getValue(PREFIX_POLICY).get();
+        if (!Policy.isValidPolicy(policyStr)) {
+            throw new ParseException(Policy.MESSAGE_CONSTRAINTS);
+        }
+
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
-        Policy policy = ParserUtil.parsePolicy(argMultimap.getValue(PREFIX_POLICY).get());
+        Policy policy;
+        if (argMultimap.getValue(PREFIX_RENEWAL_DATE).isPresent()) {
+            String renewalDate = argMultimap.getValue(PREFIX_RENEWAL_DATE).get();
+            try {
+                ParserUtil.parseRenewalDate(renewalDate); // Validate renewal date format
+                policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get(), renewalDate);
+            } catch (ParseException e) {
+                throw new ParseException(RenewalDate.DATE_CONSTRAINTS);
+            }
+        } else {
+            policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get());
+        }
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         Person person = new Person(name, phone, email, address, policy, tagList);

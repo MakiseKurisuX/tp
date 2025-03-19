@@ -103,10 +103,18 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Policy} of the {@code Person} that we are building with specific policy number and renewal date.
+     */
+    public PersonBuilder withPolicy(String policyNumber, String renewalDate) {
+        this.policy = new Policy(policyNumber, renewalDate);
+        return this;
+    }
+
+    /**
      * Sets the {@code Policy} of the {@code Person} that we are building with a specific renewal date.
      */
-    public PersonBuilder withPolicy(String policy, String renewalDate) {
-        this.policy = new Policy(policy, renewalDate);
+    public PersonBuilder withRenewalDate(String renewalDate) {
+        this.policy = new Policy(this.policy.policyNumber, renewalDate);
         return this;
     }
 

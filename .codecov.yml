@@ -2,6 +2,6 @@ coverage:
   ignore:
     - "src/main/java/seedu/address/ui/**/*"
   status:
-    project:
+    patch:
       default:
         target: 70%

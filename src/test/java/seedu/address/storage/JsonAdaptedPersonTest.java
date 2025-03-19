@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
@@ -21,6 +22,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.RenewalDate;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
@@ -36,7 +38,7 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_EMAIL = BENSON.getEmail().toString();
     private static final String VALID_ADDRESS = BENSON.getAddress().toString();
     private static final String VALID_POLICY = BENSON.getPolicy().policyNumber;
-    private static final String VALID_RENEWAL_DATE = BENSON.getPolicy().renewalDate.format(Policy.DATE_FORMATTER);
+    private static final String VALID_RENEWAL_DATE = BENSON.getPolicy().renewalDate.toString();
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
@@ -62,8 +64,8 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                VALID_RENEWAL_DATE, VALID_TAGS);
+        JsonAdaptedPerson person = new JsonAdaptedPerson(null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -87,8 +89,8 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_nullPhone_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                VALID_RENEWAL_DATE, VALID_TAGS);
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS,
+                VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -112,8 +114,8 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_nullEmail_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, null, VALID_ADDRESS, VALID_POLICY,
-                VALID_RENEWAL_DATE, VALID_TAGS);
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, null, VALID_ADDRESS,
+                VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -137,8 +139,8 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_nullAddress_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, null, VALID_POLICY,
-                VALID_RENEWAL_DATE, VALID_TAGS);
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, null,
+                VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -162,8 +164,8 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_nullPolicy_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, null,
-                VALID_RENEWAL_DATE, VALID_TAGS);
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                null, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -196,36 +198,27 @@ public class JsonAdaptedPersonTest {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
         } catch (IllegalValueException e) {
-            // Expected exception, test passes
+            assertEquals(RenewalDate.DATE_CONSTRAINTS, e.getMessage());
         }
     }
 
     @Test
     public void toModelType_validFormatButInvalidDateValue_throwsIllegalValueException() {
-        // Create a date that passes the format check but will cause an exception when parsed
-        // We'll use a date that's valid in format but will cause DateTimeException when parsed to LocalDate
-        String validFormatButInvalidDate = "31-04-2023"; // April 31st doesn't exist
-        // First verify that this passes the isValidRenewalDate check
-        assertTrue(Policy.isValidRenewalDate(validFormatButInvalidDate));
-        // Create a subclass that throws an exception when createPolicy is called
-        JsonAdaptedPerson person = new JsonAdaptedPerson(
-                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                validFormatButInvalidDate, VALID_TAGS) {
-            @Override
-            protected Policy createPolicy(String policyNumber, String renewalDate) {
-                throw new RuntimeException("Simulated exception for invalid date");
-            }
+        // Test various invalid dates that match the format
+        String[] invalidDates = {
+            "31-04-2023", // April 31st doesn't exist
+            "29-02-2023" // 2023 is not a leap year
         };
-        try {
-            person.toModelType();
-            fail("Expected IllegalValueException was not thrown");
-        } catch (IllegalValueException e) {
-            assertEquals(Policy.DATE_CONSTRAINTS, e.getMessage());
+        for (String invalidDate : invalidDates) {
+            JsonAdaptedPerson person = new JsonAdaptedPerson(
+                    VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
+                    invalidDate, VALID_TAGS);
+            assertThrows(IllegalValueException.class, () -> person.toModelType());
         }
     }
+
     @Test
     public void toModelType_exceptionWhenCreatingPolicy_throwsIllegalValueException() {
-        // Create a subclass of JsonAdaptedPerson that overrides the createPolicy method to throw an exception
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                 VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS) {
             @Override
@@ -233,12 +226,7 @@ public class JsonAdaptedPersonTest {
                 throw new RuntimeException("Simulated exception");
             }
         };
-        try {
-            person.toModelType();
-            fail("Expected IllegalValueException was not thrown");
-        } catch (IllegalValueException e) {
-            assertEquals(Policy.DATE_CONSTRAINTS, e.getMessage());
-        }
+        assertThrows(IllegalValueException.class, () -> person.toModelType());
     }
 
     @Test
@@ -253,52 +241,12 @@ public class JsonAdaptedPersonTest {
             assertTrue(VALID_POLICY.contains(modelPerson.getPolicy().policyNumber));
             // Check that the renewal date is approximately 1 year from now (within 1 day)
             LocalDate expectedDate = LocalDate.now().plusYears(1);
-            LocalDate actualDate = modelPerson.getPolicy().renewalDate;
+            LocalDate actualDate = modelPerson.getPolicy().renewalDate.value;
             long daysDifference = Math.abs(expectedDate.toEpochDay() - actualDate.toEpochDay());
             assertTrue(daysDifference <= 1, "Renewal date should be approximately 1 year from now");
         } catch (IllegalValueException e) {
             // If this happens, the test should fail
             fail("Unexpected IllegalValueException: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void toModelType_exceptionInPolicyConstructor_throwsIllegalValueException() {
-        // We'll use a date that will cause an exception when creating the Policy
-        // This is a bit of a hack, but we need to test the catch block
-        String dateWithException = "29-02-2023"; // 2023 is not a leap year, so February 29th doesn't exist
-        // Create a subclass that throws an exception when createPolicy is called
-        JsonAdaptedPerson person = new JsonAdaptedPerson(
-                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                dateWithException, VALID_TAGS) {
-            @Override
-            protected Policy createPolicy(String policyNumber, String renewalDate) {
-                throw new RuntimeException("Simulated exception for invalid date");
-            }
-        };
-        try {
-            person.toModelType();
-            fail("Expected IllegalValueException was not thrown");
-        } catch (IllegalValueException e) {
-            assertEquals(Policy.DATE_CONSTRAINTS, e.getMessage());
-        }
-    }
-
-    @Test
-    public void toModelType_invalidDateInNonLeapYear_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(
-                VALID_NAME,
-                VALID_PHONE,
-                VALID_EMAIL,
-                VALID_ADDRESS,
-                VALID_POLICY,
-                "29/02/2023", // 2023 is not a leap year
-                VALID_TAGS);
-        try {
-            person.toModelType();
-            fail("Expected IllegalValueException was not thrown");
-        } catch (IllegalValueException e) {
-            assertEquals(Policy.DATE_CONSTRAINTS, e.getMessage());
         }
     }
 

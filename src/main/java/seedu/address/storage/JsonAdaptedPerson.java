@@ -1,7 +1,5 @@
 package seedu.address.storage;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -58,12 +57,12 @@ class JsonAdaptedPerson {
      * Converts a given {@code Person} into this class for Jackson use.
      */
     public JsonAdaptedPerson(Person source) {
-        name = source.getName().fullName;
-        phone = source.getPhone().value;
-        email = source.getEmail().value;
-        address = source.getAddress().value;
+        name = source.getName().toString();
+        phone = source.getPhone().toString();
+        email = source.getEmail().toString();
+        address = source.getAddress().toString();
         policy = source.getPolicy().policyNumber;
-        renewalDate = source.getPolicy().renewalDate.format(Policy.DATE_FORMATTER);
+        renewalDate = source.getPolicy().renewalDate.toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -120,37 +119,22 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(Policy.MESSAGE_CONSTRAINTS);
         }
 
-        // Handle null renewal date - create Policy with default renewal date (1 year from now)
         if (renewalDate == null) {
             final Policy modelPolicy = new Policy(policy);
             final Set<Tag> modelTags = new HashSet<>(personTags);
             return new Person(modelName, modelPhone, modelEmail, modelAddress, modelPolicy, modelTags);
         }
 
-        // Handle invalid renewal date format
-        if (!Policy.isValidRenewalDate(renewalDate)) {
-            throw new IllegalValueException(Policy.DATE_CONSTRAINTS);
+        if (!RenewalDate.isValidRenewalDate(renewalDate)) {
+            throw new IllegalValueException(RenewalDate.DATE_CONSTRAINTS);
         }
 
-        // Create Policy with specified renewal date
         try {
-            // Try to parse the date first to catch invalid dates like Feb 29 in non-leap years
-            try {
-                LocalDate.parse(renewalDate, Policy.DATE_FORMATTER);
-            } catch (DateTimeParseException e) {
-                throw new IllegalValueException(Policy.DATE_CONSTRAINTS);
-            }
             final Policy modelPolicy = createPolicy(policy, renewalDate);
             final Set<Tag> modelTags = new HashSet<>(personTags);
             return new Person(modelName, modelPhone, modelEmail, modelAddress, modelPolicy, modelTags);
         } catch (RuntimeException e) {
-            // This catches RuntimeException and its subclasses:
-            // - IllegalArgumentException (from Policy constructor)
-            // - DateTimeParseException (from LocalDate.parse)
-            // - Any other exceptions thrown by the createPolicy method (for test cases)
-            // These exceptions might occur when creating a Policy object with a date that passes format validation
-            // but is invalid (e.g., February 29 in a non-leap year)
-            throw new IllegalValueException(Policy.DATE_CONSTRAINTS);
+            throw new IllegalValueException(RenewalDate.DATE_CONSTRAINTS);
         }
     }
 

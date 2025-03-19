@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Policy;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.FindPersonsPredicateBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -113,9 +113,9 @@ public class ModelManagerTest {
     @Test
     public void updateSortedRenewalsList_validComparator_sortsList() {
         // Create persons with different renewal dates
-        String today = LocalDate.now().format(Policy.DATE_FORMATTER);
-        String tomorrow = LocalDate.now().plusDays(1).format(Policy.DATE_FORMATTER);
-        String nextWeek = LocalDate.now().plusDays(7).format(Policy.DATE_FORMATTER);
+        String today = LocalDate.now().format(RenewalDate.DATE_FORMATTER);
+        String tomorrow = LocalDate.now().plusDays(1).format(RenewalDate.DATE_FORMATTER);
+        String nextWeek = LocalDate.now().plusDays(7).format(RenewalDate.DATE_FORMATTER);
         Person personToday = new PersonBuilder().withName("Today Person").withPolicy("111111", today).build();
         Person personTomorrow = new PersonBuilder().withName("Tomorrow Person").withPolicy("222222", tomorrow).build();
         Person personNextWeek = new PersonBuilder().withName("NextWeek Person").withPolicy("333333", nextWeek).build();
@@ -150,9 +150,9 @@ public class ModelManagerTest {
     @Test
     public void updateRenewalsList_withExistingComparator_maintainsSorting() {
         // Create persons with different renewal dates
-        String today = LocalDate.now().format(Policy.DATE_FORMATTER);
-        String tomorrow = LocalDate.now().plusDays(1).format(Policy.DATE_FORMATTER);
-        String nextWeek = LocalDate.now().plusDays(7).format(Policy.DATE_FORMATTER);
+        String today = LocalDate.now().format(RenewalDate.DATE_FORMATTER);
+        String tomorrow = LocalDate.now().plusDays(1).format(RenewalDate.DATE_FORMATTER);
+        String nextWeek = LocalDate.now().plusDays(7).format(RenewalDate.DATE_FORMATTER);
         Person personToday = new PersonBuilder().withName("Today Person").withPolicy("111111", today).build();
         Person personTomorrow = new PersonBuilder().withName("Tomorrow Person").withPolicy("222222", tomorrow).build();
         Person personNextWeek = new PersonBuilder().withName("NextWeek Person").withPolicy("333333", nextWeek).build();

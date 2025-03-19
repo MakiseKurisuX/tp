@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
@@ -13,6 +14,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
+import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
@@ -29,7 +31,9 @@ public class FindCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose details contain any of "
             + "the specified information (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: [" + PREFIX_NAME + "NAME]... "
-            + "[" + PREFIX_PHONE + "PHONE]...\n"
+            + "[" + PREFIX_PHONE + "PHONE]... "
+            + "[" + PREFIX_ADDRESS + "ADDRESS]... "
+            + "[" + PREFIX_POLICY + "POLICY_NUMBER]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "alice "
             + PREFIX_NAME + "bob "
@@ -81,6 +85,7 @@ public class FindCommand extends Command {
     public static class FindPersonsPredicate implements Predicate<Person> {
         private NameContainsKeywordsPredicate namePredicate;
         private PhoneContainsNumbersPredicate phonePredicate;
+        private AddressContainsKeywordsPredicate addressPredicate;
         private PolicyContainsNumbersPredicate policyPredicate;
 
         public FindPersonsPredicate() {}
@@ -91,6 +96,7 @@ public class FindCommand extends Command {
         public FindPersonsPredicate(FindCommand.FindPersonsPredicate toCopy) {
             setNamePredicate(toCopy.namePredicate);
             setPhonePredicate(toCopy.phonePredicate);
+            setAddressPredicate(toCopy.addressPredicate);
             setPolicyPredicate(toCopy.policyPredicate);
         }
 
@@ -98,7 +104,7 @@ public class FindCommand extends Command {
          * Returns true if at least one predicate is set.
          */
         public boolean isAnyPredicateSet() {
-            return CollectionUtil.isAnyNonNull(namePredicate, phonePredicate, policyPredicate);
+            return CollectionUtil.isAnyNonNull(namePredicate, phonePredicate, addressPredicate, policyPredicate);
         }
 
         public void setNamePredicate(NameContainsKeywordsPredicate namePredicate) {
@@ -117,6 +123,14 @@ public class FindCommand extends Command {
             return Optional.ofNullable(phonePredicate);
         }
 
+        public void setAddressPredicate(AddressContainsKeywordsPredicate addressPredicate) {
+            this.addressPredicate = addressPredicate;
+        }
+
+        public Optional<AddressContainsKeywordsPredicate> getAddressPredicate() {
+            return Optional.ofNullable(addressPredicate);
+        }
+
         public void setPolicyPredicate(PolicyContainsNumbersPredicate policyPredicate) {
             this.policyPredicate = policyPredicate;
         }
@@ -129,9 +143,10 @@ public class FindCommand extends Command {
         public boolean test(Person person) {
             boolean nameMatch = getNamePredicate().map(pred -> pred.test(person)).orElse(false);
             boolean phoneMatch = getPhonePredicate().map(pred -> pred.test(person)).orElse(false);
+            boolean addressMatch = getAddressPredicate().map(pred -> pred.test(person)).orElse(false);
             boolean policyMatch = getPolicyPredicate().map(pred -> pred.test(person)).orElse(false);
             // Match if any predicate matches (OR logic)
-            return nameMatch || phoneMatch || policyMatch;
+            return nameMatch || phoneMatch || addressMatch || policyMatch;
         }
 
         @Override
@@ -148,6 +163,7 @@ public class FindCommand extends Command {
             FindCommand.FindPersonsPredicate otherFindPersonsPredicate = (FindCommand.FindPersonsPredicate) other;
             return Objects.equals(namePredicate, otherFindPersonsPredicate.namePredicate)
                     && Objects.equals(phonePredicate, otherFindPersonsPredicate.phonePredicate)
+                    && Objects.equals(addressPredicate, otherFindPersonsPredicate.addressPredicate)
                     && Objects.equals(policyPredicate, otherFindPersonsPredicate.policyPredicate);
         }
 
@@ -156,6 +172,7 @@ public class FindCommand extends Command {
             return new ToStringBuilder(this)
                     .add("namePredicate", namePredicate)
                     .add("phonePredicate", phonePredicate)
+                    .add("addressPredicate", addressPredicate)
                     .add("policyPredicate", policyPredicate)
                     .toString();
         }

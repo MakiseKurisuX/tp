@@ -29,7 +29,7 @@ public class RenewalProcessor {
         public RenewalEntry(Person person) {
             this.client = person.getName().toString();
             this.policy = person.getPolicy().policyNumber;
-            this.renewalDate = person.getPolicy().renewalDate;
+            this.renewalDate = person.getPolicy().renewalDate.value;
             this.daysLeft = person.getPolicy().getDaysUntilRenewal();
             // TODO: Add policy type to Policy class
             this.type = "Life"; // placeholder
@@ -70,7 +70,7 @@ public class RenewalProcessor {
     public static RenewalTableData processRenewals(List<Person> persons) {
         List<RenewalEntry> entries = persons.stream()
                 .map(RenewalEntry::new)
-                .sorted(Comparator.comparing(RenewalEntry::getDaysLeft))
+                .sorted(Comparator.comparingLong(RenewalEntry::getDaysLeft))
                 .collect(Collectors.toList());
         return new RenewalTableData(entries);
     }

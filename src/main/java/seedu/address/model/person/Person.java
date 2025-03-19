@@ -59,6 +59,10 @@ public class Person {
         return policy;
     }
 
+    public String getRenewalDate() {
+        return policy.renewalDate.toString();
+    }
+
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.

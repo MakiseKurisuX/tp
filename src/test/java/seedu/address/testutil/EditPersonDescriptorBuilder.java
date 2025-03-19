@@ -82,6 +82,14 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
+     * Sets the {@code RenewalDate} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withRenewalDate(String renewalDate) {
+        descriptor.setRenewalDate(renewalDate);
+        return this;
+    }
+
+    /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}
      * that we are building.
      */

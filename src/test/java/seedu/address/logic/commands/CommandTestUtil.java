@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -36,6 +37,8 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_POLICY_AMY = "123456";
     public static final String VALID_POLICY_BOB = "654321";
+    public static final String VALID_RENEWAL_DATE_AMY = "31-12-2024";
+    public static final String VALID_RENEWAL_DATE_BOB = "30-06-2024";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
@@ -49,6 +52,8 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String POLICY_DESC_AMY = " " + PREFIX_POLICY + VALID_POLICY_AMY;
     public static final String POLICY_DESC_BOB = " " + PREFIX_POLICY + VALID_POLICY_BOB;
+    public static final String RENEWAL_DATE_DESC_AMY = " " + PREFIX_RENEWAL_DATE + VALID_RENEWAL_DATE_AMY;
+    public static final String RENEWAL_DATE_DESC_BOB = " " + PREFIX_RENEWAL_DATE + VALID_RENEWAL_DATE_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
@@ -57,6 +62,7 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_POLICY_DESC = " " + PREFIX_POLICY + "123 456"; // spaces not allowed in policies
+    public static final String INVALID_RENEWAL_DATE_DESC = " " + PREFIX_RENEWAL_DATE + "31-13-2024"; // invalid month
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
@@ -68,10 +74,16 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withPolicy(VALID_POLICY_AMY).withTags(VALID_TAG_FRIEND).build();
+                .withPolicy(VALID_POLICY_AMY)
+                .withRenewalDate(VALID_RENEWAL_DATE_AMY)
+                .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withPolicy(VALID_POLICY_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .withAddress(VALID_ADDRESS_BOB)
+                .withPolicy(VALID_POLICY_BOB)
+                .withRenewalDate(VALID_RENEWAL_DATE_BOB)
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
 
     /**

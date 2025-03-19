@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Policy;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.testutil.PersonBuilder;
 
 public class ViewRenewalsCommandTest {
@@ -29,17 +29,17 @@ public class ViewRenewalsCommandTest {
                 .withPhone("85355255")
                 .withEmail("amy@gmail.com")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withPolicy("12345", LocalDate.now().plusDays(60).format(Policy.DATE_FORMATTER)).build();
+                .withPolicy("12345", LocalDate.now().plusDays(60).format(RenewalDate.DATE_FORMATTER)).build();
         bob = new PersonBuilder().withName("Bob")
                 .withPhone("85355255")
                 .withEmail("amy@gmail.com")
                 .withAddress("123, Jurong West Ave 6, #08-111")
-                .withPolicy("67890", LocalDate.now().plusDays(30).format(Policy.DATE_FORMATTER)).build();
+                .withPolicy("67890", LocalDate.now().plusDays(30).format(RenewalDate.DATE_FORMATTER)).build();
         charlie = new PersonBuilder().withName("Charlie")
                 .withPhone("85555255")
                 .withEmail("email@gmail.com")
                 .withAddress("123, Jurong West Ave 6")
-                .withPolicy("11111", LocalDate.now().plusDays(15).format(Policy.DATE_FORMATTER)).build();
+                .withPolicy("11111", LocalDate.now().plusDays(15).format(RenewalDate.DATE_FORMATTER)).build();
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ViewRenewalsCommandTest {
                 .withPhone("85355255")
                 .withEmail("future@gmail.com")
                 .withAddress("Future Street")
-                .withPolicy("99999", LocalDate.now().plusDays(400).format(Policy.DATE_FORMATTER)).build();
+                .withPolicy("99999", LocalDate.now().plusDays(400).format(RenewalDate.DATE_FORMATTER)).build();
         model.addPerson(farFuturePerson);
         ViewRenewalsCommand command = new ViewRenewalsCommand(30, ViewRenewalsCommand.SORT_BY_DATE);
         CommandResult result = command.execute(model);
@@ -138,7 +138,7 @@ public class ViewRenewalsCommandTest {
                 .withPhone("12345678")
                 .withEmail("new@gmail.com")
                 .withAddress("New Address")
-                .withPolicy("00000", LocalDate.now().plusDays(45).format(Policy.DATE_FORMATTER)).build();
+                .withPolicy("00000", LocalDate.now().plusDays(45).format(RenewalDate.DATE_FORMATTER)).build();
         assertFalse(predicate.test(newPerson));
     }
 

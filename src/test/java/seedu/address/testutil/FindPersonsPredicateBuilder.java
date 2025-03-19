@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.AddressContainsKeywordsPredicate;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -35,6 +37,7 @@ public class FindPersonsPredicateBuilder {
         predicate = new FindPersonsPredicate();
         predicate.setNamePredicate(new NameContainsKeywordsPredicate(Set.of(person.getName())));
         predicate.setPhonePredicate(new PhoneContainsNumbersPredicate(Set.of(person.getPhone())));
+        predicate.setAddressPredicate(new AddressContainsKeywordsPredicate(Set.of(person.getAddress())));
         predicate.setPolicyPredicate(new PolicyContainsNumbersPredicate(Set.of(person.getPolicy())));
     }
 
@@ -55,6 +58,16 @@ public class FindPersonsPredicateBuilder {
     public FindPersonsPredicateBuilder withPhones(String... phones) {
         Set<Phone> phoneSet = Stream.of(phones).map(Phone::new).collect(Collectors.toSet());
         predicate.setPhonePredicate(new PhoneContainsNumbersPredicate(phoneSet));
+        return this;
+    }
+
+    /**
+     * Parses the {@code addresses} into a {@code AddressContainsKeywordsPredicate} and set it to the
+     * {@code FindPersonsPredicate} that we are building.
+     */
+    public FindPersonsPredicateBuilder withAddresses(String... addresses) {
+        Set<Address> addressSet = Stream.of(addresses).map(Address::new).collect(Collectors.toSet());
+        predicate.setAddressPredicate(new AddressContainsKeywordsPredicate(addressSet));
         return this;
     }
 

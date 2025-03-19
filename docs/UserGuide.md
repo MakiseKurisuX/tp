@@ -119,7 +119,7 @@ Examples:
 
 Finds persons whose names contain any of the given values.
 
-Format: `find [n/NAME]… [p/PHONE]…`
+Format: `find [n/NAME]… [p/PHONE]… [a/ADDRESS]… [pol/POLICY_NUMBER]…`
 
 *   At least one of the optional fields must be provided.
 *   Each field may be provided more than once.
@@ -228,12 +228,12 @@ _Details coming soon ..._
 ## Command summary
 
 | Action            | Format, Examples                                                                                                                                                                                   |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ----------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add**           | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 pol/183548 t/friend t/colleague` |
 | **Clear**         | `clear`                                                                                                                                                                                            |
 | **Delete**        | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                |
 | **Edit**          | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                        |
-| **Find**          | `find [n/NAME]… [p/PHONE]…`<br> e.g., `find n/James n/Jake p/98765432`                                                                                                                             |
+| **Find**          | `find [n/NAME]… [p/PHONE]… [a/ADDRESS]… [pol/POLICY_NUMBER]…`<br> e.g., `find n/James n/Jake p/98765432`                                                                                                                            |
 | **List**          | `list`                                                                                                                                                                                             |
 | **Help**          | `help`                                                                                                                                                                                             |
 | **View Renewals** | `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`<br> e.g., `viewrenewals n/60 s/name`                                                                                                                 |

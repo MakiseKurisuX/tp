@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
+import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -40,6 +42,7 @@ public class PersonUtil {
         sb.append(PREFIX_EMAIL + person.getEmail().value + " ");
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         sb.append(PREFIX_POLICY + person.getPolicy().policyNumber + " ");
+        sb.append(PREFIX_RENEWAL_DATE + person.getRenewalDate() + " ");
         person.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
@@ -56,6 +59,9 @@ public class PersonUtil {
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
         descriptor.getPolicy().ifPresent(policy -> sb.append(PREFIX_POLICY).append(policy.policyNumber).append(" "));
+        descriptor.getRenewalDate()
+                .ifPresent(renewalDate -> sb.append(PREFIX_RENEWAL_DATE).append(renewalDate)
+                .append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
@@ -82,6 +88,12 @@ public class PersonUtil {
             if (predicate.getPhonePredicate().get().getNumbers().isPresent()) {
                 Set<Phone> numbers = predicate.getPhonePredicate().get().getNumbers().get();
                 numbers.forEach(s -> sb.append(PREFIX_PHONE).append(s.value).append(" "));
+            }
+        }
+        if (predicate.getAddressPredicate().isPresent()) {
+            if (predicate.getAddressPredicate().get().getAddresses().isPresent()) {
+                Set<Address> addresses = predicate.getAddressPredicate().get().getAddresses().get();
+                addresses.forEach(s -> sb.append(PREFIX_ADDRESS).append(s.value).append(" "));
             }
         }
         if (predicate.getPolicyPredicate().isPresent()) {

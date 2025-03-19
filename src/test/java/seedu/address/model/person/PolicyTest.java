@@ -13,7 +13,7 @@ public class PolicyTest {
 
     private static final String VALID_POLICY_NUMBER = "123456";
     private static final String VALID_RENEWAL_DATE = LocalDate.now().plusDays(30)
-            .format(Policy.DATE_FORMATTER);
+            .format(RenewalDate.DATE_FORMATTER);
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -37,7 +37,7 @@ public class PolicyTest {
     @Test
     public void constructor_invalidDateFormat_throwsIllegalArgumentException() {
         // This date string matches the regex but is not a valid date
-        String invalidButMatchingDate = "3133-02-2024"; //wrong date format
+        String invalidButMatchingDate = "31-13-2024"; // invalid month
         assertThrows(IllegalArgumentException.class, () -> new Policy(VALID_POLICY_NUMBER, invalidButMatchingDate));
     }
 
@@ -45,7 +45,7 @@ public class PolicyTest {
     public void constructor_defaultRenewalDate_setsToOneYear() {
         Policy policy = new Policy(VALID_POLICY_NUMBER);
         LocalDate expectedDate = LocalDate.now().plusYears(1);
-        assertEquals(expectedDate, policy.renewalDate);
+        assertEquals(expectedDate, policy.renewalDate.value);
     }
 
     @Test
@@ -79,19 +79,26 @@ public class PolicyTest {
         assertFalse(Policy.isValidRenewalDate("a1-03-2024")); // non-numeric day
         assertFalse(Policy.isValidRenewalDate("15-b3-2024")); // non-numeric month
         assertFalse(Policy.isValidRenewalDate("15-03-20c4")); // non-numeric year
+        assertFalse(Policy.isValidRenewalDate("32-03-2024")); // invalid day
+        assertFalse(Policy.isValidRenewalDate("15-13-2024")); // invalid month
+        assertFalse(Policy.isValidRenewalDate("29-02-2023")); // invalid date (non-leap year)
+        assertFalse(Policy.isValidRenewalDate("31-04-2024")); // invalid date (April has 30 days)
+        assertFalse(Policy.isValidRenewalDate("31-06-2024")); // invalid date (June has 30 days)
+        assertFalse(Policy.isValidRenewalDate("31-09-2024")); // invalid date (September has 30 days)
+        assertFalse(Policy.isValidRenewalDate("31-11-2024")); // invalid date (November has 30 days)
 
-        // valid formats (note: these only test the format, not if the date is valid)
-        assertTrue(Policy.isValidRenewalDate("15-03-2024")); // valid future date
-        assertTrue(Policy.isValidRenewalDate("01-01-2025")); // valid future date
-        assertTrue(Policy.isValidRenewalDate("31-12-2024")); // valid future date
-        assertTrue(Policy.isValidRenewalDate("32-03-2024")); // invalid day but valid format
-        assertTrue(Policy.isValidRenewalDate("15-13-2024")); // invalid month but valid format
-        assertTrue(Policy.isValidRenewalDate("29-02-2023")); // invalid date (non-leap year) but valid format
+        // valid dates
+        assertTrue(Policy.isValidRenewalDate("15-03-2024")); // valid date
+        assertTrue(Policy.isValidRenewalDate("01-01-2025")); // valid date
+        assertTrue(Policy.isValidRenewalDate("31-12-2024")); // valid date
+        assertTrue(Policy.isValidRenewalDate("29-02-2024")); // valid date (leap year)
+        assertTrue(Policy.isValidRenewalDate("30-04-2024")); // valid date (30 days month)
+        assertTrue(Policy.isValidRenewalDate("31-01-2024")); // valid date (31 days month)
     }
 
     @Test
     public void isRenewalDueWithin() {
-        String futureDate = LocalDate.now().plusDays(30).format(Policy.DATE_FORMATTER);
+        String futureDate = LocalDate.now().plusDays(30).format(RenewalDate.DATE_FORMATTER);
         Policy policy = new Policy(VALID_POLICY_NUMBER, futureDate);
 
         assertTrue(policy.isRenewalDueWithin(60)); // within range
@@ -101,7 +108,7 @@ public class PolicyTest {
 
     @Test
     public void equals() {
-        String date = LocalDate.now().plusDays(30).format(Policy.DATE_FORMATTER);
+        String date = LocalDate.now().plusDays(30).format(RenewalDate.DATE_FORMATTER);
         Policy policy = new Policy(VALID_POLICY_NUMBER, date);
 
         // same values -> returns true
@@ -120,37 +127,37 @@ public class PolicyTest {
         assertFalse(policy.equals(new Policy("999999", date)));
 
         // different renewal date -> returns false
-        String differentDate = LocalDate.now().plusDays(60).format(Policy.DATE_FORMATTER);
+        String differentDate = LocalDate.now().plusDays(60).format(RenewalDate.DATE_FORMATTER);
         assertFalse(policy.equals(new Policy(VALID_POLICY_NUMBER, differentDate)));
     }
 
     @Test
     public void getDaysUntilRenewal_futureDate_returnsPositiveDays() {
-        Policy policy = new Policy("123456", LocalDate.now().plusDays(5).format(Policy.DATE_FORMATTER));
+        Policy policy = new Policy("123456", LocalDate.now().plusDays(5).format(RenewalDate.DATE_FORMATTER));
         assertEquals(5, policy.getDaysUntilRenewal());
     }
 
     @Test
     public void getDaysUntilRenewal_pastDate_returnsNegativeDays() {
-        Policy policy = new Policy("123456", LocalDate.now().minusDays(5).format(Policy.DATE_FORMATTER));
+        Policy policy = new Policy("123456", LocalDate.now().minusDays(5).format(RenewalDate.DATE_FORMATTER));
         assertEquals(-5, policy.getDaysUntilRenewal());
     }
 
     @Test
     public void getDaysUntilRenewal_today_returnsZero() {
-        Policy policy = new Policy("123456", LocalDate.now().format(Policy.DATE_FORMATTER));
+        Policy policy = new Policy("123456", LocalDate.now().format(RenewalDate.DATE_FORMATTER));
         assertEquals(0, policy.getDaysUntilRenewal());
     }
 
     @Test
     public void constructor_singleParam_setsRenewalDateToOneYear() {
         Policy policy = new Policy("123456");
-        assertEquals(LocalDate.now().plusYears(1), policy.renewalDate);
+        assertEquals(LocalDate.now().plusYears(1), policy.renewalDate.value);
     }
 
     @Test
     public void equals_sameRenewalDate_returnsTrue() {
-        String date = LocalDate.now().format(Policy.DATE_FORMATTER);
+        String date = LocalDate.now().format(RenewalDate.DATE_FORMATTER);
         Policy policy1 = new Policy("123456", date);
         Policy policy2 = new Policy("123456", date);
         assertTrue(policy1.equals(policy2));
@@ -158,8 +165,8 @@ public class PolicyTest {
 
     @Test
     public void equals_differentRenewalDate_returnsFalse() {
-        Policy policy1 = new Policy("123456", LocalDate.now().format(Policy.DATE_FORMATTER));
-        Policy policy2 = new Policy("123456", LocalDate.now().plusDays(1).format(Policy.DATE_FORMATTER));
+        Policy policy1 = new Policy("123456", LocalDate.now().format(RenewalDate.DATE_FORMATTER));
+        Policy policy2 = new Policy("123456", LocalDate.now().plusDays(1).format(RenewalDate.DATE_FORMATTER));
         assertFalse(policy1.equals(policy2));
     }
 }

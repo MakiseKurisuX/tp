@@ -7,7 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seedu.address.model.RenewalProcessor.RenewalEntry;
 import seedu.address.model.RenewalTableData;
-import seedu.address.model.person.Policy;
+import seedu.address.model.person.RenewalDate;
 
 /**
  * JavaFX-specific configuration for the renewals table.
@@ -38,7 +38,7 @@ public class RenewalTableConfig {
                 if (empty || date == null) {
                     setText(null);
                 } else {
-                    setText(date.format(Policy.DATE_FORMATTER));
+                    setText(date.format(RenewalDate.DATE_FORMATTER));
                 }
             }
         });
