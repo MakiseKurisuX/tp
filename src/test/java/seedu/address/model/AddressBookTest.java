@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.logic.parser.DateTimeParser;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
@@ -106,16 +107,26 @@ public class AddressBookTest {
         assertTrue(ab1.equals(ab2));
     }
 
+    @Test
+    public void getLastUpdatedString_validValue_success() {
+        LocalDateTime fixedTime = LocalDateTime.of(2025, 3, 13, 12, 0);
+        addressBook.setLastUpdated(fixedTime);
+        String expected = DateTimeParser.stringDateTime(fixedTime);
+        assertEquals(expected, addressBook.getLastUpdatedString());
+    }
+
     /**
      * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final LocalDateTime lastUpdated;
+        private final String lastUpdatedString;
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
             this.lastUpdated = LocalDateTime.now();
+            this.lastUpdatedString = DateTimeParser.stringDateTime(lastUpdated);
         }
 
         @Override
@@ -126,6 +137,11 @@ public class AddressBookTest {
         @Override
         public LocalDateTime getLastUpdated() {
             return lastUpdated;
+        }
+
+        @Override
+        public String getLastUpdatedString() {
+            return lastUpdatedString;
         }
     }
 

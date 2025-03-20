@@ -21,6 +21,8 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
 import seedu.address.model.person.Policy;
 import seedu.address.model.person.PolicyContainsNumbersPredicate;
+import seedu.address.model.person.TagContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.FindPersonsPredicateBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -68,6 +70,13 @@ public class FindPersonsPredicateTest {
     }
 
     @Test
+    public void isAnyPredicateSet_onlyTagSet_returnsTrue() {
+        FindCommand.FindPersonsPredicate predicate = new FindCommand.FindPersonsPredicate();
+        predicate.setTagPredicate(new TagContainsKeywordsPredicate(Set.of(new Tag("friends"))));
+        assertTrue(predicate.isAnyPredicateSet());
+    }
+
+    @Test
     public void isAnyPredicateSet_allSet_returnsTrue() {
         FindCommand.FindPersonsPredicate predicate = new FindCommand.FindPersonsPredicate();
         predicate.setNamePredicate(new NameContainsKeywordsPredicate(Set.of(new Name("keyword"))));
@@ -75,6 +84,7 @@ public class FindPersonsPredicateTest {
         predicate.setEmailPredicate(new EmailContainsKeywordsPredicate(Set.of(new Email("local-part@domain"))));
         predicate.setAddressPredicate(new AddressContainsKeywordsPredicate(Set.of(new Address("keyword"))));
         predicate.setPolicyPredicate(new PolicyContainsNumbersPredicate(Set.of(new Policy("123456"))));
+        predicate.setTagPredicate(new TagContainsKeywordsPredicate(Set.of(new Tag("friends"))));
         assertTrue(predicate.isAnyPredicateSet());
     }
 
@@ -155,6 +165,17 @@ public class FindPersonsPredicateTest {
     }
 
     @Test
+    public void test_tagMatchOnly_returnsTrue() {
+        // Create predicate with the tag "friend"
+        FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder()
+                .withTags("friends")
+                .build();
+        // Assume ALICE has the tag "friends" and BOB does not.
+        assertTrue(predicate.test(ALICE));
+        assertFalse(predicate.test(BOB));
+    }
+
+    @Test
     public void test_allFieldsMatch_returnsTrue() {
         FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder()
                 .withNames("Alice")
@@ -162,6 +183,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("alice@example.com")
                 .withAddresses("123, Jurong West Ave 6, #08-111")
                 .withPolicies("135792")
+                .withTags("friends")
                 .build();
 
         assertTrue(predicate.test(ALICE));
@@ -176,6 +198,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("leonard@example.com")
                 .withAddresses("Wonderland")
                 .withPolicies("111111")
+                .withTags("friends")
                 .build();
 
         // Should match ALICE due to name
@@ -194,6 +217,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("charlie@example.com")
                 .withAddresses("Wonderland")
                 .withPolicies("111111")
+                .withTags("notfriends")
                 .build();
 
         assertFalse(predicate.test(ALICE));
@@ -207,6 +231,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("alice@test.com")
                 .withAddresses("123, Wonderland Ave 1")
                 .withPolicies("123456")
+                .withTags("friends")
                 .build();
 
         FindCommand.FindPersonsPredicate copy = new FindCommand.FindPersonsPredicate(original);
@@ -216,8 +241,8 @@ public class FindPersonsPredicateTest {
     @Test
     public void equals() {
         FindCommand.FindPersonsPredicate firstPredicate = new FindPersonsPredicateBuilder().withNames("first")
-                .withPhones("91234567").withEmails("first@example.com")
-                .withAddresses("987 First Street").withPolicies("234567").build();
+                .withPhones("91234567").withEmails("first@example.com").withAddresses("987 First Street")
+                .withPolicies("234567").withTags("friends").build();
         FindCommand.FindPersonsPredicate secondPredicate = new FindPersonsPredicateBuilder()
                 .withNames("second").build();
 
@@ -249,6 +274,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("first@example.com")
                 .withAddresses("987 First Street")
                 .withPolicies("234567")
+                .withTags("friends")
                 .build();
         assertFalse(firstPredicate.equals(differentPhonePredicate));
 
@@ -269,6 +295,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("first@example.com")
                 .withAddresses("Third Street")
                 .withPolicies("234567")
+                .withTags("friends")
                 .build();
         assertFalse(firstPredicate.equals(differentAddressPredicate));
 
@@ -279,6 +306,7 @@ public class FindPersonsPredicateTest {
                 .withEmails("first@example.com")
                 .withAddresses("987 First Street")
                 .withPolicies("222222")
+                .withTags("friends")
                 .build();
         assertFalse(firstPredicate.equals(differentPolicyPredicate));
     }
@@ -291,7 +319,8 @@ public class FindPersonsPredicateTest {
                 + ", phonePredicate=" + null
                 + ", emailPredicate=" + null
                 + ", addressPredicate=" + null
-                + ", policyPredicate=" + null + "}";
+                + ", policyPredicate=" + null
+                + ", tagPredicate=" + null + "}";
         assertEquals(expected, emptyPredicate.toString());
 
         FindCommand.FindPersonsPredicate fullPredicate = new FindPersonsPredicateBuilder()
@@ -300,13 +329,15 @@ public class FindPersonsPredicateTest {
                 .withEmails("alice@test.com")
                 .withAddresses("123, Wonderland Ave 1")
                 .withPolicies("123456")
+                .withTags("friends")
                 .build();
         String fullExpected = FindCommand.FindPersonsPredicate.class.getCanonicalName()
                 + "{namePredicate=" + fullPredicate.getNamePredicate().get()
                 + ", phonePredicate=" + fullPredicate.getPhonePredicate().get()
                 + ", emailPredicate=" + fullPredicate.getEmailPredicate().get()
                 + ", addressPredicate=" + fullPredicate.getAddressPredicate().get()
-                + ", policyPredicate=" + fullPredicate.getPolicyPredicate().get() + "}";
+                + ", policyPredicate=" + fullPredicate.getPolicyPredicate().get()
+                + ", tagPredicate=" + fullPredicate.getTagPredicate().get() + "}";
         assertEquals(fullExpected, fullPredicate.toString());
     }
 }

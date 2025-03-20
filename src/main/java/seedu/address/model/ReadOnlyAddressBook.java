@@ -18,4 +18,6 @@ public interface ReadOnlyAddressBook {
 
     LocalDateTime getLastUpdated();
 
+    String getLastUpdatedString();
+
 }

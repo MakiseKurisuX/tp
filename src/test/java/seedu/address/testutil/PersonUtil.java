@@ -109,6 +109,12 @@ public class PersonUtil {
                 numbers.forEach(s -> sb.append(PREFIX_POLICY).append(s.policyNumber).append(" "));
             }
         }
+        if (predicate.getTagPredicate().isPresent()) {
+            if (predicate.getTagPredicate().get().getTags().isPresent()) {
+                Set<Tag> tags = predicate.getTagPredicate().get().getTags().get();
+                tags.forEach(s -> sb.append(PREFIX_TAG).append(s.tagName).append(" "));
+            }
+        }
         return sb.toString();
     }
 }

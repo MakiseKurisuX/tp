@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.time.LocalDate;
+
 /**
  * Represents a Person's policy in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidPolicy(String)}
@@ -71,6 +73,14 @@ public class Policy {
      */
     public boolean isRenewalDueWithin(int days) {
         return renewalDate.isRenewalDueWithin(days);
+    }
+
+    /**
+     * Returns true if the policy is due for renewal within the specified date range.
+     */
+    public boolean isRenewalDueWithinDateRange(LocalDate startDate, LocalDate endDate) {
+        return (renewalDate.value.isEqual(startDate) || renewalDate.value.isAfter(startDate))
+                && (renewalDate.value.isEqual(endDate) || renewalDate.value.isBefore(endDate));
     }
 
     @Override

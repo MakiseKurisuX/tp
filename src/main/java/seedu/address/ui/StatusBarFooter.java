@@ -17,12 +17,34 @@ public class StatusBarFooter extends UiPart<Region> {
     @FXML
     private Label saveLocationStatus;
 
+    @FXML
+    private Label lastUpdatedStatus;
+
+    @FXML
+    private Label personCountStatus;
+
     /**
      * Creates a {@code StatusBarFooter} with the given {@code Path}.
      */
-    public StatusBarFooter(Path saveLocation) {
+    public StatusBarFooter(Path saveLocation, String lastUpdated, int personCount) {
         super(FXML);
         saveLocationStatus.setText(Paths.get(".").resolve(saveLocation).toString());
+        lastUpdatedStatus.setText("Last Updated: " + lastUpdated);
+        personCountStatus.setText("Person Count: " + personCount);
+    }
+
+    /**
+     * Updates the displayed last updated timestamp.
+     */
+    public void updateLastUpdated(String lastUpdated) {
+        lastUpdatedStatus.setText("Last Updated: " + lastUpdated);
+    }
+
+    /**
+     * Updates the displayed person count.
+     */
+    public void updatePersonCount(int newCount) {
+        personCountStatus.setText("Person Count: " + newCount);
     }
 
 }

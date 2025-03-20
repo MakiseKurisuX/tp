@@ -7,6 +7,8 @@ import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
@@ -15,6 +17,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FilterDateCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
 import seedu.address.logic.commands.HelpCommand;
@@ -100,6 +103,24 @@ public class AddressBookParserTest {
         ViewRenewalsCommand customCommand = (ViewRenewalsCommand) parser.parseCommand(
                 ViewRenewalsCommand.COMMAND_WORD + " n/60 s/name");
         assertEquals(new ViewRenewalsCommand(60, "name"), customCommand);
+    }
+
+    @Test
+    public void parseCommand_filter() throws Exception {
+        LocalDate startDate = LocalDate.of(2025, 3, 1);
+        LocalDate endDate = LocalDate.of(2025, 3, 31);
+
+        // Test with default parameters
+        FilterDateCommand defaultCommand = (FilterDateCommand) parser.parseCommand(
+                FilterDateCommand.COMMAND_WORD + " sd/" + startDate + " ed/" + endDate);
+        assertEquals(
+                new FilterDateCommand(startDate, endDate, "date"),
+                defaultCommand);
+
+        // Test with custom parameters
+        FilterDateCommand customCommand = (FilterDateCommand) parser.parseCommand(
+                FilterDateCommand.COMMAND_WORD + " sd/" + startDate + " ed/" + endDate + " s/name");
+        assertEquals(new FilterDateCommand(startDate, endDate, "name"), customCommand);
     }
 
     @Test

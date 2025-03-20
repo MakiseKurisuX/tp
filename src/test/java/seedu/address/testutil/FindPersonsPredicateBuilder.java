@@ -16,6 +16,8 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
 import seedu.address.model.person.Policy;
 import seedu.address.model.person.PolicyContainsNumbersPredicate;
+import seedu.address.model.person.TagContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 
 /**
  * A utility class to help with building FindPersonsPredicate objects.
@@ -91,6 +93,16 @@ public class FindPersonsPredicateBuilder {
     public FindPersonsPredicateBuilder withPolicies(String... policies) {
         Set<Policy> policySet = Stream.of(policies).map(Policy::new).collect(Collectors.toSet());
         predicate.setPolicyPredicate(new PolicyContainsNumbersPredicate(policySet));
+        return this;
+    }
+
+    /**
+     * Parses the {@code tags} into a {@code TagContainsKeywordsPredicate} and sets it to the
+     * {@code FindPersonsPredicate} that we are building.
+     */
+    public FindPersonsPredicateBuilder withTags(String... tags) {
+        Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
+        predicate.setTagPredicate(new TagContainsKeywordsPredicate(tagSet));
         return this;
     }
 

@@ -10,11 +10,13 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_POLICY_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.POLICY_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
@@ -24,6 +26,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -35,6 +38,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.FindPersonsPredicateBuilder;
 
 public class FindCommandParserTest {
@@ -69,23 +73,24 @@ public class FindCommandParserTest {
         assertParseFailure(parser, INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
         assertParseFailure(parser, INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
         assertParseFailure(parser, INVALID_POLICY_DESC, Policy.MESSAGE_CONSTRAINTS); // invalid policy
+        assertParseFailure(parser, INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
 
         // invalid phone followed by valid name
         assertParseFailure(parser, INVALID_PHONE_DESC + NAME_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, INVALID_NAME_DESC + INVALID_PHONE_DESC + INVALID_EMAIL_DESC
-                + INVALID_ADDRESS_DESC
-                + INVALID_POLICY_DESC, Name.MESSAGE_CONSTRAINTS);
+                + INVALID_ADDRESS_DESC + INVALID_POLICY_DESC + INVALID_TAG_DESC, Name.MESSAGE_CONSTRAINTS);
     }
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        String userInput = PHONE_DESC_BOB + NAME_DESC_AMY + POLICY_DESC_AMY + ADDRESS_DESC_BOB + EMAIL_DESC_AMY;
+        String userInput = PHONE_DESC_BOB + NAME_DESC_AMY + POLICY_DESC_AMY + ADDRESS_DESC_BOB
+                + EMAIL_DESC_AMY + TAG_DESC_FRIEND;
 
         FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder().withNames(VALID_NAME_AMY)
-                .withPhones(VALID_PHONE_BOB).withEmails(VALID_EMAIL_AMY)
-                .withAddresses(VALID_ADDRESS_BOB).withPolicies(VALID_POLICY_AMY).build();
+                .withPhones(VALID_PHONE_BOB).withEmails(VALID_EMAIL_AMY).withAddresses(VALID_ADDRESS_BOB)
+                .withPolicies(VALID_POLICY_AMY).withTags(VALID_TAG_FRIEND).build();
         FindCommand expectedCommand = new FindCommand(predicate);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -132,6 +137,11 @@ public class FindCommandParserTest {
         // policy
         userInput = POLICY_DESC_AMY;
         predicate = new FindPersonsPredicateBuilder().withPolicies(VALID_POLICY_AMY).build();
+        expectedCommand = new FindCommand(predicate);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        userInput = TAG_DESC_FRIEND;
+        predicate = new FindPersonsPredicateBuilder().withTags(VALID_TAG_FRIEND).build();
         expectedCommand = new FindCommand(predicate);
         assertParseSuccess(parser, userInput, expectedCommand);
     }

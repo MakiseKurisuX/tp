@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
 import seedu.address.model.person.PolicyContainsNumbersPredicate;
+import seedu.address.model.person.TagContainsKeywordsPredicate;
 
 /**
  * Finds and lists all persons in address book whose details contains any of the argument information.
@@ -30,6 +32,7 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
+    // to fix this in next push commit.
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose details contain any of "
             + "the specified information (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: [" + PREFIX_NAME + "NAME]... "
@@ -37,13 +40,15 @@ public class FindCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL]... "
             + "[" + PREFIX_ADDRESS + "ADDRESS]... "
             + "[" + PREFIX_POLICY + "POLICY_NUMBER]...\n"
+            + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "alice "
             + PREFIX_NAME + "bob "
             + PREFIX_NAME + "charlie "
             + PREFIX_EMAIL + "local-part@domain "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_POLICY + "104343 ";
+            + PREFIX_POLICY + "104343 "
+            + PREFIX_TAG + "friends";
 
     public static final String MESSAGE_NOT_FOUND = "At least one field to find must be provided.";
 
@@ -92,6 +97,7 @@ public class FindCommand extends Command {
         private EmailContainsKeywordsPredicate emailPredicate;
         private AddressContainsKeywordsPredicate addressPredicate;
         private PolicyContainsNumbersPredicate policyPredicate;
+        private TagContainsKeywordsPredicate tagPredicate;
 
         public FindPersonsPredicate() {}
 
@@ -104,6 +110,7 @@ public class FindCommand extends Command {
             setEmailPredicate(toCopy.emailPredicate);
             setAddressPredicate(toCopy.addressPredicate);
             setPolicyPredicate(toCopy.policyPredicate);
+            setTagPredicate(toCopy.tagPredicate);
         }
 
         /**
@@ -111,7 +118,7 @@ public class FindCommand extends Command {
          */
         public boolean isAnyPredicateSet() {
             return CollectionUtil.isAnyNonNull(namePredicate, phonePredicate, emailPredicate,
-                    addressPredicate, policyPredicate);
+                    addressPredicate, policyPredicate, tagPredicate);
         }
 
         public void setNamePredicate(NameContainsKeywordsPredicate namePredicate) {
@@ -154,6 +161,14 @@ public class FindCommand extends Command {
             return Optional.ofNullable(policyPredicate);
         }
 
+        public void setTagPredicate(TagContainsKeywordsPredicate tagPredicate) {
+            this.tagPredicate = tagPredicate;
+        }
+
+        public Optional<TagContainsKeywordsPredicate> getTagPredicate() {
+            return Optional.ofNullable(tagPredicate);
+        }
+
         @Override
         public boolean test(Person person) {
             boolean nameMatch = getNamePredicate().map(pred -> pred.test(person)).orElse(false);
@@ -161,8 +176,9 @@ public class FindCommand extends Command {
             boolean emailMatch = getEmailPredicate().map(pred -> pred.test(person)).orElse(false);
             boolean addressMatch = getAddressPredicate().map(pred -> pred.test(person)).orElse(false);
             boolean policyMatch = getPolicyPredicate().map(pred -> pred.test(person)).orElse(false);
+            boolean tagMatch = getTagPredicate().map(pred -> pred.test(person)).orElse(false);
             // Match if any predicate matches (OR logic)
-            return nameMatch || phoneMatch || emailMatch || addressMatch || policyMatch;
+            return nameMatch || phoneMatch || emailMatch || addressMatch || policyMatch || tagMatch;
         }
 
         @Override
@@ -181,7 +197,8 @@ public class FindCommand extends Command {
                     && Objects.equals(phonePredicate, otherFindPersonsPredicate.phonePredicate)
                     && Objects.equals(emailPredicate, otherFindPersonsPredicate.emailPredicate)
                     && Objects.equals(addressPredicate, otherFindPersonsPredicate.addressPredicate)
-                    && Objects.equals(policyPredicate, otherFindPersonsPredicate.policyPredicate);
+                    && Objects.equals(policyPredicate, otherFindPersonsPredicate.policyPredicate)
+                    && Objects.equals(tagPredicate, otherFindPersonsPredicate.tagPredicate);
         }
 
         @Override
@@ -192,6 +209,7 @@ public class FindCommand extends Command {
                     .add("emailPredicate", emailPredicate)
                     .add("addressPredicate", addressPredicate)
                     .add("policyPredicate", policyPredicate)
+                    .add("tagPredicate", tagPredicate)
                     .toString();
         }
     }

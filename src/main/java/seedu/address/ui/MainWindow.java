@@ -36,6 +36,8 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
     private RenewalsTable renewalsTable;
 
+    private StatusBarFooter statusBarFooter;
+
     @FXML
     private StackPane commandBoxPlaceholder;
 
@@ -120,7 +122,10 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        String lastUpdated = logic.getModel().getAddressBook().getLastUpdatedString();
+        int personCount = logic.getFilteredPersonList().size();
+        statusBarFooter = new StatusBarFooter(
+            logic.getAddressBookFilePath(), lastUpdated, personCount);
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -195,6 +200,11 @@ public class MainWindow extends UiPart<Stage> {
 
             // Update renewals table after each command
             renewalsTable.updateRenewals(logic.getModel());
+
+            String newLastUpdated = logic.getModel().getAddressBook().getLastUpdatedString();
+            statusBarFooter.updateLastUpdated(newLastUpdated);
+            int newPersonCount = logic.getFilteredPersonList().size();
+            statusBarFooter.updatePersonCount(newPersonCount);
 
             return commandResult;
         } catch (CommandException | ParseException e) {
