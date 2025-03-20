@@ -79,7 +79,7 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [r/RENEWAL_DATE] [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -88,7 +88,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [t/TAG]�
 
 Examples:
 
--   `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456`
+-   `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 r/31-12-2024`
 -   `add n/Betsy Crowe t/friend pol/654321 e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
 ### Listing all persons : `list`
@@ -113,7 +113,7 @@ The renewal date is clearly labeled to help insurance agents quickly identify wh
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [r/RENEWAL_DATE] [t/TAG]…​`
 
 -   Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 -   At least one of the optional fields must be provided.
@@ -124,7 +124,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [t/TAG
 
 Examples:
 
--   `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+-   `edit 1 p/91234567 e/johndoe@example.com r/31-12-2024` Edits the phone number, email address and renewal date of the 1st person to be `91234567`, `johndoe@example.com` and `31-12-2024` respectively.
 -   `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 ### Locating persons by name: `find`
@@ -133,25 +133,25 @@ Finds persons whose names contain any of the given values.
 
 Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [t/TAG]…`
 
-*   At least one of the optional fields must be provided.
-*   Each field may be provided more than once.
-*   Each field may contain more than one word.
-*   The search is case-insensitive. e.g `hans` will match `Hans`
-*   The order of the values matter for a field but not for different fields. e.g. `n/Hans Bo` will not match `Bo Hans` but `n/Hans n/Bo` will match `Bo Hans`
-*   Partial words will also be matched e.g. `n/Han` will match `Hans`
-*   Partial search for emails must be concatenate with `@` followed by at least 2 characters  e.g. `e/ice@ex` will match `alice@example.com` but `alice@e` will not match `alice@example.com`
-*   Persons matching at least one field will be returned (i.e. `OR` search).
+-   At least one of the optional fields must be provided.
+-   Each field may be provided more than once.
+-   Each field may contain more than one word.
+-   The search is case-insensitive. e.g `hans` will match `Hans`
+-   The order of the values matter for a field but not for different fields. e.g. `n/Hans Bo` will not match `Bo Hans` but `n/Hans n/Bo` will match `Bo Hans`
+-   Partial words will also be matched e.g. `n/Han` will match `Hans`
+-   Partial search for emails must be concatenate with `@` followed by at least 2 characters e.g. `e/ice@ex` will match `alice@example.com` but `alice@e` will not match `alice@example.com`
+-   Persons matching at least one field will be returned (i.e. `OR` search).
     e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
-*   Tags are supported. You can add one or more tags using `t/TAG`. The search for tags is not case-sensitive and must be an exact word.
+-   Tags are supported. You can add one or more tags using `t/TAG`. The search for tags is not case-sensitive and must be an exact word.
 
 Examples:
 
-*   `find n/John` returns `john` and `John Doe`
-*   `find n/Amy p/999` returns `Amy Goh (96372716)` and `Local Police (999)`
-*   `find n/alex n/david` returns `Alex Yeoh`, `David Li`
-*   `find e/ice@example.com e/bob@ex` returns `alice@example.com` and `bob@example.com`<br>
+-   `find n/John` returns `john` and `John Doe`
+-   `find n/Amy p/999` returns `Amy Goh (96372716)` and `Local Police (999)`
+-   `find n/alex n/david` returns `Alex Yeoh`, `David Li`
+-   `find e/ice@example.com e/bob@ex` returns `alice@example.com` and `bob@example.com`<br>
     ![result for 'find alex david'](images/findAlexDavidResult.png)
-*   `find t/colleagues` returns `Bernice Yu` and `Roy Balakrishnan`
+-   `find t/colleagues` returns `Bernice Yu` and `Roy Balakrishnan`
 
 ### Deleting a person : `delete`
 
@@ -243,13 +243,13 @@ _Details coming soon ..._
 
 ## Command summary
 
-| Action            | Format, Examples                                                                                                                                                                                   |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Add**           | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 pol/183548 t/friend t/colleague` |
-| **Clear**         | `clear`                                                                                                                                                                                            |
-| **Delete**        | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                |
-| **Edit**          | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                        |
-| **Find**          | `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [t/TAG]`<br> e.g., `find n/James n/Jake p/98765432`                                                                                                                            |
-| **List**          | `list`                                                                                                                                                                                             |
-| **Help**          | `help`                                                                                                                                                                                             |
-| **View Renewals** | `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`<br> e.g., `viewrenewals n/60 s/name`                                                                                                                 |
+| Action            | Format, Examples                                                                                                                                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Add**           | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [r/RENEWAL_DATE] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 pol/183548 t/friend t/colleague` |
+| **Clear**         | `clear`                                                                                                                                                                                                             |
+| **Delete**        | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                 |
+| **Edit**          | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [r/RENEWAL_DATE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                           |
+| **Find**          | `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [t/TAG]`<br> e.g., `find n/James n/Jake p/98765432`                                                                                         |
+| **List**          | `list`                                                                                                                                                                                                              |
+| **Help**          | `help`                                                                                                                                                                                                              |
+| **View Renewals** | `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`<br> e.g., `viewrenewals n/60 s/name`                                                                                                                                  |
