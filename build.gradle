@@ -71,7 +71,7 @@ javafx {
 }
 
 shadowJar {
-    archiveFileName = 'addressbook.jar'
+    archiveFileName = 'InsureBook.jar'
 }
 
 defaultTasks 'clean', 'test'
