@@ -25,18 +25,20 @@ public class Person {
     // Data fields
     private final Address address;
     private final Policy policy;
+    private final Note note;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Policy policy, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Policy policy, Note note, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.policy = policy;
+        this.note = (note != null) ? note : Note.EMPTY;
         this.tags.addAll(tags);
     }
 
@@ -58,6 +60,10 @@ public class Person {
 
     public Policy getPolicy() {
         return policy;
+    }
+
+    public Note getNote() {
+        return note;
     }
 
     public String getRenewalDate() {
@@ -127,6 +133,7 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("policy", policy)
+                .add("note", note)
                 .add("tags", tags)
                 .toString();
     }

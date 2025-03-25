@@ -50,9 +50,8 @@
           <padding>
             <Insets top="10" right="10" bottom="10" left="10" />
           </padding>
-          <StackPane fx:id="personListPanelPlaceholder" HBox.hgrow="ALWAYS" />
-          <!-- New detail panel -->
-          <StackPane fx:id="personDetailPanelPlaceholder" HBox.hgrow="ALWAYS" />
+          <StackPane fx:id="personListPanelPlaceholder" HBox.hgrow="ALWAYS" prefWidth="0" />
+          <StackPane fx:id="personDetailPanelPlaceholder" HBox.hgrow="ALWAYS" prefWidth="0" />
         </HBox>
 
         <VBox fx:id="renewalsSection" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="NEVER">

@@ -18,6 +18,9 @@ public class PersonDetailPanel extends UiPart<Region> {
     @FXML
     private Label renewalDateLabel;
 
+    @FXML
+    private Label notesLabel;
+
     public PersonDetailPanel() {
         super(FXML);
     }
@@ -30,5 +33,6 @@ public class PersonDetailPanel extends UiPart<Region> {
     public void setPerson(Person person) {
         policyLabel.setText(person.getPolicy().policyNumber);
         renewalDateLabel.setText(person.getRenewalDate());
+        notesLabel.setText(person.getNote().toString());
     }
 }

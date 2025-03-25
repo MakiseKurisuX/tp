@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
@@ -26,6 +27,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
@@ -47,6 +49,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_POLICY + "POLICY_NUMBER] "
+            + "[" + PREFIX_NOTE + "NOTE] "
             + "[" + PREFIX_RENEWAL_DATE + "DD-MM-YYYY] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -117,8 +120,9 @@ public class EditCommand extends Command {
             updatedPolicy = personToEdit.getPolicy();
         }
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Note updatedNote = editPersonDescriptor.getNote().orElse(personToEdit.getNote());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPolicy, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPolicy, updatedNote, updatedTags);
     }
 
     @Override
@@ -157,6 +161,7 @@ public class EditCommand extends Command {
         private Policy policy;
         private String renewalDate;
         private Set<Tag> tags;
+        private Note note;
 
         public EditPersonDescriptor() {}
 
@@ -172,13 +177,14 @@ public class EditCommand extends Command {
             setPolicy(toCopy.policy);
             setRenewalDate(toCopy.renewalDate);
             setTags(toCopy.tags);
+            setNote(toCopy.note);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, policy, renewalDate, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, policy, renewalDate, tags, note);
         }
 
         public void setName(Name name) {
@@ -219,6 +225,14 @@ public class EditCommand extends Command {
 
         public Optional<Policy> getPolicy() {
             return Optional.ofNullable(policy);
+        }
+
+        public void setNote(Note note) {
+            this.note = note;
+        }
+
+        public Optional<Note> getNote() {
+            return Optional.ofNullable(note);
         }
 
         public void setRenewalDate(String renewalDate) {
@@ -264,7 +278,8 @@ public class EditCommand extends Command {
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(policy, otherEditPersonDescriptor.policy)
                     && Objects.equals(renewalDate, otherEditPersonDescriptor.renewalDate)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(note, otherEditPersonDescriptor.note);
         }
 
         @Override
@@ -277,6 +292,7 @@ public class EditCommand extends Command {
                     .add("policy", policy)
                     .add("renewalDate", renewalDate)
                     .add("tags", tags)
+                    .add("note", note)
                     .toString();
         }
     }
