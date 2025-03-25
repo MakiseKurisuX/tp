@@ -56,6 +56,9 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane renewalsTablePlaceholder;
 
+    @FXML
+    private StackPane personDetailPanelPlaceholder;
+
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
      */
@@ -133,6 +136,20 @@ public class MainWindow extends UiPart<Stage> {
 
         renewalsTable = new RenewalsTable(logic.getModel());
         renewalsTablePlaceholder.getChildren().add(renewalsTable.getRoot());
+
+        PersonDetailPanel personDetailPanel = new PersonDetailPanel();
+        personDetailPanelPlaceholder.getChildren().add(personDetailPanel.getRoot());
+
+        personListPanel.getListView().getSelectionModel().selectedItemProperty().addListener((
+            observable, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    personDetailPanel.setPerson(newSelection);
+                }
+            }
+        );
+        if (personListPanel.getListView().getSelectionModel().getSelectedItem() != null) {
+            personDetailPanel.setPerson(personListPanel.getListView().getSelectionModel().getSelectedItem());
+        }
     }
 
     /**
