@@ -45,6 +45,8 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Policy number: ")
                 .append(person.getPolicy())
+                .append("; Note: ")
+                .append(person.getNote())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
