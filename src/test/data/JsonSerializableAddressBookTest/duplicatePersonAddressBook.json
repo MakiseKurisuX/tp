@@ -5,13 +5,15 @@
     "email": "alice@example.com",
     "address": "123, Jurong West Ave 6, #08-111",
     "policy": "123456",
+    "note": "some note",
     "tags": [ "friends" ]
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",
     "email": "pauline@example.com",
     "address": "4th street",
-    "policy": "123456"
+    "policy": "123456",
+    "note": "some note"
   } ],
   "lastUpdated" : "3/13/2025 0028"
 }

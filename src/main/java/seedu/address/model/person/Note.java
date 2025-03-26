@@ -10,6 +10,11 @@ public class Note {
     public static final Note EMPTY = new Note("");
     public final String note;
 
+    /**
+     * Constructs a {@code Note}.
+     *
+     * @param note A note.
+     */
     public Note(String note) {
         requireNonNull(note);
         this.note = note;
@@ -22,9 +27,9 @@ public class Note {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Note // instanceof handles nulls
-                && note.equals(((Note) other).note)); // state check
+        return other == this
+                || (other instanceof Note
+                && note.equals(((Note) other).note));
     }
 
     @Override

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
@@ -37,6 +38,8 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_POLICY_AMY = "123456";
     public static final String VALID_POLICY_BOB = "654321";
+    public static final String VALID_NOTE_AMY = "some note amy";
+    public static final String VALID_NOTE_BOB = "some note bob";
     public static final String VALID_RENEWAL_DATE_AMY = "31-12-2024";
     public static final String VALID_RENEWAL_DATE_BOB = "30-06-2024";
     public static final String VALID_TAG_HUSBAND = "husband";
@@ -52,6 +55,8 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String POLICY_DESC_AMY = " " + PREFIX_POLICY + VALID_POLICY_AMY;
     public static final String POLICY_DESC_BOB = " " + PREFIX_POLICY + VALID_POLICY_BOB;
+    public static final String NOTE_DESC_AMY = " " + PREFIX_NOTE + VALID_NOTE_AMY;
+    public static final String NOTE_DESC_BOB = " " + PREFIX_NOTE + VALID_NOTE_BOB;
     public static final String RENEWAL_DATE_DESC_AMY = " " + PREFIX_RENEWAL_DATE + VALID_RENEWAL_DATE_AMY;
     public static final String RENEWAL_DATE_DESC_BOB = " " + PREFIX_RENEWAL_DATE + VALID_RENEWAL_DATE_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
