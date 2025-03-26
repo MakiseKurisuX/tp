@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RENEWAL_DATE_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -22,6 +24,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RenewCommand;
 import seedu.address.logic.commands.ViewRenewalsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Person;
@@ -75,7 +78,7 @@ public class AddressBookParserTest {
         FindPersonsPredicate predicate = new FindPersonsPredicateBuilder(person).build();
         FindCommand command = (FindCommand) parser.parseCommand(FindCommand.COMMAND_WORD + " "
                 + PersonUtil.getFindPersonDetails(predicate));
-        assertEquals(new FindCommand(predicate), command);
+        assertEquals(new FindCommand(predicate, FindCommand.DEFAULT_SORT), command);
     }
 
     @Test
@@ -121,6 +124,13 @@ public class AddressBookParserTest {
         FilterDateCommand customCommand = (FilterDateCommand) parser.parseCommand(
                 FilterDateCommand.COMMAND_WORD + " sd/" + startDate + " ed/" + endDate + " s/name");
         assertEquals(new FilterDateCommand(startDate, endDate, "name"), customCommand);
+    }
+
+    @Test
+    public void parseCommand_renew() throws Exception {
+        RenewCommand command = (RenewCommand) parser.parseCommand(
+                RenewCommand.COMMAND_WORD + " pol/" + VALID_POLICY_AMY + " r/" + VALID_RENEWAL_DATE_AMY);
+        assertEquals(new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_AMY), command);
     }
 
     @Test

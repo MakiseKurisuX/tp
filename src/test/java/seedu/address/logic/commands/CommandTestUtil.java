@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -41,6 +42,9 @@ public class CommandTestUtil {
     public static final String VALID_RENEWAL_DATE_BOB = "30-06-2024";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
+    public static final String VALID_SORT_ORDER_NAME = "name";
+    public static final String VALID_SORT_ORDER_TAG = "tag";
+    public static final String VALID_SORT_ORDER_DATE = "date";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -56,6 +60,9 @@ public class CommandTestUtil {
     public static final String RENEWAL_DATE_DESC_BOB = " " + PREFIX_RENEWAL_DATE + VALID_RENEWAL_DATE_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
+    public static final String SORT_ORDER_DESC_NAME = " " + PREFIX_SORT_ORDER + VALID_SORT_ORDER_NAME;
+    public static final String SORT_ORDER_DESC_TAG = " " + PREFIX_SORT_ORDER + VALID_SORT_ORDER_TAG;
+    public static final String SORT_ORDER_DESC_DATE = " " + PREFIX_SORT_ORDER + VALID_SORT_ORDER_DATE;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -64,6 +71,7 @@ public class CommandTestUtil {
     public static final String INVALID_POLICY_DESC = " " + PREFIX_POLICY + "123 456"; // spaces not allowed in policies
     public static final String INVALID_RENEWAL_DATE_DESC = " " + PREFIX_RENEWAL_DATE + "31-13-2024"; // invalid month
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_SORT_ORDER_DESC = " " + PREFIX_SORT_ORDER + "invalid"; // no such sort order
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

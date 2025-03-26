@@ -237,6 +237,108 @@ The following sequence diagram shows how the viewrenewals operation works:
     -   Pros: Centralizes filtering logic
     -   Cons: Makes Model more complex
 
+### Renewal Date Update Feature
+
+The renewal date update feature allows insurance agents to directly update a client's policy renewal date by specifying the policy number, without needing to find the client's index in the list. This feature streamlines the renewal date management process.
+
+#### Implementation
+
+The renewal date update functionality is implemented through the `RenewCommand` class, which follows the command pattern used throughout the application. The feature is primarily made up of the following components:
+
+1. `RenewCommand` - Executes the updating of a renewal date for a client with a specific policy number
+2. `RenewCommandParser` - Parses the user input into a RenewCommand object
+
+The following class diagram shows the structure of the Renew Command:
+
+```
++----------------+       +---------------------+
+| RenewCommand   |<------|RenewCommandParser   |
++----------------+       +---------------------+
+| -policyNumber  |       | +parse(String)      |
+| -newRenewalDate|       +---------------------+
++----------------+
+| +execute(Model)|
++----------------+
+        |
+        | uses
+        v
++----------------+
+|     Model      |
++----------------+
+```
+
+The feature works through the following process flow:
+
+1. The user enters a command in the format `renew pol/POLICY_NUMBER r/RENEWAL_DATE`.
+2. The `LogicManager` passes the command string to `AddressBookParser`.
+3. `AddressBookParser` identifies the command as a `renew` command and delegates to `RenewCommandParser`.
+4. `RenewCommandParser` extracts the policy number and renewal date, validates them, and creates a new `RenewCommand` object.
+5. `LogicManager` calls the `execute()` method of the command object.
+6. The `RenewCommand`:
+    - Filters the list of persons to find those with the specified policy number
+    - Validates that exactly one match is found (not zero, not multiple)
+    - Creates a new `Person` with the updated renewal date
+    - Updates the model with the new `Person` object
+    - Returns a `CommandResult` with a success message
+
+The following sequence diagram shows how the renew operation works:
+
+```
+User            :AddressBookParser     :RenewCommandParser    :RenewCommand            :Model
+ |                     |                      |                     |                     |
+ | renew command       |                      |                     |                     |
+ |-------------------->|                      |                     |                     |
+ |                     |                      |                     |                     |
+ |                     | parse                |                     |                     |
+ |                     |--------------------->|                     |                     |
+ |                     |                      |                     |                     |
+ |                     |                      | create              |                     |
+ |                     |                      |-------------------->|                     |
+ |                     |                      |                     |                     |
+ |                     | RenewCommand         |                     |                     |
+ |                     |<---------------------|                     |                     |
+ |                     |                      |                     |                     |
+ | execute             |                      |                     |                     |
+ |-------------------->|                      |                     |                     |
+ |                     | execute              |                     |                     |
+ |                     |--------------------------------------------->                     |
+ |                     |                      |                     | filter by policy    |
+ |                     |                      |                     |-------------------->|
+ |                     |                      |                     |                     |
+ |                     |                      |                     | filtered list       |
+ |                     |                      |                     |<--------------------|
+ |                     |                      |                     |                     |
+ |                     |                      |                     | update Person       |
+ |                     |                      |                     |-------------------->|
+ |                     |                      |                     |                     |
+ |                     | CommandResult        |                     |                     |
+ |<--------------------|                      |                     |                     |
+```
+
+#### Design Considerations
+
+**Aspect: How to identify the client to update:**
+
+-   **Alternative 1 (current choice):** Use policy number as identifier.
+
+    -   Pros: More intuitive for insurance agents who often reference clients by policy number.
+    -   Cons: Requires handling cases where multiple clients have the same policy number.
+
+-   **Alternative 2:** Use client index in the displayed list.
+    -   Pros: Consistent with other commands like `edit` and `delete`.
+    -   Cons: Less convenient as agents need to find the index first.
+
+**Aspect: Error handling for duplicate policy numbers:**
+
+-   **Alternative 1 (current choice):** Show error and suggest using `edit` command.
+
+    -   Pros: Prevents unintended updates to the wrong client.
+    -   Cons: Less convenient when there are duplicate policy numbers.
+
+-   **Alternative 2:** Update all clients with matching policy numbers.
+    -   Pros: More convenient if updating all matching policies is the intended action.
+    -   Cons: High risk of unintended updates; insurance operations generally require precision.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation

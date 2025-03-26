@@ -131,7 +131,7 @@ public class MainWindow extends UiPart<Stage> {
             logic.getAddressBookFilePath(), lastUpdated, personCount);
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        CommandBox commandBox = new CommandBox(this::executeCommand, resultDisplay);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
         renewalsTable = new RenewalsTable(logic.getModel());

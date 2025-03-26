@@ -10,12 +10,15 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_POLICY_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_SORT_ORDER_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.POLICY_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.SORT_ORDER_DESC_NAME;
+import static seedu.address.logic.commands.CommandTestUtil.SORT_ORDER_DESC_TAG;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
@@ -91,7 +94,7 @@ public class FindCommandParserTest {
         FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder().withNames(VALID_NAME_AMY)
                 .withPhones(VALID_PHONE_BOB).withEmails(VALID_EMAIL_AMY).withAddresses(VALID_ADDRESS_BOB)
                 .withPolicies(VALID_POLICY_AMY).withTags(VALID_TAG_FRIEND).build();
-        FindCommand expectedCommand = new FindCommand(predicate);
+        FindCommand expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -102,7 +105,7 @@ public class FindCommandParserTest {
 
         FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder().withNames(VALID_NAME_AMY)
                 .withPhones(VALID_PHONE_BOB).build();
-        FindCommand expectedCommand = new FindCommand(predicate);
+        FindCommand expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -113,36 +116,36 @@ public class FindCommandParserTest {
         String userInput = NAME_DESC_AMY;
         FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder().withNames(VALID_NAME_AMY)
                 .build();
-        FindCommand expectedCommand = new FindCommand(predicate);
+        FindCommand expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
         userInput = PHONE_DESC_AMY;
         predicate = new FindPersonsPredicateBuilder().withPhones(VALID_PHONE_AMY).build();
-        expectedCommand = new FindCommand(predicate);
+        expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
         userInput = EMAIL_DESC_AMY;
         predicate = new FindPersonsPredicateBuilder().withEmails(VALID_EMAIL_AMY).build();
-        expectedCommand = new FindCommand(predicate);
+        expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
         userInput = ADDRESS_DESC_AMY;
         predicate = new FindPersonsPredicateBuilder().withAddresses(VALID_ADDRESS_AMY).build();
-        expectedCommand = new FindCommand(predicate);
+        expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // policy
         userInput = POLICY_DESC_AMY;
         predicate = new FindPersonsPredicateBuilder().withPolicies(VALID_POLICY_AMY).build();
-        expectedCommand = new FindCommand(predicate);
+        expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         userInput = TAG_DESC_FRIEND;
         predicate = new FindPersonsPredicateBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new FindCommand(predicate);
+        expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -154,7 +157,7 @@ public class FindCommandParserTest {
         FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder()
                 .withNames(VALID_NAME_AMY, VALID_NAME_BOB).withPhones(VALID_PHONE_AMY, VALID_PHONE_BOB)
                 .withEmails(VALID_EMAIL_AMY, VALID_EMAIL_BOB).build();
-        FindCommand expectedCommand = new FindCommand(predicate);
+        FindCommand expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -177,6 +180,30 @@ public class FindCommandParserTest {
                 + INVALID_EMAIL_DESC;
 
         assertParseFailure(parser, userInput, Name.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_validSortOrderSpecified_success() {
+        // sort by name
+        String userInput = NAME_DESC_AMY + PHONE_DESC_BOB + SORT_ORDER_DESC_NAME;
+        FindCommand.FindPersonsPredicate predicate = new FindPersonsPredicateBuilder().withNames(VALID_NAME_AMY)
+                .withPhones(VALID_PHONE_BOB).build();
+        FindCommand expectedCommand = new FindCommand(predicate, FindCommand.SORT_BY_NAME);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // sort by tag
+        userInput = NAME_DESC_AMY + PHONE_DESC_BOB + SORT_ORDER_DESC_TAG;
+        expectedCommand = new FindCommand(predicate, FindCommand.SORT_BY_TAG);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_invalidSortOrderSpecified_failure() {
+        // invalid sort order
+        String userInput = NAME_DESC_AMY + PHONE_DESC_BOB + INVALID_SORT_ORDER_DESC;
+        assertParseFailure(parser, userInput, FindCommandParser.MESSAGE_INVALID_SORT);
     }
 
 }
