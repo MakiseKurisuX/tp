@@ -274,8 +274,41 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void updateSortedPersonList_nullComparator_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.updateSortedPersonList(null));
+    public void updateSortedPersonList_nullComparator_resetsToOriginalOrder() {
+        // Create a model with persons in a specific order
+        AddressBook addressBook = new AddressBook();
+        UserPrefs userPrefs = new UserPrefs();
+        ModelManager testModel = new ModelManager(addressBook, userPrefs);
+
+        // Add persons in this order: C, A, B
+        Person personA = new PersonBuilder().withName("Alice").build();
+        Person personB = new PersonBuilder().withName("Bob").build();
+        Person personC = new PersonBuilder().withName("Charlie").build();
+        testModel.addPerson(personC);
+        testModel.addPerson(personA);
+        testModel.addPerson(personB);
+
+        // Sort by name first
+        Comparator<Person> nameComparator = Comparator.comparing(person -> person.getName().fullName);
+        testModel.updateSortedPersonList(nameComparator);
+
+        // Verify sorted order: A, B, C
+        List<Person> sortedList = testModel.getFilteredPersonList();
+        assertEquals(personA, sortedList.get(0));
+        assertEquals(personB, sortedList.get(1));
+        assertEquals(personC, sortedList.get(2));
+
+        // Now pass null to reset to original order
+        testModel.updateSortedPersonList(null);
+
+        // Get the list after resetting
+        List<Person> resetList = testModel.getFilteredPersonList();
+
+        // Verify persons are in the original insertion order: C, A, B
+        assertEquals(3, resetList.size());
+        assertEquals(personC, resetList.get(0));
+        assertEquals(personA, resetList.get(1));
+        assertEquals(personB, resetList.get(2));
     }
 
     @Test
@@ -300,6 +333,10 @@ public class ModelManagerTest {
         assertTrue(sortedList.contains(personA));
         assertTrue(sortedList.contains(personB));
         assertTrue(sortedList.contains(personC));
+        // Verify sort order
+        assertEquals(personA, sortedList.get(0));
+        assertEquals(personB, sortedList.get(1));
+        assertEquals(personC, sortedList.get(2));
     }
 
     @Test

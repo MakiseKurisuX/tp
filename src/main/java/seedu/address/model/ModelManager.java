@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
@@ -29,6 +30,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final SortedList<Person> sortedPersons;
     private final ObservableList<Person> renewalsListSource;
     private final FilteredList<Person> filteredRenewalsList;
     private Comparator<Person> renewalsComparator;
@@ -44,6 +46,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        sortedPersons = new SortedList<>(filteredPersons);
         renewalsListSource = FXCollections.observableArrayList();
         filteredRenewalsList = new FilteredList<>(renewalsListSource);
         renewalsComparator = null;
@@ -135,7 +138,7 @@ public class ModelManager implements Model {
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
-        return filteredPersons;
+        return sortedPersons;
     }
 
     @Override
@@ -167,10 +170,7 @@ public class ModelManager implements Model {
 
     @Override
     public void updateSortedPersonList(Comparator<Person> comparator) {
-        requireNonNull(comparator);
-        ObservableList<Person> backingList = FXCollections.observableArrayList(filteredPersons);
-        FXCollections.sort(backingList, comparator);
-        filteredPersons.setPredicate(person -> backingList.contains(person));
+        sortedPersons.setComparator(comparator);
     }
 
     @Override

@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.FindCommand;
@@ -24,6 +25,8 @@ import seedu.address.model.person.TagContainsKeywordsPredicate;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
+    public static final String MESSAGE_INVALID_SORT = "Invalid sort order. Use 'name' or 'tag'";
+
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns a FindCommand object for execution.
@@ -33,7 +36,9 @@ public class FindCommandParser implements Parser<FindCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                    PREFIX_ADDRESS, PREFIX_POLICY, PREFIX_TAG);
+                    PREFIX_ADDRESS, PREFIX_POLICY, PREFIX_TAG, PREFIX_SORT_ORDER);
+
+        String sortOrder = FindCommand.DEFAULT_SORT;
 
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
@@ -70,7 +75,19 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(FindCommand.MESSAGE_NOT_FOUND);
         }
 
-        return new FindCommand(findPersonsPredicate);
+        if (argMultimap.getValue(PREFIX_SORT_ORDER).isPresent()) {
+            sortOrder = argMultimap.getValue(PREFIX_SORT_ORDER).get().toLowerCase();
+            if (!isValidSortOrder(sortOrder)) {
+                throw new ParseException(MESSAGE_INVALID_SORT);
+            }
+        }
+
+        return new FindCommand(findPersonsPredicate, sortOrder);
+    }
+
+    private boolean isValidSortOrder(String sortOrder) {
+        return FindCommand.SORT_BY_NAME.equals(sortOrder)
+                || FindCommand.SORT_BY_TAG.equals(sortOrder);
     }
 
 }

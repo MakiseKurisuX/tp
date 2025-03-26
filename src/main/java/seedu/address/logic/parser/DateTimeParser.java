@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility class for parsing and formatting date and time values.
@@ -13,8 +17,19 @@ public class DateTimeParser {
 
     private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
-    private static final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
-    private static final DateTimeFormatter OUTPUT_DATETIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy h:mma");
+    private static final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy'H'");
+    // Custom formatter to ensure AM/PM is always in lowercase
+    private static final DateTimeFormatter OUTPUT_DATETIME_FORMAT;
+    static {
+        Map<Long, String> amPmLookup = new HashMap<>();
+        amPmLookup.put(0L, "am");
+        amPmLookup.put(1L, "pm");
+        OUTPUT_DATETIME_FORMAT = new DateTimeFormatterBuilder()
+                .appendPattern("MMM dd yyyy h:mm")
+                .appendText(ChronoField.AMPM_OF_DAY, amPmLookup)
+                .appendLiteral("H")
+                .toFormatter();
+    }
     private static final LocalTime DEFAULT_TIME_FOR_DATE_ONLY = LocalTime.of(10, 0);
 
     /**
@@ -60,9 +75,9 @@ public class DateTimeParser {
      */
     public static String formatDateTime(LocalDateTime dateTime) {
         if (dateTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {
-            return dateTime.format(OUTPUT_DATE_FORMAT) + "H";
+            return dateTime.format(OUTPUT_DATE_FORMAT);
         } else {
-            return dateTime.format(OUTPUT_DATETIME_FORMAT) + "H";
+            return dateTime.format(OUTPUT_DATETIME_FORMAT);
         }
     }
 

@@ -15,6 +15,9 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
+    /** {@code Comparator} that represents original unsorted order */
+    Comparator<Person> COMPARATOR_ORIGINAL_ORDER = null;
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */

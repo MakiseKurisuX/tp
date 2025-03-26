@@ -18,6 +18,7 @@ import seedu.address.logic.commands.FilterDateCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RenewCommand;
 import seedu.address.logic.commands.ViewRenewalsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -84,6 +85,8 @@ public class AddressBookParser {
 
         case FilterDateCommand.COMMAND_WORD:
             return new FilterDateCommandParser().parse(arguments);
+        case RenewCommand.COMMAND_WORD:
+            return new RenewCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
