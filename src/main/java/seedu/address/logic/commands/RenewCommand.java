@@ -81,6 +81,7 @@ public class RenewCommand extends Command {
                 personToUpdate.getEmail(),
                 personToUpdate.getAddress(),
                 updatedPolicy,
+                personToUpdate.getNote(),
                 personToUpdate.getTags()
         );
     }
