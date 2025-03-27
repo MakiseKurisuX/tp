@@ -19,6 +19,7 @@ public class PolicyTest {
     public void constructor_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new Policy(null));
         assertThrows(NullPointerException.class, () -> new Policy(VALID_POLICY_NUMBER, null));
+        assertThrows(NullPointerException.class, () -> new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, null));
     }
 
     @Test
@@ -26,19 +27,31 @@ public class PolicyTest {
         String invalidPolicy = "";
         assertThrows(IllegalArgumentException.class, () -> new Policy(invalidPolicy));
         assertThrows(IllegalArgumentException.class, () -> new Policy(invalidPolicy, VALID_RENEWAL_DATE));
+        assertThrows(IllegalArgumentException.class, () -> new Policy(invalidPolicy, VALID_RENEWAL_DATE, "Life"));
     }
 
     @Test
     public void constructor_invalidRenewalDate_throwsIllegalArgumentException() {
         String invalidDate = "invalid-date";
         assertThrows(IllegalArgumentException.class, () -> new Policy(VALID_POLICY_NUMBER, invalidDate));
+        assertThrows(IllegalArgumentException.class, () -> new Policy(VALID_POLICY_NUMBER, invalidDate, "Life"));
     }
 
     @Test
     public void constructor_invalidDateFormat_throwsIllegalArgumentException() {
         // This date string matches the regex but is not a valid date
         String invalidButMatchingDate = "31-13-2024"; // invalid month
-        assertThrows(IllegalArgumentException.class, () -> new Policy(VALID_POLICY_NUMBER, invalidButMatchingDate));
+        assertThrows(IllegalArgumentException.class, () -> new Policy(
+            VALID_POLICY_NUMBER, invalidButMatchingDate));
+        assertThrows(IllegalArgumentException.class, () -> new Policy(
+            VALID_POLICY_NUMBER, invalidButMatchingDate, "Life"));
+    }
+
+    @Test
+    public void constructor_invalidPolicyType_throwsIllegalArgumentException() {
+        String invalidType = "Invalid";
+        assertThrows(IllegalArgumentException.class, () -> new Policy(
+            VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, invalidType));
     }
 
     @Test
@@ -46,6 +59,34 @@ public class PolicyTest {
         Policy policy = new Policy(VALID_POLICY_NUMBER);
         LocalDate expectedDate = LocalDate.now().plusYears(1);
         assertEquals(expectedDate, policy.renewalDate.value);
+        assertEquals(PolicyType.LIFE, policy.getType());
+    }
+
+    @Test
+    public void constructor_withPolicyType_setsCorrectType() {
+        Policy policy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, "Health");
+        assertEquals(PolicyType.HEALTH, policy.getType());
+    }
+
+    @Test
+    public void constructor_allPolicyTypes_setsCorrectType() {
+        Policy lifePolicy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, "Life");
+        Policy healthPolicy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, "Health");
+        Policy propertyPolicy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, "Property");
+        Policy vehiclePolicy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, "Vehicle");
+        Policy travelPolicy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE, "Travel");
+
+        assertEquals(PolicyType.LIFE, lifePolicy.getType());
+        assertEquals(PolicyType.HEALTH, healthPolicy.getType());
+        assertEquals(PolicyType.PROPERTY, propertyPolicy.getType());
+        assertEquals(PolicyType.VEHICLE, vehiclePolicy.getType());
+        assertEquals(PolicyType.TRAVEL, travelPolicy.getType());
+    }
+
+    @Test
+    public void constructor_twoParams_setsDefaultType() {
+        Policy policy = new Policy(VALID_POLICY_NUMBER, VALID_RENEWAL_DATE);
+        assertEquals(PolicyType.LIFE, policy.getType());
     }
 
     @Test
@@ -129,6 +170,12 @@ public class PolicyTest {
         // different renewal date -> returns false
         String differentDate = LocalDate.now().plusDays(60).format(RenewalDate.DATE_FORMATTER);
         assertFalse(policy.equals(new Policy(VALID_POLICY_NUMBER, differentDate)));
+
+        // different policy type -> returns false
+        assertFalse(policy.equals(new Policy(VALID_POLICY_NUMBER, date, "Health")));
+
+        // same policy type -> returns true
+        assertTrue(policy.equals(new Policy(VALID_POLICY_NUMBER, date, "Life")));
     }
 
     @Test
@@ -153,20 +200,34 @@ public class PolicyTest {
     public void constructor_singleParam_setsRenewalDateToOneYear() {
         Policy policy = new Policy("123456");
         assertEquals(LocalDate.now().plusYears(1), policy.renewalDate.value);
+        assertEquals(PolicyType.LIFE, policy.getType());
     }
 
     @Test
-    public void equals_sameRenewalDate_returnsTrue() {
-        String date = LocalDate.now().format(RenewalDate.DATE_FORMATTER);
-        Policy policy1 = new Policy("123456", date);
-        Policy policy2 = new Policy("123456", date);
-        assertTrue(policy1.equals(policy2));
+    public void toString_returnsCorrectString() {
+        Policy policy = new Policy("123456", VALID_RENEWAL_DATE, "Health");
+        String expected = String.format("Policy[%s] Type: %s Renewal: %s",
+                "123456", "Health", VALID_RENEWAL_DATE);
+        assertEquals(expected, policy.toString());
     }
 
     @Test
-    public void equals_differentRenewalDate_returnsFalse() {
-        Policy policy1 = new Policy("123456", LocalDate.now().format(RenewalDate.DATE_FORMATTER));
-        Policy policy2 = new Policy("123456", LocalDate.now().plusDays(1).format(RenewalDate.DATE_FORMATTER));
-        assertFalse(policy1.equals(policy2));
+    public void toString_allPolicyTypes_returnsCorrectString() {
+        Policy lifePolicy = new Policy("123456", VALID_RENEWAL_DATE, "Life");
+        Policy healthPolicy = new Policy("123456", VALID_RENEWAL_DATE, "Health");
+        Policy propertyPolicy = new Policy("123456", VALID_RENEWAL_DATE, "Property");
+        Policy vehiclePolicy = new Policy("123456", VALID_RENEWAL_DATE, "Vehicle");
+        Policy travelPolicy = new Policy("123456", VALID_RENEWAL_DATE, "Travel");
+
+        assertEquals(String.format("Policy[%s] Type: %s Renewal: %s", "123456", "Life", VALID_RENEWAL_DATE),
+                lifePolicy.toString());
+        assertEquals(String.format("Policy[%s] Type: %s Renewal: %s", "123456", "Health", VALID_RENEWAL_DATE),
+                healthPolicy.toString());
+        assertEquals(String.format("Policy[%s] Type: %s Renewal: %s", "123456", "Property", VALID_RENEWAL_DATE),
+                propertyPolicy.toString());
+        assertEquals(String.format("Policy[%s] Type: %s Renewal: %s", "123456", "Vehicle", VALID_RENEWAL_DATE),
+                vehiclePolicy.toString());
+        assertEquals(String.format("Policy[%s] Type: %s Renewal: %s", "123456", "Travel", VALID_RENEWAL_DATE),
+                travelPolicy.toString());
     }
 }

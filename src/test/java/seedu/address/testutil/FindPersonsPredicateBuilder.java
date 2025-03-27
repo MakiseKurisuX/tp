@@ -16,6 +16,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
 import seedu.address.model.person.Policy;
 import seedu.address.model.person.PolicyContainsNumbersPredicate;
+import seedu.address.model.person.PolicyTypeContainsKeywordsPredicate;
 import seedu.address.model.person.TagContainsKeywordsPredicate;
 import seedu.address.model.tag.Tag;
 
@@ -91,8 +92,21 @@ public class FindPersonsPredicateBuilder {
      * {@code FindPersonsPredicate} that we are building.
      */
     public FindPersonsPredicateBuilder withPolicies(String... policies) {
-        Set<Policy> policySet = Stream.of(policies).map(Policy::new).collect(Collectors.toSet());
+        Set<Policy> policySet = Stream.of(policies)
+                .map(Policy::new)
+                .collect(Collectors.toSet());
         predicate.setPolicyPredicate(new PolicyContainsNumbersPredicate(policySet));
+        return this;
+    }
+
+    /**
+     * Parses the {@code policyTypes} into a {@code PolicyTypeContainsKeywordsPredicate} and set it to the
+     * {@code FindPersonsPredicate} that we are building.
+     */
+    public FindPersonsPredicateBuilder withPolicyTypes(String... policyTypes) {
+        Set<String> policyTypeSet = Stream.of(policyTypes)
+                .collect(Collectors.toSet());
+        predicate.setPolicyTypePredicate(new PolicyTypeContainsKeywordsPredicate(policyTypeSet));
         return this;
     }
 

@@ -31,8 +31,7 @@ public class RenewalProcessor {
             this.policy = person.getPolicy().policyNumber;
             this.renewalDate = person.getPolicy().renewalDate.value;
             this.daysLeft = person.getPolicy().getDaysUntilRenewal();
-            // TODO: Add policy type to Policy class
-            this.type = "Life"; // placeholder
+            this.type = person.getPolicy().getType().toString();
             this.contact = person.getPhone().toString();
         }
 

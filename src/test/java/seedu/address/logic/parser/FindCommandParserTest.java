@@ -17,6 +17,7 @@ import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.POLICY_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.POLICY_TYPE_DESC_LIFE;
 import static seedu.address.logic.commands.CommandTestUtil.SORT_ORDER_DESC_NAME;
 import static seedu.address.logic.commands.CommandTestUtil.SORT_ORDER_DESC_TAG;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
@@ -29,6 +30,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_TYPE_LIFE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -140,6 +142,12 @@ public class FindCommandParserTest {
         // policy
         userInput = POLICY_DESC_AMY;
         predicate = new FindPersonsPredicateBuilder().withPolicies(VALID_POLICY_AMY).build();
+        expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // policy type
+        userInput = POLICY_TYPE_DESC_LIFE;
+        predicate = new FindPersonsPredicateBuilder().withPolicyTypes(VALID_POLICY_TYPE_LIFE).build();
         expectedCommand = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         assertParseSuccess(parser, userInput, expectedCommand);
 

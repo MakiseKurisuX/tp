@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -18,6 +19,7 @@ import seedu.address.model.person.EmailContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.PhoneContainsNumbersPredicate;
 import seedu.address.model.person.PolicyContainsNumbersPredicate;
+import seedu.address.model.person.PolicyTypeContainsKeywordsPredicate;
 import seedu.address.model.person.TagContainsKeywordsPredicate;
 
 /**
@@ -36,8 +38,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                    PREFIX_ADDRESS, PREFIX_POLICY, PREFIX_TAG, PREFIX_SORT_ORDER);
-
+                    PREFIX_ADDRESS, PREFIX_POLICY, PREFIX_POLICY_TYPE, PREFIX_TAG, PREFIX_SORT_ORDER);
         String sortOrder = FindCommand.DEFAULT_SORT;
 
         if (!argMultimap.getPreamble().isEmpty()) {
@@ -65,6 +66,10 @@ public class FindCommandParser implements Parser<FindCommand> {
         if (argMultimap.getValue(PREFIX_POLICY).isPresent()) {
             findPersonsPredicate.setPolicyPredicate(new PolicyContainsNumbersPredicate(
                     ParserUtil.parsePolicies(argMultimap.getAllValues(PREFIX_POLICY))));
+        }
+        if (argMultimap.getValue(PREFIX_POLICY_TYPE).isPresent()) {
+            findPersonsPredicate.setPolicyTypePredicate(new PolicyTypeContainsKeywordsPredicate(
+                    ParserUtil.parsePolicyTypes(argMultimap.getAllValues(PREFIX_POLICY_TYPE))));
         }
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             findPersonsPredicate.setTagPredicate(new TagContainsKeywordsPredicate(

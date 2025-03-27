@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -32,6 +33,7 @@ public class AddCommand extends Command {
             + PREFIX_POLICY + "POLICY_NUMBER "
             + "[" + PREFIX_RENEWAL_DATE + "DD-MM-YYYY] "
             + "[" + PREFIX_NOTE + "NOTE] "
+            + "[" + PREFIX_POLICY_TYPE + "TYPE] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -41,6 +43,7 @@ public class AddCommand extends Command {
             + PREFIX_POLICY + "123456 "
             + PREFIX_RENEWAL_DATE + "31-12-2024 "
             + PREFIX_NOTE + "Likes reading "
+            + PREFIX_POLICY_TYPE + "Life "
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 
