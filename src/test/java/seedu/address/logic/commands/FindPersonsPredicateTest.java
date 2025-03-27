@@ -320,7 +320,6 @@ public class FindPersonsPredicateTest {
                 + ", emailPredicate=" + null
                 + ", addressPredicate=" + null
                 + ", policyPredicate=" + null
-                + ", policyTypePredicate=" + null
                 + ", tagPredicate=" + null + "}";
         assertEquals(expected, emptyPredicate.toString());
 
@@ -330,7 +329,6 @@ public class FindPersonsPredicateTest {
                 .withEmails("alice@test.com")
                 .withAddresses("123, Wonderland Ave 1")
                 .withPolicies("123456")
-                .withPolicyTypes("Life")
                 .withTags("friends")
                 .build();
         String fullExpected = FindCommand.FindPersonsPredicate.class.getCanonicalName()
@@ -339,7 +337,6 @@ public class FindPersonsPredicateTest {
                 + ", emailPredicate=" + fullPredicate.getEmailPredicate().get()
                 + ", addressPredicate=" + fullPredicate.getAddressPredicate().get()
                 + ", policyPredicate=" + fullPredicate.getPolicyPredicate().get()
-                + ", policyTypePredicate=" + fullPredicate.getPolicyTypePredicate().get()
                 + ", tagPredicate=" + fullPredicate.getTagPredicate().get() + "}";
         assertEquals(fullExpected, fullPredicate.toString());
     }

@@ -33,7 +33,6 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_POLICY = "123a";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_RENEWAL_DATE = "32-13-2024"; // invalid date format
-    private static final String INVALID_POLICY_TYPE = "Invalid Type";
 
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_PHONE = BENSON.getPhone().toString();
@@ -42,7 +41,6 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_POLICY = BENSON.getPolicy().policyNumber;
     private static final String VALID_NOTE = BENSON.getNote().toString();
     private static final String VALID_RENEWAL_DATE = BENSON.getPolicy().renewalDate.toString();
-    private static final String VALID_POLICY_TYPE = BENSON.getPolicy().getType().toString();
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
@@ -57,7 +55,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidName_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -69,7 +67,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -82,7 +80,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -94,7 +92,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_nullPhone_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS,
-                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -107,7 +105,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -119,7 +117,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_nullEmail_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, null, VALID_ADDRESS,
-                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -132,7 +130,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_POLICY,
-                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -144,7 +142,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_nullAddress_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, null,
-                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -157,7 +155,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidPolicy_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, INVALID_POLICY,
-                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -169,7 +167,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_nullPolicy_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                null, VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                null, VALID_NOTE, VALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -192,7 +190,7 @@ public class JsonAdaptedPersonTest {
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                        VALID_NOTE, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, invalidTags);
+                        VALID_NOTE, VALID_RENEWAL_DATE, invalidTags);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -205,7 +203,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidRenewalDate_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                        VALID_NOTE, INVALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS);
+                        VALID_NOTE, INVALID_RENEWAL_DATE, VALID_TAGS);
         try {
             person.toModelType();
             fail("Expected IllegalValueException was not thrown");
@@ -224,7 +222,7 @@ public class JsonAdaptedPersonTest {
         for (String invalidDate : invalidDates) {
             JsonAdaptedPerson person = new JsonAdaptedPerson(
                     VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_POLICY,
-                    VALID_NOTE, invalidDate, VALID_POLICY_TYPE, VALID_TAGS);
+                    VALID_NOTE, invalidDate, VALID_TAGS);
             assertThrows(IllegalValueException.class, () -> person.toModelType());
         }
     }
@@ -232,9 +230,9 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_exceptionWhenCreatingPolicy_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_POLICY_TYPE, VALID_TAGS) {
+                VALID_NOTE, VALID_POLICY, VALID_RENEWAL_DATE, VALID_TAGS) {
             @Override
-            protected Policy createPolicy(String policyNumber, String renewalDate, String policyType) {
+            protected Policy createPolicy(String policyNumber, String renewalDate) {
                 throw new RuntimeException("Simulated exception");
             }
         };
@@ -244,7 +242,7 @@ public class JsonAdaptedPersonTest {
     @Test
     public void toModelType_nullRenewalDate_returnsPersonWithDefaultRenewalDate() throws Exception {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                 VALID_POLICY, null, VALID_NOTE, VALID_POLICY_TYPE, VALID_TAGS);
+                 VALID_POLICY, null, VALID_NOTE, VALID_TAGS);
         try {
             Person modelPerson = person.toModelType();
             // Check that a Policy object was created
@@ -262,12 +260,4 @@ public class JsonAdaptedPersonTest {
         }
     }
 
-    @Test
-    public void toModelType_nullPolicyType_returnsPersonWithDefaultPolicyType() throws Exception {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
-                VALID_POLICY, VALID_RENEWAL_DATE, null, VALID_TAGS);
-        Person modelPerson = person.toModelType();
-        // Check that a Policy object was created with a default policy type (LIFE)
-        assertEquals("LIFE", modelPerson.getPolicy().getType().toString().toUpperCase());
-    }
 }
