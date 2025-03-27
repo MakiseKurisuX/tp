@@ -59,10 +59,14 @@ public class FilterDateCommandTest {
         model.addPerson(bob);
         model.addPerson(charlie);
 
-        FilterDateCommand command = new FilterDateCommand(LocalDate.of(2025, 3, 1), LocalDate.of(2025, 3, 20), "date");
+        LocalDate startDate = LocalDate.of(2025, 3, 1);
+        LocalDate endDate = LocalDate.of(2025, 3, 20);
+
+        FilterDateCommand command = new FilterDateCommand(startDate, endDate, "date");
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ViewRenewalsCommand.MESSAGE_SUCCESS, 2), result.getFeedbackToUser());
+        assertEquals(String.format(FilterDateCommand.MESSAGE_FILTER_SUCCESS, 2, startDate, endDate),
+                result.getFeedbackToUser());
         List<Person> filteredList = model.getRenewalsList();
         assertEquals(2, filteredList.size());
         assertTrue(filteredList.contains(alice));

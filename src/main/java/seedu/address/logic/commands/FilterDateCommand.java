@@ -23,6 +23,9 @@ public class FilterDateCommand extends Command {
 
     public static final String MESSAGE_NO_RESULTS = "No renewals found between %s and %s.";
 
+    public static final String MESSAGE_FILTER_SUCCESS = "Found %d policies due for renewal"
+            + " between %s and %s.";
+
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String sortOrder;
@@ -58,7 +61,9 @@ public class FilterDateCommand extends Command {
         if (model.getRenewalsList().isEmpty()) {
             return new CommandResult(String.format(MESSAGE_NO_RESULTS, startDate, endDate));
         }
-        return new CommandResult(String.format(ViewRenewalsCommand.MESSAGE_SUCCESS, model.getRenewalsList().size()));
+
+        return new CommandResult(String.format(MESSAGE_FILTER_SUCCESS,
+                model.getRenewalsList().size(), startDate, endDate));
     }
 
     @Override
