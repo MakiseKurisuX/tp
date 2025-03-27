@@ -16,6 +16,7 @@ public class Policy {
 
     public final String policyNumber;
     public final RenewalDate renewalDate;
+    private final PolicyType type;
 
     /**
      * Constructs a {@code Policy} with renewal date set to 1 year from now.
@@ -27,6 +28,7 @@ public class Policy {
         checkArgument(isValidPolicy(policyNumber), MESSAGE_CONSTRAINTS);
         this.policyNumber = policyNumber;
         this.renewalDate = new RenewalDate();
+        this.type = PolicyType.LIFE; // Default to Life insurance
     }
 
     /**
@@ -41,6 +43,24 @@ public class Policy {
         checkArgument(isValidPolicy(policyNumber), MESSAGE_CONSTRAINTS);
         this.policyNumber = policyNumber;
         this.renewalDate = new RenewalDate(renewalDate);
+        this.type = PolicyType.LIFE; // Default to Life insurance
+    }
+
+    /**
+     * Constructs a {@code Policy} with a specific policy type.
+     *
+     * @param policyNumber A valid policy number.
+     * @param renewalDate A valid renewal date in DD-MM-YYYY format.
+     * @param type A valid policy type.
+     */
+    public Policy(String policyNumber, String renewalDate, String type) {
+        requireNonNull(policyNumber);
+        requireNonNull(renewalDate);
+        requireNonNull(type);
+        checkArgument(isValidPolicy(policyNumber), MESSAGE_CONSTRAINTS);
+        this.policyNumber = policyNumber;
+        this.renewalDate = new RenewalDate(renewalDate);
+        this.type = PolicyType.fromString(type);
     }
 
     /**
@@ -52,6 +72,13 @@ public class Policy {
 
     public String getPolicyNumber() {
         return policyNumber;
+    }
+
+    /**
+     * Returns the policy type.
+     */
+    public PolicyType getType() {
+        return type;
     }
 
     /**
@@ -85,8 +112,8 @@ public class Policy {
 
     @Override
     public String toString() {
-        return String.format("Policy[%s] Renewal: %s",
-                policyNumber, renewalDate.toString());
+        return String.format("Policy[%s] Type: %s Renewal: %s",
+                policyNumber, type.toString(), renewalDate.toString());
     }
 
     @Override
@@ -101,7 +128,8 @@ public class Policy {
 
         Policy otherPolicy = (Policy) other;
         return policyNumber.equals(otherPolicy.policyNumber)
-                && renewalDate.equals(otherPolicy.renewalDate);
+                && renewalDate.equals(otherPolicy.renewalDate)
+                && type == otherPolicy.type;
     }
 
     @Override

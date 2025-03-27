@@ -29,13 +29,13 @@ public class RenewalsTable extends UiPart<VBox> {
     private TableColumn<RenewalEntry, String> policyColumn;
 
     @FXML
+    private TableColumn<RenewalEntry, String> typeColumn;
+
+    @FXML
     private TableColumn<RenewalEntry, LocalDate> renewalDateColumn;
 
     @FXML
     private TableColumn<RenewalEntry, Long> daysLeftColumn;
-
-    @FXML
-    private TableColumn<RenewalEntry, String> typeColumn;
 
     @FXML
     private TableColumn<RenewalEntry, String> contactColumn;
@@ -58,9 +58,9 @@ public class RenewalsTable extends UiPart<VBox> {
         RenewalTableConfig.configureAllColumns(
             clientColumn,
             policyColumn,
+            typeColumn,
             renewalDateColumn,
             daysLeftColumn,
-            typeColumn,
             contactColumn
         );
     }

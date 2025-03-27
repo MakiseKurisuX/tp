@@ -32,6 +32,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final String policy;
     private final String renewalDate;
+    private final String policyType;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -41,6 +42,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("policy") String policy, @JsonProperty("renewalDate") String renewalDate,
+            @JsonProperty("policyType") String policyType,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
@@ -48,6 +50,7 @@ class JsonAdaptedPerson {
         this.address = address;
         this.policy = policy;
         this.renewalDate = renewalDate;
+        this.policyType = policyType;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -63,6 +66,7 @@ class JsonAdaptedPerson {
         address = source.getAddress().toString();
         policy = source.getPolicy().policyNumber;
         renewalDate = source.getPolicy().renewalDate.toString();
+        policyType = source.getPolicy().getType().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -130,7 +134,7 @@ class JsonAdaptedPerson {
         }
 
         try {
-            final Policy modelPolicy = createPolicy(policy, renewalDate);
+            final Policy modelPolicy = createPolicy(policy, renewalDate, policyType);
             final Set<Tag> modelTags = new HashSet<>(personTags);
             return new Person(modelName, modelPhone, modelEmail, modelAddress, modelPolicy, modelTags);
         } catch (RuntimeException e) {
@@ -142,7 +146,10 @@ class JsonAdaptedPerson {
      * Creates a Policy object with the given policy number and renewal date.
      * This method can be overridden in tests to simulate exceptions.
      */
-    protected Policy createPolicy(String policyNumber, String renewalDate) {
-        return new Policy(policyNumber, renewalDate);
+    protected Policy createPolicy(String policyNumber, String renewalDate, String policyType) {
+        if (policyType == null) {
+            return new Policy(policyNumber, renewalDate);
+        }
+        return new Policy(policyNumber, renewalDate, policyType);
     }
 }

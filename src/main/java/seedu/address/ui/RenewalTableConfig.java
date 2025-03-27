@@ -49,23 +49,23 @@ public class RenewalTableConfig {
      *
      * @param clientColumn Column for client names
      * @param policyColumn Column for policy numbers
+     * @param typeColumn Column for policy types
      * @param renewalDateColumn Column for renewal dates
      * @param daysLeftColumn Column for days left until renewal
-     * @param typeColumn Column for policy types
      * @param contactColumn Column for contact information
      */
     public static void configureAllColumns(
             TableColumn<RenewalEntry, String> clientColumn,
             TableColumn<RenewalEntry, String> policyColumn,
+            TableColumn<RenewalEntry, String> typeColumn,
             TableColumn<RenewalEntry, LocalDate> renewalDateColumn,
             TableColumn<RenewalEntry, Long> daysLeftColumn,
-            TableColumn<RenewalEntry, String> typeColumn,
             TableColumn<RenewalEntry, String> contactColumn) {
         configureColumn(clientColumn, RenewalTableData.CLIENT_COLUMN);
         configureColumn(policyColumn, RenewalTableData.POLICY_COLUMN);
+        configureColumn(typeColumn, RenewalTableData.TYPE_COLUMN);
         configureDateColumn(renewalDateColumn);
         configureColumn(daysLeftColumn, RenewalTableData.DAYS_LEFT_COLUMN);
-        configureColumn(typeColumn, RenewalTableData.TYPE_COLUMN);
         configureColumn(contactColumn, RenewalTableData.CONTACT_COLUMN);
     }
 }

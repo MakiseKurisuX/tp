@@ -30,5 +30,9 @@
             <Label text="Renewal Date:" style="-fx-text-fill: #ccc;" />
             <Label fx:id="renewalDateLabel" text="N/A" style="-fx-text-fill: #fff;" />
         </HBox>
+        <HBox spacing="5">
+            <Label text="Policy Type:" style="-fx-text-fill: #ccc;" />
+            <Label fx:id="policyTypeLabel" text="N/A" style="-fx-text-fill: #fff;" />
+        </HBox>
     </children>
 </VBox>

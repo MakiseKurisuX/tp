@@ -118,6 +118,14 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Policy} of the {@code Person} that we are building with a specific policy type.
+     */
+    public PersonBuilder withPolicyType(String policyType) {
+        this.policy = new Policy(this.policy.policyNumber, this.policy.renewalDate.toString(), policyType);
+        return this;
+    }
+
     public Person build() {
         return new Person(name, phone, email, address, policy, tags);
     }

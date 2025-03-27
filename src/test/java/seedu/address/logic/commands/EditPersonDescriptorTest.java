@@ -10,6 +10,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_TYPE_HEALTH;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_RENEWAL_DATE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -62,6 +63,10 @@ public class EditPersonDescriptorTest {
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withRenewalDate(VALID_RENEWAL_DATE_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
+        // different policy type -> returns false
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withPolicyType(VALID_POLICY_TYPE_HEALTH).build();
+        assertFalse(DESC_AMY.equals(editedAmy));
+
         // different tags -> returns false
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(DESC_AMY.equals(editedAmy));
@@ -70,13 +75,15 @@ public class EditPersonDescriptorTest {
     @Test
     public void toStringMethod() {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+        String actual = editPersonDescriptor.toString();
         String expected = EditPersonDescriptor.class.getCanonicalName() + "{name="
                 + editPersonDescriptor.getName().orElse(null) + ", phone="
                 + editPersonDescriptor.getPhone().orElse(null) + ", email="
                 + editPersonDescriptor.getEmail().orElse(null) + ", address="
                 + editPersonDescriptor.getAddress().orElse(null) + ", policy="
                 + editPersonDescriptor.getPolicy().orElse(null) + ", renewalDate="
-                + editPersonDescriptor.getRenewalDate().orElse(null) + ", tags="
+                + editPersonDescriptor.getRenewalDate().orElse(null) + ", policyType="
+                + editPersonDescriptor.getPolicyType().orElse(null) + ", tags="
                 + editPersonDescriptor.getTags().orElse(null) + "}";
         assertEquals(expected, editPersonDescriptor.toString());
     }

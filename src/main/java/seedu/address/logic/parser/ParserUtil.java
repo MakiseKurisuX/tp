@@ -16,6 +16,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
 import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
@@ -214,6 +215,33 @@ public class ParserUtil {
             throw new ParseException(RenewalDate.DATE_CONSTRAINTS);
         }
         return trimmedRenewalDate;
+    }
+
+    /**
+     * Parses a {@code String policyType} into a {@code String}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code policyType} is invalid.
+     */
+    public static String parsePolicyType(String policyType) throws ParseException {
+        requireNonNull(policyType);
+        String trimmedPolicyType = policyType.trim();
+        if (!PolicyType.isValidPolicyType(trimmedPolicyType)) {
+            throw new ParseException(PolicyType.MESSAGE_CONSTRAINTS);
+        }
+        return trimmedPolicyType;
+    }
+
+    /**
+     * Parses {@code Collection<String> policyTypes} into a {@code Set<String>}.
+     */
+    public static Set<String> parsePolicyTypes(Collection<String> policyTypes) throws ParseException {
+        requireNonNull(policyTypes);
+        final Set<String> policyTypeSet = new HashSet<>();
+        for (String policyType : policyTypes) {
+            policyTypeSet.add(parsePolicyType(policyType));
+        }
+        return policyTypeSet;
     }
 
     /**

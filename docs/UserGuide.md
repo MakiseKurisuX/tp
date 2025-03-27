@@ -79,7 +79,7 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [r/RENEWAL_DATE] [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [pt/POLICY_TYPE] [r/RENEWAL_DATE] [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -88,8 +88,8 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [r/RENEWA
 
 Examples:
 
--   `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 r/31-12-2024`
--   `add n/Betsy Crowe t/friend pol/654321 e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+-   `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024`
+-   `add n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
 ### Listing all persons : `list`
 
@@ -104,16 +104,17 @@ Each person card in the list displays:
 -   Email address
 -   Physical address
 -   Policy number
+-   Policy type (Life, Health, Property, Vehicle, or Travel)
 -   Renewal date (displayed as "Renewal date: DD-MM-YYYY")
 -   Tags (if any)
 
-The renewal date is clearly labeled to help insurance agents quickly identify when policies need to be renewed.
+The policy type and renewal date are clearly labeled to help insurance agents quickly identify the types of policies and when they need to be renewed.
 
 ### Editing a person : `edit`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [r/RENEWAL_DATE] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [pt/POLICY_TYPE] [r/RENEWAL_DATE] [t/TAG]…​`
 
 -   Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 -   At least one of the optional fields must be provided.
@@ -124,14 +125,14 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY] [r/REN
 
 Examples:
 
--   `edit 1 p/91234567 e/johndoe@example.com r/31-12-2024` Edits the phone number, email address and renewal date of the 1st person to be `91234567`, `johndoe@example.com` and `31-12-2024` respectively.
+-   `edit 1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2024` Edits the phone number, email address, policy type and renewal date of the 1st person to be `91234567`, `johndoe@example.com`, `Health` and `31-12-2024` respectively.
 -   `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 ### Locating persons by name: `find`
 
 Finds persons whose names contain any of the given values.
 
-Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [t/TAG]… [s/SORT_ORDER]`
+Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [pt/POLICY_TYPE]… [t/TAG]…`
 
 -   At least one of the optional fields must be provided.
 -   Each field may be provided more than once.
@@ -143,7 +144,9 @@ Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_N
 -   Persons matching at least one field will be returned (i.e. `OR` search).
     e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
 -   Tags are supported. You can add one or more tags using `t/TAG`. The search for tags is not case-sensitive and must be an exact word.
+-   Policy types are supported. You can search for specific policy types using `pt/POLICY_TYPE`. Valid policy types are: Life, Health, Property, Vehicle, and Travel. The search is not case-sensitive.
 -  The search results can be sorted by `name` or by `tag`. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first.
+
 
 Examples:
 
@@ -153,6 +156,8 @@ Examples:
 -   `find e/ice@example.com e/bob@ex` returns `alice@example.com` and `bob@example.com`<br>
     ![result for 'find alex david'](images/findAlexDavidResult.png)
 -   `find t/colleagues` returns `Bernice Yu` and `Roy Balakrishnan`
+-   `find pt/Health` returns all persons with health insurance policies
+-   `find pt/Life pt/Health` returns all persons with either life or health insurance policies
 -   `find t/friends t/colleagues s/tag` returns entries containing one or more of the tags `friends` or `colleagues`, sorted by entries with most number of tags first.
 
 ### Deleting a person : `delete`
@@ -216,6 +221,15 @@ Format: `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`
     -   Error message: "Invalid sort order. Use 'date' or 'name'"
     -   Rationale: These two sort orders cover the most common use cases for reviewing renewals
 
+The renewal table displays the following information for each policy:
+
+-   Client name
+-   Policy number
+-   Policy type (Life, Health, Property, Vehicle, or Travel)
+-   Renewal date
+-   Days left until renewal
+-   Contact number
+
 Examples:
 
 -   `viewrenewals` - Shows renewals due in the next 30 days, sorted by date
@@ -270,3 +284,4 @@ _Details coming soon ..._
 | **Help**          | `help`                                                                                                                                                                                                              |
 | **Renew**         | `renew pol/POLICY_NUMBER r/RENEWAL_DATE`<br> e.g., `renew pol/123456 r/31-12-2025`                                                                                                                                  |
 | **View Renewals** | `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`<br> e.g., `viewrenewals n/60 s/name`                                                                                                                                  |
+

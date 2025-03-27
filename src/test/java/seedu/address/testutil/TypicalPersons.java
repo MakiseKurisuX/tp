@@ -28,30 +28,34 @@ public class TypicalPersons {
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
             .withPhone("94351253").withPolicy("135792")
+            .withRenewalDate("15-04-2025").withPolicyType("Life")
             .withTags("friends").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com").withPhone("98765432").withPolicy("792468")
+            .withRenewalDate("20-04-2025").withPolicyType("Health")
             .withTags("owesMoney", "friends").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
-            .withPolicy("877665").build();
+            .withPolicy("877665").withRenewalDate("25-04-2025").withPolicyType("Property").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street")
-            .withPolicy("233445").withTags("friends").build();
+            .withPolicy("233445").withRenewalDate("30-04-2025").withPolicyType("Vehicle")
+            .withTags("friends").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
-            .withPolicy("321098").build();
+            .withPolicy("321098").withRenewalDate("05-05-2025").withPolicyType("Travel").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withEmail("lydia@example.com").withAddress("little tokyo")
-            .withPolicy("789012").build();
+            .withPolicy("789012").withRenewalDate("10-05-2025").withPolicyType("Life").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
             .withEmail("anna@example.com").withAddress("4th street")
-            .withPolicy("678901").build();
+            .withPolicy("678901").withRenewalDate("15-05-2025").withPolicyType("Health").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
-            .withEmail("stefan@example.com").withAddress("little india").withPolicy("886885").build();
+            .withEmail("stefan@example.com").withAddress("little india")
+            .withPolicy("886885").withRenewalDate("20-05-2025").withPolicyType("Property").build();
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").withPolicy("889880").build();
 

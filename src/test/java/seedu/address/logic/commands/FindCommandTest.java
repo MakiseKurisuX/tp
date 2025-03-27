@@ -46,7 +46,6 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         FindPersonsPredicate predicate = new FindPersonsPredicateBuilder()
                 .withNames("Kunz")
-                .withPhones("94824427")
                 .build();
         FindCommand command = new FindCommand(predicate, FindCommand.DEFAULT_SORT);
         expectedModel.updateFilteredPersonList(predicate);
