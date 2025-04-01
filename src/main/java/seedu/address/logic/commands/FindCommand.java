@@ -44,8 +44,8 @@ public class FindCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL]... "
             + "[" + PREFIX_ADDRESS + "ADDRESS]... "
             + "[" + PREFIX_POLICY + "POLICY_NUMBER]...\n"
-            + "[" + PREFIX_POLICY_TYPE + "POLICY_TYPE]...\n"
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_POLICY_TYPE + "POLICY_TYPE]..."
+            + "[" + PREFIX_TAG + "TAG]..."
             + "[" + PREFIX_SORT_ORDER + "SORT_ORDER]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "alice "
@@ -55,7 +55,7 @@ public class FindCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_POLICY + "104343 "
             + PREFIX_POLICY_TYPE + "Life "
-            + PREFIX_TAG + "friends"
+            + PREFIX_TAG + "friends "
             + PREFIX_SORT_ORDER + "tag";
 
     public static final String MESSAGE_NOT_FOUND = "At least one field to find must be provided.";
