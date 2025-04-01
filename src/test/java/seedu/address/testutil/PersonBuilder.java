@@ -9,6 +9,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -106,7 +108,7 @@ public class PersonBuilder {
      * Sets the {@code Policy} of the {@code Person} that we are building with specific policy number and renewal date.
      */
     public PersonBuilder withPolicy(String policyNumber, String renewalDate) {
-        this.policy = new Policy(policyNumber, renewalDate);
+        this.policy = new Policy(policyNumber, new RenewalDate(renewalDate));
         return this;
     }
 
@@ -114,7 +116,7 @@ public class PersonBuilder {
      * Sets the {@code Policy} of the {@code Person} that we are building with a specific renewal date.
      */
     public PersonBuilder withRenewalDate(String renewalDate) {
-        this.policy = new Policy(this.policy.policyNumber, renewalDate);
+        this.policy = new Policy(this.policy.policyNumber, new RenewalDate(renewalDate));
         return this;
     }
 
@@ -122,7 +124,7 @@ public class PersonBuilder {
      * Sets the {@code Policy} of the {@code Person} that we are building with a specific policy type.
      */
     public PersonBuilder withPolicyType(String policyType) {
-        this.policy = new Policy(this.policy.policyNumber, this.policy.renewalDate.toString(), policyType);
+        this.policy = new Policy(this.policy.policyNumber, this.policy.renewalDate, PolicyType.fromString(policyType));
         return this;
     }
 

@@ -31,6 +31,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -117,10 +119,10 @@ public class EditCommand extends Command {
             String policyNumber = editPersonDescriptor.getPolicy()
                     .map(Policy::getPolicyNumber)
                     .orElse(personToEdit.getPolicy().getPolicyNumber());
-            String renewalDate = editPersonDescriptor.getRenewalDate().orElse(
-                    personToEdit.getPolicy().renewalDate.toString());
-            String policyType = editPersonDescriptor.getPolicyType().orElse(
-                    personToEdit.getPolicy().getType().toString());
+            RenewalDate renewalDate = editPersonDescriptor.getRenewalDate().orElse(
+                    personToEdit.getPolicy().renewalDate);
+            PolicyType policyType = editPersonDescriptor.getPolicyType().orElse(
+                    personToEdit.getPolicy().getType());
 
             updatedPolicy = new Policy(policyNumber, renewalDate, policyType);
         } else {
@@ -165,8 +167,8 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Policy policy;
-        private String renewalDate;
-        private String policyType;
+        private RenewalDate renewalDate;
+        private PolicyType policyType;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -233,19 +235,19 @@ public class EditCommand extends Command {
             return Optional.ofNullable(policy);
         }
 
-        public void setRenewalDate(String renewalDate) {
+        public void setRenewalDate(RenewalDate renewalDate) {
             this.renewalDate = renewalDate;
         }
 
-        public Optional<String> getRenewalDate() {
+        public Optional<RenewalDate> getRenewalDate() {
             return Optional.ofNullable(renewalDate);
         }
 
-        public void setPolicyType(String policyType) {
+        public void setPolicyType(PolicyType policyType) {
             this.policyType = policyType;
         }
 
-        public Optional<String> getPolicyType() {
+        public Optional<PolicyType> getPolicyType() {
             return Optional.ofNullable(policyType);
         }
 

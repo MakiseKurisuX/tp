@@ -16,6 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
 import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
@@ -148,8 +149,8 @@ class JsonAdaptedPerson {
      */
     protected Policy createPolicy(String policyNumber, String renewalDate, String policyType) {
         if (policyType == null) {
-            return new Policy(policyNumber, renewalDate);
+            return new Policy(policyNumber, new RenewalDate(renewalDate));
         }
-        return new Policy(policyNumber, renewalDate, policyType);
+        return new Policy(policyNumber, new RenewalDate(renewalDate), PolicyType.fromString(policyType));
     }
 }

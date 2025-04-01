@@ -1,0 +1,47 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":RenewCommandParser" as RenewCommandParser LOGIC_COLOR
+participant ":RenewCommand" as RenewCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> AddressBookParser : renew command
+activate AddressBookParser
+
+AddressBookParser -> RenewCommandParser : parse
+activate RenewCommandParser
+
+RenewCommandParser -> RenewCommand : create
+activate RenewCommand
+deactivate RenewCommand
+
+RenewCommandParser --> AddressBookParser : RenewCommand
+deactivate RenewCommandParser
+
+[-> AddressBookParser : execute
+AddressBookParser -> RenewCommand : execute
+activate RenewCommand
+
+RenewCommand -> Model : filter by policy
+activate Model
+
+Model --> RenewCommand : filtered list
+deactivate Model
+
+RenewCommand -> Model : update Person
+activate Model
+deactivate Model
+
+RenewCommand --> AddressBookParser : CommandResult
+deactivate RenewCommand
+
+[<-- AddressBookParser : CommandResult
+deactivate AddressBookParser
+
+@enduml

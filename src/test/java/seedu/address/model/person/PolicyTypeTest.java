@@ -18,8 +18,6 @@ public class PolicyTypeTest {
         assertFalse(PolicyType.isValidPolicyType("")); // empty string
         assertFalse(PolicyType.isValidPolicyType(" ")); // spaces only
         assertFalse(PolicyType.isValidPolicyType("Invalid")); // invalid type
-        assertFalse(PolicyType.isValidPolicyType("life")); // wrong case
-        assertFalse(PolicyType.isValidPolicyType("LIFE")); // wrong case
 
         // valid policy types
         assertTrue(PolicyType.isValidPolicyType("Life"));
@@ -27,6 +25,7 @@ public class PolicyTypeTest {
         assertTrue(PolicyType.isValidPolicyType("Property"));
         assertTrue(PolicyType.isValidPolicyType("Vehicle"));
         assertTrue(PolicyType.isValidPolicyType("Travel"));
+        assertTrue(PolicyType.isValidPolicyType("life")); // case insensitive
     }
 
     @Test
@@ -38,8 +37,6 @@ public class PolicyTypeTest {
         assertThrows(IllegalArgumentException.class, () -> PolicyType.fromString(""));
         assertThrows(IllegalArgumentException.class, () -> PolicyType.fromString(" "));
         assertThrows(IllegalArgumentException.class, () -> PolicyType.fromString("Invalid"));
-        assertThrows(IllegalArgumentException.class, () -> PolicyType.fromString("life"));
-        assertThrows(IllegalArgumentException.class, () -> PolicyType.fromString("LIFE"));
 
         // valid policy types
         assertEquals(PolicyType.LIFE, PolicyType.fromString("Life"));

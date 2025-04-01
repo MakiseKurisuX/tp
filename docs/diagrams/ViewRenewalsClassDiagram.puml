@@ -1,0 +1,60 @@
+@startuml
+!include style.puml
+
+skinparam classAttributeIconSize 0
+
+Class ViewRenewalsCommand {
+    - daysThreshold : int
+    - sortCriteria : SortCriteria
+    + execute(model : Model) : CommandResult
+}
+
+Class ViewRenewalsCommandParser implements Parser {
+    + parse(args : String) : ViewRenewalsCommand
+}
+
+Interface Parser<T> {
+    + {abstract} parse(userInput : String) : T
+}
+
+Class RenewalsPredicate implements Predicate {
+    - daysThreshold : int
+    + test(person : Person) : boolean
+    - isWithinThreshold(renewalDate : RenewalDate) : boolean
+}
+
+Interface Predicate<T> {
+    + {abstract} test(t : T) : boolean
+}
+
+Enum SortCriteria {
+    NAME
+    DATE
+    NONE
+}
+
+Class Person {
+    - name : Name
+    - policy : Policy
+    - tags : Set<Tag>
+}
+
+Class Policy {
+    - policyNumber : String
+    - renewalDate : RenewalDate
+    + getRenewalDate() : RenewalDate
+}
+
+Class RenewalDate {
+    - date : LocalDate
+    + getDaysUntilRenewal() : long
+}
+
+ViewRenewalsCommand --> RenewalsPredicate
+ViewRenewalsCommand --> SortCriteria
+ViewRenewalsCommandParser ..> ViewRenewalsCommand
+RenewalsPredicate --> Person
+Person *-- Policy
+Policy *-- RenewalDate
+
+@enduml

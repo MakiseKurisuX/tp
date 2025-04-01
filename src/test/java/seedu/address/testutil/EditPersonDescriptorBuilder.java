@@ -11,6 +11,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -85,7 +87,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code RenewalDate} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withRenewalDate(String renewalDate) {
-        descriptor.setRenewalDate(renewalDate);
+        descriptor.setRenewalDate(new RenewalDate(renewalDate));
         return this;
     }
 
@@ -93,7 +95,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code PolicyType} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withPolicyType(String policyType) {
-        descriptor.setPolicyType(policyType);
+        descriptor.setPolicyType(PolicyType.fromString(policyType));
         return this;
     }
 

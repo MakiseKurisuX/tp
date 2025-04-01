@@ -4,18 +4,25 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
  * Tests that a {@code Person}'s {@code Policy} type matches any of the keywords given.
  */
 public class PolicyTypeContainsKeywordsPredicate implements Predicate<Person> {
-    private final Set<String> keywords;
+    private final Set<PolicyType> keywords;
 
+    /**
+     * Constructs a {@code PolicyTypeContainsKeywordsPredicate}.
+     * @param keywords A set of strings to match against policy types
+     */
     public PolicyTypeContainsKeywordsPredicate(Set<String> keywords) {
-        this.keywords = keywords;
+        this.keywords = keywords.stream()
+                .filter(PolicyType::isValidPolicyType)
+                .map(PolicyType::fromString)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -23,16 +30,14 @@ public class PolicyTypeContainsKeywordsPredicate implements Predicate<Person> {
      * if modification is attempted.
      * Returns {@code Optional#empty()} if {@code keywords} is null.
      */
-    public Optional<Set<String>> getPolicyTypes() {
+    public Optional<Set<PolicyType>> getPolicyTypes() {
         return (keywords != null) ? Optional.of(Collections.unmodifiableSet(keywords)) : Optional.empty();
     }
 
     @Override
     public boolean test(Person person) {
         PolicyType personPolicyType = person.getPolicy().getType();
-        return keywords.stream()
-                .anyMatch(keyword ->
-                        StringUtil.containsPartialWordIgnoreCase(personPolicyType.toString(), keyword));
+        return keywords.contains(personPolicyType);
     }
 
     @Override

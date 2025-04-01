@@ -208,36 +208,36 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code renewalDate} is invalid.
      */
-    public static String parseRenewalDate(String renewalDate) throws ParseException {
+    public static RenewalDate parseRenewalDate(String renewalDate) throws ParseException {
         requireNonNull(renewalDate);
         String trimmedRenewalDate = renewalDate.trim();
         if (!RenewalDate.isValidRenewalDate(trimmedRenewalDate)) {
             throw new ParseException(RenewalDate.DATE_CONSTRAINTS);
         }
-        return trimmedRenewalDate;
+        return new RenewalDate(trimmedRenewalDate);
     }
 
     /**
-     * Parses a {@code String policyType} into a {@code String}.
+     * Parses a {@code String policyType} into a {@code PolicyType}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code policyType} is invalid.
      */
-    public static String parsePolicyType(String policyType) throws ParseException {
+    public static PolicyType parsePolicyType(String policyType) throws ParseException {
         requireNonNull(policyType);
         String trimmedPolicyType = policyType.trim();
         if (!PolicyType.isValidPolicyType(trimmedPolicyType)) {
             throw new ParseException(PolicyType.MESSAGE_CONSTRAINTS);
         }
-        return trimmedPolicyType;
+        return PolicyType.fromString(trimmedPolicyType);
     }
 
     /**
-     * Parses {@code Collection<String> policyTypes} into a {@code Set<String>}.
+     * Parses {@code Collection<String> policyTypes} into a {@code Set<PolicyType>}.
      */
-    public static Set<String> parsePolicyTypes(Collection<String> policyTypes) throws ParseException {
+    public static Set<PolicyType> parsePolicyTypes(Collection<String> policyTypes) throws ParseException {
         requireNonNull(policyTypes);
-        final Set<String> policyTypeSet = new HashSet<>();
+        final Set<PolicyType> policyTypeSet = new HashSet<>();
         for (String policyType : policyTypes) {
             policyTypeSet.add(parsePolicyType(policyType));
         }

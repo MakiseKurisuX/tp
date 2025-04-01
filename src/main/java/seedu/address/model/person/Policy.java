@@ -35,14 +35,14 @@ public class Policy {
      * Constructs a {@code Policy} with a specific renewal date.
      *
      * @param policyNumber A valid policy number.
-     * @param renewalDate A valid renewal date in DD-MM-YYYY format.
+     * @param renewalDate A valid renewal date.
      */
-    public Policy(String policyNumber, String renewalDate) {
+    public Policy(String policyNumber, RenewalDate renewalDate) {
         requireNonNull(policyNumber);
         requireNonNull(renewalDate);
         checkArgument(isValidPolicy(policyNumber), MESSAGE_CONSTRAINTS);
         this.policyNumber = policyNumber;
-        this.renewalDate = new RenewalDate(renewalDate);
+        this.renewalDate = renewalDate;
         this.type = PolicyType.LIFE; // Default to Life insurance
     }
 
@@ -50,17 +50,17 @@ public class Policy {
      * Constructs a {@code Policy} with a specific policy type.
      *
      * @param policyNumber A valid policy number.
-     * @param renewalDate A valid renewal date in DD-MM-YYYY format.
+     * @param renewalDate A valid renewal date.
      * @param type A valid policy type.
      */
-    public Policy(String policyNumber, String renewalDate, String type) {
+    public Policy(String policyNumber, RenewalDate renewalDate, PolicyType type) {
         requireNonNull(policyNumber);
         requireNonNull(renewalDate);
         requireNonNull(type);
         checkArgument(isValidPolicy(policyNumber), MESSAGE_CONSTRAINTS);
         this.policyNumber = policyNumber;
-        this.renewalDate = new RenewalDate(renewalDate);
-        this.type = PolicyType.fromString(type);
+        this.renewalDate = renewalDate;
+        this.type = type;
     }
 
     /**

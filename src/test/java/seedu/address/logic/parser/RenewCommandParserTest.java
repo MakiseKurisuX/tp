@@ -25,10 +25,10 @@ public class RenewCommandParserTest {
     public void parse_allFieldsPresent_success() {
         // Valid policy number and renewal date
         assertParseSuccess(parser, POLICY_DESC_AMY + RENEWAL_DATE_DESC_AMY,
-                new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_AMY));
+                new RenewCommand(VALID_POLICY_AMY, new RenewalDate(VALID_RENEWAL_DATE_AMY)));
         // whitespace only preamble
         assertParseSuccess(parser, "  " + POLICY_DESC_AMY + RENEWAL_DATE_DESC_AMY,
-                new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_AMY));
+                new RenewCommand(VALID_POLICY_AMY, new RenewalDate(VALID_RENEWAL_DATE_AMY)));
     }
 
     @Test

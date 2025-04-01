@@ -237,7 +237,6 @@ The following sequence diagram shows how the viewrenewals operation works:
     -   Pros: Centralizes filtering logic
     -   Cons: Makes Model more complex
 
-
 ### Renewal Date Update Feature
 
 The renewal date update feature allows insurance agents to directly update a client's policy renewal date by specifying the policy number, without needing to find the client's index in the list. This feature streamlines the renewal date management process.
@@ -247,74 +246,31 @@ The renewal date update feature allows insurance agents to directly update a cli
 The renewal date update functionality is implemented through the `RenewCommand` class, which follows the command pattern used throughout the application. The feature is primarily made up of the following components:
 
 1. `RenewCommand` - Executes the updating of a renewal date for a client with a specific policy number
-2. `RenewCommandParser` - Parses the user input into a RenewCommand object
+2. `RenewCommandParser` - Parses and validates the user input into a RenewCommand object
 
 The following class diagram shows the structure of the Renew Command:
 
-```
-+----------------+       +---------------------+
-| RenewCommand   |<------|RenewCommandParser   |
-+----------------+       +---------------------+
-| -policyNumber  |       | +parse(String)      |
-| -newRenewalDate|       +---------------------+
-+----------------+
-| +execute(Model)|
-+----------------+
-        |
-        | uses
-        v
-+----------------+
-|     Model      |
-+----------------+
-```
+<puml src="diagrams/RenewCommandClassDiagram.puml" width="800"/>
 
 The feature works through the following process flow:
 
 1. The user enters a command in the format `renew pol/POLICY_NUMBER r/RENEWAL_DATE`.
 2. The `LogicManager` passes the command string to `AddressBookParser`.
 3. `AddressBookParser` identifies the command as a `renew` command and delegates to `RenewCommandParser`.
-4. `RenewCommandParser` extracts the policy number and renewal date, validates them, and creates a new `RenewCommand` object.
+4. `RenewCommandParser` extracts and validates:
+    - Policy number (must be a valid policy number format)
+    - Renewal date (must be a valid date in DD-MM-YYYY format)
 5. `LogicManager` calls the `execute()` method of the command object.
 6. The `RenewCommand`:
     - Filters the list of persons to find those with the specified policy number
     - Validates that exactly one match is found (not zero, not multiple)
-    - Creates a new `Person` with the updated renewal date
+    - Creates a new `Person` with the updated renewal date while preserving other fields (including policy type)
     - Updates the model with the new `Person` object
     - Returns a `CommandResult` with a success message
 
 The following sequence diagram shows how the renew operation works:
 
-```
-User            :AddressBookParser     :RenewCommandParser    :RenewCommand            :Model
- |                     |                      |                     |                     |
- | renew command       |                      |                     |                     |
- |-------------------->|                      |                     |                     |
- |                     |                      |                     |                     |
- |                     | parse                |                     |                     |
- |                     |--------------------->|                     |                     |
- |                     |                      |                     |                     |
- |                     |                      | create              |                     |
- |                     |                      |-------------------->|                     |
- |                     |                      |                     |                     |
- |                     | RenewCommand         |                     |                     |
- |                     |<---------------------|                     |                     |
- |                     |                      |                     |                     |
- | execute             |                      |                     |                     |
- |-------------------->|                      |                     |                     |
- |                     | execute              |                     |                     |
- |                     |--------------------------------------------->                     |
- |                     |                      |                     | filter by policy    |
- |                     |                      |                     |-------------------->|
- |                     |                      |                     |                     |
- |                     |                      |                     | filtered list       |
- |                     |                      |                     |<--------------------|
- |                     |                      |                     |                     |
- |                     |                      |                     | update Person       |
- |                     |                      |                     |-------------------->|
- |                     |                      |                     |                     |
- |                     | CommandResult        |                     |                     |
- |<--------------------|                      |                     |                     |
-```
+<puml src="diagrams/RenewSequenceDiagram.puml" width="800"/>
 
 #### Design Considerations
 

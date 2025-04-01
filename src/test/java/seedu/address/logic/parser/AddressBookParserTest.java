@@ -28,6 +28,7 @@ import seedu.address.logic.commands.RenewCommand;
 import seedu.address.logic.commands.ViewRenewalsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.FindPersonsPredicateBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -130,7 +131,7 @@ public class AddressBookParserTest {
     public void parseCommand_renew() throws Exception {
         RenewCommand command = (RenewCommand) parser.parseCommand(
                 RenewCommand.COMMAND_WORD + " pol/" + VALID_POLICY_AMY + " r/" + VALID_RENEWAL_DATE_AMY);
-        assertEquals(new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_AMY), command);
+        assertEquals(new RenewCommand(VALID_POLICY_AMY, new RenewalDate(VALID_RENEWAL_DATE_AMY)), command);
     }
 
     @Test

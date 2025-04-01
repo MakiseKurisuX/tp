@@ -21,6 +21,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -58,12 +60,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Policy policy;
         if (argMultimap.getValue(PREFIX_RENEWAL_DATE).isPresent()) {
-            String renewalDate = argMultimap.getValue(PREFIX_RENEWAL_DATE).get();
             try {
-                ParserUtil.parseRenewalDate(renewalDate); // Validate renewal date format
+                RenewalDate renewalDate = ParserUtil.parseRenewalDate(argMultimap.getValue(PREFIX_RENEWAL_DATE).get());
                 if (argMultimap.getValue(PREFIX_POLICY_TYPE).isPresent()) {
-                    String policyType = argMultimap.getValue(PREFIX_POLICY_TYPE).get();
-                    ParserUtil.parsePolicyType(policyType); // Validate policy type
+                    PolicyType policyType = ParserUtil.parsePolicyType(argMultimap.getValue(PREFIX_POLICY_TYPE).get());
                     policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get(), renewalDate, policyType);
                 } else {
                     policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get(), renewalDate);

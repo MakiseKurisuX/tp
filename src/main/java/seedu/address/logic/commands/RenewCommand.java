@@ -12,6 +12,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Policy;
+import seedu.address.model.person.PolicyType;
+import seedu.address.model.person.RenewalDate;
 
 /**
  * Updates the renewal date of a client in the address book.
@@ -35,12 +37,12 @@ public class RenewCommand extends Command {
             + "Please use edit command with index instead.";
 
     private final String policyNumber;
-    private final String newRenewalDate;
+    private final RenewalDate newRenewalDate;
 
     /**
      * Creates a RenewCommand to update the specified client's renewal date
      */
-    public RenewCommand(String policyNumber, String newRenewalDate) {
+    public RenewCommand(String policyNumber, RenewalDate newRenewalDate) {
         requireNonNull(policyNumber);
         requireNonNull(newRenewalDate);
         this.policyNumber = policyNumber;
@@ -74,7 +76,8 @@ public class RenewCommand extends Command {
     private Person createUpdatedPerson(Person personToUpdate) {
         assert personToUpdate != null;
         String policyNumber = personToUpdate.getPolicy().getPolicyNumber();
-        Policy updatedPolicy = new Policy(policyNumber, newRenewalDate);
+        PolicyType policyType = personToUpdate.getPolicy().getType();
+        Policy updatedPolicy = new Policy(policyNumber, newRenewalDate, policyType);
         return new Person(
                 personToUpdate.getName(),
                 personToUpdate.getPhone(),

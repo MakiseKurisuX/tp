@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ViewRenewalsCommandParser" as ViewRenewalsCommandParser LOGIC_COLOR
+participant "v:ViewRenewalsCommand" as ViewRenewalsCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("viewrenewals n/30")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("viewrenewals n/30")
+activate AddressBookParser
+
+AddressBookParser -> ViewRenewalsCommandParser : parse("n/30")
+activate ViewRenewalsCommandParser
+
+create ViewRenewalsCommand
+ViewRenewalsCommandParser -> ViewRenewalsCommand : new ViewRenewalsCommand(30)
+activate ViewRenewalsCommand
+
+ViewRenewalsCommand --> ViewRenewalsCommandParser
+deactivate ViewRenewalsCommand
+
+ViewRenewalsCommandParser --> AddressBookParser : v
+deactivate ViewRenewalsCommandParser
+
+AddressBookParser --> LogicManager : v
+deactivate AddressBookParser
+
+LogicManager -> ViewRenewalsCommand : execute(model)
+activate ViewRenewalsCommand
+
+ViewRenewalsCommand -> Model : updateFilteredPersonList(predicate)
+activate Model
+
+Model --> ViewRenewalsCommand
+deactivate Model
+
+create CommandResult
+ViewRenewalsCommand -> CommandResult : new CommandResult(feedbackToUser)
+activate CommandResult
+
+CommandResult --> ViewRenewalsCommand
+deactivate CommandResult
+
+ViewRenewalsCommand --> LogicManager : result
+deactivate ViewRenewalsCommand
+
+[<-- LogicManager : result
+deactivate LogicManager
+
+@enduml

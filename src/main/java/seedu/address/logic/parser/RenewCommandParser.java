@@ -41,7 +41,7 @@ public class RenewCommandParser implements Parser<RenewCommand> {
             throw new ParseException(RenewalDate.DATE_CONSTRAINTS);
         }
 
-        return new RenewCommand(policyNumber, renewalDate);
+        return new RenewCommand(policyNumber, new RenewalDate(renewalDate));
     }
 
     /**

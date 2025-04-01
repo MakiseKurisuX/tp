@@ -11,6 +11,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.HashSet;
+
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FindCommand.FindPersonsPredicate;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -69,7 +71,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
         if (argMultimap.getValue(PREFIX_POLICY_TYPE).isPresent()) {
             findPersonsPredicate.setPolicyTypePredicate(new PolicyTypeContainsKeywordsPredicate(
-                    ParserUtil.parsePolicyTypes(argMultimap.getAllValues(PREFIX_POLICY_TYPE))));
+                    new HashSet<>(argMultimap.getAllValues(PREFIX_POLICY_TYPE))));
         }
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             findPersonsPredicate.setTagPredicate(new TagContainsKeywordsPredicate(

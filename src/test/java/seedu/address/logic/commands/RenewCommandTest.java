@@ -18,6 +18,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.testutil.PersonBuilder;
 
 /**
@@ -32,7 +33,7 @@ public class RenewCommandTest {
         Person firstPerson = model.getFilteredPersonList().get(0);
         Person updatedPerson = new PersonBuilder(firstPerson).withRenewalDate(VALID_RENEWAL_DATE_BOB).build();
         RenewCommand renewCommand = new RenewCommand(
-                firstPerson.getPolicy().getPolicyNumber(), VALID_RENEWAL_DATE_BOB);
+                firstPerson.getPolicy().getPolicyNumber(), new RenewalDate(VALID_RENEWAL_DATE_BOB));
         String expectedMessage = String.format(
                 RenewCommand.MESSAGE_RENEW_SUCCESS,
                 firstPerson.getPolicy().getPolicyNumber(),
@@ -46,7 +47,7 @@ public class RenewCommandTest {
     @Test
     public void execute_nonExistentPolicy_throwsCommandException() {
         String nonExistentPolicy = "999999";
-        RenewCommand renewCommand = new RenewCommand(nonExistentPolicy, VALID_RENEWAL_DATE_AMY);
+        RenewCommand renewCommand = new RenewCommand(nonExistentPolicy, new RenewalDate(VALID_RENEWAL_DATE_AMY));
 
         String expectedMessage = String.format(RenewCommand.MESSAGE_POLICY_NOT_FOUND, nonExistentPolicy);
         assertThrows(CommandException.class, expectedMessage, () -> renewCommand.execute(model));
@@ -65,7 +66,7 @@ public class RenewCommandTest {
 
         model.addPerson(duplicatePolicyPerson);
 
-        RenewCommand renewCommand = new RenewCommand(existingPolicy, VALID_RENEWAL_DATE_BOB);
+        RenewCommand renewCommand = new RenewCommand(existingPolicy, new RenewalDate(VALID_RENEWAL_DATE_BOB));
 
         String expectedMessage = String.format(RenewCommand.MESSAGE_MULTIPLE_POLICIES, existingPolicy);
         assertThrows(CommandException.class, expectedMessage, () -> renewCommand.execute(model));
@@ -73,12 +74,14 @@ public class RenewCommandTest {
 
     @Test
     public void equals() {
-        RenewCommand renewFirstCommand = new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_AMY);
-        RenewCommand renewSecondCommand = new RenewCommand(VALID_POLICY_BOB, VALID_RENEWAL_DATE_BOB);
+        RenewCommand renewFirstCommand = new RenewCommand(VALID_POLICY_AMY, new RenewalDate(VALID_RENEWAL_DATE_AMY));
+        RenewCommand renewSecondCommand = new RenewCommand(VALID_POLICY_BOB, new RenewalDate(VALID_RENEWAL_DATE_BOB));
         // same object -> returns true
         assertTrue(renewFirstCommand.equals(renewFirstCommand));
         // same values -> returns true
-        RenewCommand renewFirstCommandCopy = new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_AMY);
+        RenewCommand renewFirstCommandCopy = new RenewCommand(
+            VALID_POLICY_AMY,
+            new RenewalDate(VALID_RENEWAL_DATE_AMY));
         assertTrue(renewFirstCommand.equals(renewFirstCommandCopy));
         // different types -> returns false
         assertFalse(renewFirstCommand.equals(1));
@@ -87,7 +90,9 @@ public class RenewCommandTest {
         // different policy -> returns false
         assertFalse(renewFirstCommand.equals(renewSecondCommand));
         // different renewal date -> returns false
-        RenewCommand renewFirstCommandDifferentDate = new RenewCommand(VALID_POLICY_AMY, VALID_RENEWAL_DATE_BOB);
+        RenewCommand renewFirstCommandDifferentDate = new RenewCommand(
+            VALID_POLICY_AMY,
+            new RenewalDate(VALID_RENEWAL_DATE_BOB));
         assertFalse(renewFirstCommand.equals(renewFirstCommandDifferentDate));
     }
 }

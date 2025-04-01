@@ -25,3 +25,6 @@ docs/_markbind/logs/
 
 # VSCode files
 .vscode/
+
+# Bin folders
+bin/

@@ -29,7 +29,7 @@ public enum PolicyType {
     public static boolean isValidPolicyType(String test) {
         requireNonNull(test);
         for (PolicyType type : PolicyType.values()) {
-            if (type.value.equals(test)) {
+            if (type.value.equalsIgnoreCase(test)) {
                 return true;
             }
         }
@@ -45,7 +45,7 @@ public enum PolicyType {
         requireNonNull(value);
         checkArgument(isValidPolicyType(value), MESSAGE_CONSTRAINTS);
         for (PolicyType type : PolicyType.values()) {
-            if (type.value.equals(value)) {
+            if (type.value.equalsIgnoreCase(value)) {
                 return type;
             }
         }
