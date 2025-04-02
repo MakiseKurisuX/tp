@@ -14,6 +14,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
 import seedu.address.model.person.PolicyType;
@@ -173,6 +174,34 @@ public class ParserUtil {
             policySet.add(parsePolicy(policy));
         }
         return policySet;
+    }
+
+    /**
+     * Parses a {@code String note} into a {@code Note}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code note} is invalid.
+     */
+    public static Note parseNote(String note) throws ParseException {
+        requireNonNull(note);
+        String trimmedNote = note.trim();
+        // Optionally, add any validation logic for note here if necessary.
+        return new Note(trimmedNote);
+    }
+
+    /**
+     * Parses a {@code Collection<String> notes} into a {@code Set<Note>}.
+     * Leading and trailing whitespaces will be trimmed for each note.
+     *
+     * @throws ParseException if any of the given {@code notes} are invalid.
+     */
+    public static Set<Note> parseNotes(Collection<String> notes) throws ParseException {
+        requireNonNull(notes);
+        final Set<Note> noteSet = new HashSet<>();
+        for (String noteStr : notes) {
+            noteSet.add(parseNote(noteStr));
+        }
+        return noteSet;
     }
 
     /**

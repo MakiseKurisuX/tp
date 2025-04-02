@@ -6,6 +6,7 @@ import java.util.Set;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
@@ -30,6 +31,7 @@ public class PersonBuilder {
     private Email email;
     private Address address;
     private Policy policy;
+    private Note note;
     private Set<Tag> tags;
 
     /**
@@ -41,6 +43,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         policy = new Policy(DEFAULT_POLICY);
+        note = Note.EMPTY;
         tags = new HashSet<>();
     }
 
@@ -53,6 +56,7 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         policy = personToCopy.getPolicy();
+        note = personToCopy.getNote();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -128,8 +132,16 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Note} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withNote(String note) {
+        this.note = new Note(note);
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, address, policy, tags);
+        return new Person(name, phone, email, address, policy, note, tags);
     }
 
 }

@@ -17,6 +17,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
 import seedu.address.model.tag.Tag;
@@ -221,6 +222,23 @@ public class ParserUtilTest {
         String policyWithWhitespace = WHITESPACE + VALID_POLICY + WHITESPACE;
         Policy expectedPolicy = new Policy(VALID_POLICY);
         assertEquals(expectedPolicy, ParserUtil.parsePolicy(policyWithWhitespace));
+    }
+
+    @Test
+    public void parseNote_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseNote((String) null));
+    }
+
+    @Test
+    public void parseNote_validValueWithoutWhitespace_returnsNote() throws Exception {
+        String validNote = "Test note";
+        assertEquals(new Note(validNote), ParserUtil.parseNote(validNote));
+    }
+
+    @Test
+    public void parseNote_validValueWithWhitespace_returnsTrimmedNote() throws Exception {
+        String noteWithWhitespace = WHITESPACE + "Test note" + WHITESPACE;
+        assertEquals(new Note("Test note"), ParserUtil.parseNote(noteWithWhitespace));
     }
 
     @Test

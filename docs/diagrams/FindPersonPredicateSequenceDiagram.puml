@@ -1,0 +1,39 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant "FindPersonPredicate" as FindPersonPredicate LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "NameContainsNameContainsKeywordsPredicate" as NamePredicate MODEL_COLOR
+participant "PhoneContainsNumbersPredicate" as PhonePredicate MODEL_COLOR
+end box
+
+[-> FindPersonPredicate : test(Person p)
+activate FindPersonPredicate
+
+FindPersonPredicate -> NamePredicate : test(p)
+activate NamePredicate
+
+NamePredicate --> FindPersonPredicate : result
+deactivate NamePredicate
+
+FindPersonPredicate -> PhonePredicate : test(p)
+activate PhonePredicate
+
+PhonePredicate --> FindPersonPredicate : result
+deactivate PhonePredicate
+
+[<--FindPersonPredicate
+deactivate FindPersonPredicate
+
+note right
+  The test method will continue to call test()
+  on all attribute predicates. Here, we only show
+  2 of them as the rest of the predicates follow
+  a similar call pattern.
+end note
+
+@enduml

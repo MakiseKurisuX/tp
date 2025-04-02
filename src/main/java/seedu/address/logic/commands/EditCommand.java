@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY_TYPE;
@@ -28,6 +29,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Policy;
@@ -53,6 +55,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_POLICY + "POLICY_NUMBER] "
             + "[" + PREFIX_RENEWAL_DATE + "DD-MM-YYYY] "
             + "[" + PREFIX_POLICY_TYPE + "TYPE] "
+            + "[" + PREFIX_NOTE + "NOTE] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -129,8 +132,10 @@ public class EditCommand extends Command {
             updatedPolicy = personToEdit.getPolicy();
         }
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Note updatedNote = editPersonDescriptor.getNote().orElse(personToEdit.getNote());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPolicy, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPolicy,
+                        updatedNote, updatedTags);
     }
 
     @Override
@@ -170,6 +175,7 @@ public class EditCommand extends Command {
         private RenewalDate renewalDate;
         private PolicyType policyType;
         private Set<Tag> tags;
+        private Note note;
 
         public EditPersonDescriptor() {}
 
@@ -186,13 +192,15 @@ public class EditCommand extends Command {
             setRenewalDate(toCopy.renewalDate);
             setPolicyType(toCopy.policyType);
             setTags(toCopy.tags);
+            setNote(toCopy.note);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, policy, renewalDate, policyType, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, policy, renewalDate, policyType,
+                                            tags, note);
         }
 
         public void setName(Name name) {
@@ -201,6 +209,14 @@ public class EditCommand extends Command {
 
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
+        }
+
+        public void setNote(Note note) {
+            this.note = note;
+        }
+
+        public Optional<Note> getNote() {
+            return Optional.ofNullable(note);
         }
 
         public void setPhone(Phone phone) {
@@ -287,7 +303,8 @@ public class EditCommand extends Command {
                     && Objects.equals(policy, otherEditPersonDescriptor.policy)
                     && Objects.equals(renewalDate, otherEditPersonDescriptor.renewalDate)
                     && Objects.equals(policyType, otherEditPersonDescriptor.policyType)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(note, otherEditPersonDescriptor.note);
         }
 
         @Override
@@ -301,6 +318,7 @@ public class EditCommand extends Command {
                     .add("renewalDate", renewalDate)
                     .add("policyType", policyType)
                     .add("tags", tags)
+                    .add("note", note)
                     .toString();
         }
     }

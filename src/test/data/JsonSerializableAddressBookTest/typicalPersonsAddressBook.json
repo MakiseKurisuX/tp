@@ -19,6 +19,7 @@
             "policy": "792468",
             "renewalDate": "20-04-2025",
             "policyType": "Health",
+            "note": "some note",
             "tags": ["owesMoney", "friends"]
         },
         {
@@ -29,6 +30,7 @@
             "policy": "877665",
             "renewalDate": "25-04-2025",
             "policyType": "Property",
+            "note": "some note",
             "tags": []
         },
         {
@@ -59,6 +61,7 @@
             "policy": "789012",
             "renewalDate": "10-05-2025",
             "policyType": "Life",
+            "note": "some note",
             "tags": []
         },
         {
@@ -69,6 +72,7 @@
             "policy": "678901",
             "renewalDate": "15-05-2025",
             "policyType": "Health",
+            "note": "some note",
             "tags": []
         }
     ],

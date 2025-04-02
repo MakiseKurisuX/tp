@@ -7,7 +7,8 @@
             "address": "4th street",
             "policy": "123456",
             "renewalDate": "15-04-2025",
-            "policyType": "Life"
+            "policyType": "Life",
+            "note": "some note"
         }
     ]
 }

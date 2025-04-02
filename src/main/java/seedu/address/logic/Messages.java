@@ -50,6 +50,8 @@ public class Messages {
                 .append(person.getPolicy().getType())
                 .append("; Renewal date: ")
                 .append(person.getPolicy().renewalDate)
+                .append("; Note: ")
+                .append(person.getNote())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
