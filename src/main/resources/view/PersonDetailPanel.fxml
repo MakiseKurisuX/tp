@@ -5,38 +5,47 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
 
-<VBox spacing="10"
-      xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml/1"
-      style="-fx-background-color: #333;
-             -fx-background-radius: 8;
-             -fx-border-color: #666;
-             -fx-border-width: 2;
-             -fx-border-radius: 8;
-             -fx-padding: 15;">
+<ScrollPane fitToWidth="true"
+            fitToHeight="true"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            style="-fx-background: transparent;
+                   -fx-background-color: transparent;"
+            VBox.vgrow="ALWAYS">
+    <VBox spacing="10"
+          prefWidth="500"
+          style="-fx-background-color: #333;
+                 -fx-background-radius: 8;
+                 -fx-border-color: #666;
+                 -fx-border-width: 2;
+                 -fx-border-radius: 8;
+                 -fx-padding: 15;"
+          VBox.vgrow="ALWAYS">
 
-    <children>
-        <Label text="Person Details"
-               style="-fx-font-size: 16px;
-                      -fx-font-weight: bold;
-                      -fx-text-fill: #fff;" />
-        <Separator />
-        <HBox spacing="5">
-            <Label text="Policy Number:" style="-fx-text-fill: #ccc;" />
-            <Label fx:id="policyLabel" text="N/A" style="-fx-text-fill: #fff;" />
-        </HBox>
-        <HBox spacing="5">
-            <Label text="Renewal Date:" style="-fx-text-fill: #ccc;" />
-            <Label fx:id="renewalDateLabel" text="N/A" style="-fx-text-fill: #fff;" />
-        </HBox>
-        <HBox spacing="5">
-            <Label text="Policy Type:" style="-fx-text-fill: #ccc;" />
-            <Label fx:id="policyTypeLabel" text="N/A" style="-fx-text-fill: #fff;" />
-        </HBox>
-        <VBox spacing="5">
-             <Label text="Notes:&#10;" style="-fx-text-fill: #ccc;" />
-             <Label fx:id="notesLabel" text="N/A" wrapText="true" maxWidth="Infinity" style="-fx-text-fill: #fff;" />
-         </VBox>
-    </children>
-</VBox>
+        <children>
+            <Label text="Person Details"
+                   style="-fx-font-size: 16px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #fff;" />
+            <Separator />
+            <HBox spacing="5">
+                <Label text="Policy Number:" style="-fx-text-fill: #ccc;" />
+                <Label fx:id="policyLabel" text="N/A" style="-fx-text-fill: #fff;" />
+            </HBox>
+            <HBox spacing="5">
+                <Label text="Renewal Date:" style="-fx-text-fill: #ccc;" />
+                <Label fx:id="renewalDateLabel" text="N/A" style="-fx-text-fill: #fff;" />
+            </HBox>
+            <HBox spacing="5">
+                <Label text="Policy Type:" style="-fx-text-fill: #ccc;" />
+                <Label fx:id="policyTypeLabel" text="N/A" style="-fx-text-fill: #fff;" />
+            </HBox>
+            <VBox spacing="5" VBox.vgrow="ALWAYS">
+                 <Label text="Notes:&#10;" style="-fx-text-fill: #ccc;" />
+                 <Label fx:id="notesLabel" text="N/A" wrapText="true" maxWidth="Infinity" style="-fx-text-fill: #fff;" VBox.vgrow="ALWAYS" />
+             </VBox>
+        </children>
+    </VBox>
+</ScrollPane>

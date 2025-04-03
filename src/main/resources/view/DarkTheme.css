@@ -1,6 +1,14 @@
 .background {
     -fx-background-color: derive(#1d1d1d, 20%);
     background-color: #383838; /* Used in the default.html file */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scene-background {
+    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }
 
 .label {
@@ -164,6 +172,20 @@
     -fx-font-family: "Segoe UI Light";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
+    -fx-line-spacing: 5px;
+    -fx-padding: 5px;
+}
+
+.result-display .content {
+    -fx-background-color: transparent, #383838, transparent, #383838;
+    -fx-background-radius: 0;
+    -fx-padding: 5px;
+}
+
+.result-display .text {
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 13pt;
 }
 
 .result-display .label {
