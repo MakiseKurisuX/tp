@@ -4,7 +4,7 @@ skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 skinparam classBackgroundColor LOGIC_COLOR
 
-class FindPersonsPredicate {}
+class FindPersonsPredicate
 class NameContainsKeywordsPredicate
 class PhoneContainsNumbersPredicate
 class EmailContainsKeywordsPredicate
@@ -13,13 +13,20 @@ class PolicyContainsNumbersPredicate
 class PolicyTypeContainsKeywordsPredicate
 class TagContainsKeywordsPredicate
 
-FindPersonsPredicate --> NameContainsKeywordsPredicate
-FindPersonsPredicate --> PhoneContainsNumbersPredicate
-FindPersonsPredicate --> EmailContainsKeywordsPredicate
-FindPersonsPredicate --> AddressContainsKeywordsPredicate
-FindPersonsPredicate --> PolicyContainsNumbersPredicate
-FindPersonsPredicate --> PolicyTypeContainsKeywordsPredicate
-FindPersonsPredicate --> TagContainsKeywordsPredicate
+FindPersonsPredicate -up-> NameContainsKeywordsPredicate
+FindPersonsPredicate -up-> PhoneContainsNumbersPredicate
+FindPersonsPredicate -up-> EmailContainsKeywordsPredicate
+FindPersonsPredicate -right-> AddressContainsKeywordsPredicate
+FindPersonsPredicate -down-> PolicyContainsNumbersPredicate
+FindPersonsPredicate -down-> PolicyTypeContainsKeywordsPredicate
+FindPersonsPredicate -down-> TagContainsKeywordsPredicate
+
+PhoneContainsNumbersPredicate -up[hidden]-> NameContainsKeywordsPredicate
+EmailContainsKeywordsPredicate -up[hidden]-> PhoneContainsNumbersPredicate
+AddressContainsKeywordsPredicate -up[hidden]-> EmailContainsKeywordsPredicate
+AddressContainsKeywordsPredicate -down[hidden]-> PolicyContainsNumbersPredicate
+PolicyContainsNumbersPredicate -down[hidden]-> PolicyTypeContainsKeywordsPredicate
+PolicyTypeContainsKeywordsPredicate -down[hidden]-> TagContainsKeywordsPredicate
 
 note "All classes implements the\nfunctional interface Predicate" as Note
 
