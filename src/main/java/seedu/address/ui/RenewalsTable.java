@@ -48,6 +48,7 @@ public class RenewalsTable extends UiPart<VBox> {
     public RenewalsTable(Model model) {
         super(FXML);
         setupColumns();
+        configureTable();
         updateRenewals(model);
     }
 
@@ -66,6 +67,15 @@ public class RenewalsTable extends UiPart<VBox> {
     }
 
     /**
+     * Configures the table properties for optimal display.
+     */
+    private void configureTable() {
+        renewalsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        renewalsTable.setMinHeight(200);
+        renewalsTable.setPrefHeight(200);
+    }
+
+    /**
      * Updates the table with renewal entries from the model.
      *
      * @param model The model containing the updated person data
@@ -73,6 +83,13 @@ public class RenewalsTable extends UiPart<VBox> {
     public void updateRenewals(Model model) {
         RenewalTableData tableData = RenewalProcessor.processRenewals(model.getRenewalsList());
         renewalsTable.setItems(FXCollections.observableArrayList(tableData.getEntries()));
+    }
+
+    /**
+     * Clears the renewals table by setting its items to an empty list.
+     */
+    public void clear() {
+        renewalsTable.getItems().clear();
     }
 
     /**

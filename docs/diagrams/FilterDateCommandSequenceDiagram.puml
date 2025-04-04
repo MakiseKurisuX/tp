@@ -1,0 +1,49 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":FilterDateCommandParser" as FilterDateCommandParser LOGIC_COLOR
+participant ":FilterDateCommand" as FilterDateCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> AddressBookParser : filter command
+activate AddressBookParser
+
+AddressBookParser -> FilterDateCommandParser : parse
+activate FilterDateCommandParser
+
+FilterDateCommandParser -> FilterDateCommand : create
+activate FilterDateCommand
+deactivate FilterDateCommand
+
+FilterDateCommandParser --> AddressBookParser : FilterDateCommand
+deactivate FilterDateCommandParser
+
+[-> AddressBookParser : execute
+AddressBookParser -> FilterDateCommand : execute
+activate FilterDateCommand
+
+FilterDateCommand -> Model : filter by renewal date range
+activate Model
+
+Model --> FilterDateCommand : filtered list
+deactivate Model
+
+FilterDateCommand -> Model : sort by sortOrder
+activate Model
+
+Model --> FilterDateCommand : sorted list
+deactivate Model
+
+FilterDateCommand --> AddressBookParser : CommandResult
+deactivate FilterDateCommand
+
+[<-- AddressBookParser : CommandResult
+deactivate AddressBookParser
+
+@enduml

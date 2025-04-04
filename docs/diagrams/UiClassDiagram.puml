@@ -3,58 +3,61 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor UI_COLOR_T4
 skinparam classBackgroundColor UI_COLOR
+skinparam defaultFontSize 20
 
-package UI <<Rectangle>>{
-Class "<<interface>>\nUi" as Ui
-Class "{abstract}\nUiPart" as UiPart
-Class UiManager
-Class MainWindow
-Class HelpWindow
-Class ResultDisplay
-Class PersonListPanel
-Class PersonCard
-Class StatusBarFooter
-Class CommandBox
+left to right direction
+
+package "UI" {
+' UI components
+interface Ui
+abstract class UiPart
+class UiManager
+class MainWindow
+class HelpWindow
+class ResultDisplay
+class PersonListPanel
+class PersonDetailPanel
+class PersonCard
+class StatusBarFooter
+class CommandBox
 }
 
-package Model <<Rectangle>> {
-Class HiddenModel #FFFFFF
+package "Model" {
+class HiddenModel #FFFFFF
 }
 
-package Logic <<Rectangle>> {
-Class HiddenLogic #FFFFFF
+package "Logic" {
+class HiddenLogic #FFFFFF
 }
 
-Class HiddenOutside #FFFFFF
+class HiddenOutside #FFFFFF
 HiddenOutside ..> Ui
 
+' UI relationships using multiplicities only with colon syntax:
 UiManager .left.|> Ui
-UiManager -down-> "1" MainWindow
-MainWindow *-down->  "1" CommandBox
-MainWindow *-down-> "1" ResultDisplay
-MainWindow *-down-> "1" PersonListPanel
-MainWindow *-down-> "1" StatusBarFooter
-MainWindow --> "0..1" HelpWindow
+UiManager --> MainWindow : 1
+MainWindow *-- CommandBox : 1
+MainWindow *-- ResultDisplay : 1
+MainWindow *-- PersonListPanel : 1
+MainWindow *-- PersonDetailPanel : 1
+MainWindow *-- StatusBarFooter : 1
+MainWindow --> HelpWindow : 0..1
 
-PersonListPanel -down-> "*" PersonCard
+PersonListPanel --> PersonCard : *
 
 MainWindow -left-|> UiPart
 
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
 PersonListPanel --|> UiPart
+PersonDetailPanel --|> UiPart
 PersonCard --|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
 
-PersonCard ..> Model
-UiManager -right-> Logic
-MainWindow -left-> Logic
+' Dependencies with Model/Logic:
+PersonCard ..> HiddenModel
+UiManager --> HiddenLogic
+MainWindow --> HiddenLogic
 
-PersonListPanel -[hidden]left- HelpWindow
-HelpWindow -[hidden]left- CommandBox
-CommandBox -[hidden]left- ResultDisplay
-ResultDisplay -[hidden]left- StatusBarFooter
-
-MainWindow -[hidden]-|> UiPart
 @enduml

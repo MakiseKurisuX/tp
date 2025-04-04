@@ -10,6 +10,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
 
@@ -116,14 +117,18 @@ public class AddressBookParserTest {
 
         // Test with default parameters
         FilterDateCommand defaultCommand = (FilterDateCommand) parser.parseCommand(
-                FilterDateCommand.COMMAND_WORD + " sd/" + startDate + " ed/" + endDate);
+                FilterDateCommand.COMMAND_WORD + " sd/"
+                        + startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " ed/"
+                        + endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         assertEquals(
                 new FilterDateCommand(startDate, endDate, "date"),
                 defaultCommand);
 
         // Test with custom parameters
         FilterDateCommand customCommand = (FilterDateCommand) parser.parseCommand(
-                FilterDateCommand.COMMAND_WORD + " sd/" + startDate + " ed/" + endDate + " s/name");
+                FilterDateCommand.COMMAND_WORD + " sd/"
+                        + startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " ed/"
+                        + endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " s/name");
         assertEquals(new FilterDateCommand(startDate, endDate, "name"), customCommand);
     }
 

@@ -22,6 +22,9 @@ public class RenewalTableConfig {
      */
     private static <T> void configureColumn(TableColumn<RenewalEntry, T> column, String propertyName) {
         column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        column.setMinWidth(100);
+        column.setPrefWidth(150);
+        column.setResizable(true);
     }
 
     /**

@@ -1,26 +1,33 @@
 @startuml
-skinparam classAttributeIconSize 0
+!include style.puml
+skinparam dpi 300
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR
 skinparam classBackgroundColor LOGIC_COLOR
+skinparam nodesep 40
+skinparam ranksep 40
+scale 0.6
 
-class RenewCommand {
+Class "<<interface>>\nParser" as Parser {
+    + {abstract} parse(userInput : String) : T
+}
+
+Class "<<interface>>\nModel" as Model {
+    + updatePerson(target : Person, editedPerson : Person)
+    + getFilteredPersonList() : ObservableList<Person>
+}
+
+Class RenewCommand {
     - policyNumber : String
     - newRenewalDate : RenewalDate
     + execute(model : Model) : CommandResult
 }
 
-class RenewCommandParser {
+Class RenewCommandParser {
     + parse(args : String) : RenewCommand
 }
 
-interface Parser {
-    + {abstract} parse(userInput : String) : T
-}
-
-interface Model {
-    + updatePerson(target : Person, editedPerson : Person)
-    + getFilteredPersonList() : ObservableList<Person>
-}
-
+RenewCommandParser ..|> Parser
 RenewCommandParser ..> RenewCommand
-RenewCommand --> Model
+RenewCommand ..> Model
 @enduml

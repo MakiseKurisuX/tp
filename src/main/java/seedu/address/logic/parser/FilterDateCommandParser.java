@@ -16,12 +16,12 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class FilterDateCommandParser implements Parser<FilterDateCommand> {
 
     public static final String MESSAGE_INVALID_DATE_FORMAT =
-            "Invalid date format: Must be valid date in YYYY-MM-DD format";
+            "Invalid date format: Must be valid date in DD-MM-YYYY format";
     private static final String MESSAGE_INVALID_START_DATE =
-            "Invalid start date: Must be valid date in YYYY-MM-DD format "
+            "Invalid start date: Must be valid date in DD-MM-YYYY format "
                     + "and less than or equal to end date.";
     private static final String MESSAGE_INVALID_END_DATE =
-            "Invalid end date: Must be valid date in YYYY-MM-DD format "
+            "Invalid end date: Must be valid date in DD-MM-YYYY format "
             + "and more than or equal to start date, and within 5 years from the start date";
     private static final String MESSAGE_INVALID_SORT =
             "Invalid sort. Use 'date' or 'name' (case-insensitive)";

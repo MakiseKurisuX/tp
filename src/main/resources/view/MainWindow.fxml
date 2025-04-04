@@ -57,7 +57,6 @@
                     maxWidth="200" alignment="CENTER" styleClass="button">
             </Button>
           </HBox>
-
           <HBox fx:id="personListAndDetailBox" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
@@ -71,13 +70,12 @@
                        prefWidth="0"
                        maxWidth="Infinity" />
           </HBox>
-
           <VBox fx:id="renewalsSection" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="NEVER">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
             <StackPane fx:id="renewalsTablePlaceholder" minHeight="200" prefHeight="200"/>
-            <StackPane fx:id="dateFilterInformation">
+            <StackPane fx:id="dateFilterInformation" alignment="CENTER">
               <Label fx:id="filterLabel" text="No active filter" visible="true"/>
             </StackPane>
           </VBox>

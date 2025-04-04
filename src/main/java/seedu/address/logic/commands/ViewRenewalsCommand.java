@@ -4,12 +4,14 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NEXT_N_DAYS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.RenewalDate;
 
 /**
  * Lists all persons whose policies are due for renewal within the specified number of days.
@@ -26,7 +28,7 @@ public class ViewRenewalsCommand extends Command {
             + "Example: " + COMMAND_WORD + " " + PREFIX_NEXT_N_DAYS + "60" + " " + PREFIX_SORT_ORDER + "name";
 
     public static final String MESSAGE_SUCCESS = "Found %d policies due for renewal";
-    public static final String MESSAGE_NO_RENEWALS = "No upcoming renewals within the specified time period";
+    public static final String MESSAGE_NO_RENEWALS = "No upcoming renewals within %d days";
 
     public static final int DEFAULT_DAYS = 30;
     public static final String DEFAULT_SORT = "date";
@@ -55,10 +57,15 @@ public class ViewRenewalsCommand extends Command {
         model.updateRenewalsList(renewalPredicate);
         model.updateSortedRenewalsList(getComparator());
 
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(days);
+
         if (model.getRenewalsList().isEmpty()) {
-            return new CommandResult(MESSAGE_NO_RENEWALS);
+            return new CommandResult(String.format(MESSAGE_NO_RENEWALS, days));
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, model.getRenewalsList().size()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS + " between %s and %s",
+            model.getRenewalsList().size(), startDate.format(RenewalDate.DATE_FORMATTER),
+            endDate.format(RenewalDate.DATE_FORMATTER)));
     }
 
     private Comparator<Person> getComparator() {

@@ -7,8 +7,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ScrollPane?>
 
-<ScrollPane fitToWidth="true"
-            fitToHeight="true"
+<ScrollPane hbarPolicy="AS_NEEDED"
+            vbarPolicy="ALWAYS"
+            fitToWidth="true"
+            fitToHeight="false"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1"
             style="-fx-background: transparent;

@@ -13,7 +13,17 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+* Libraries used:
+  * JavaFX: Main GUI library
+  * JUnit5: Testing framework
+  * Jackson: JSON processing library (jackson-databind, jackson-datatype-jsr310)
+  * Gradle: Build automation tool
+  * Checkstyle: Code style checking
+  * JaCoCo: Code coverage
+  * Shadow: JAR packaging
+
+* UI Design:
+  * Original AddressBook-Level3 source code from SE-EDU initiative at https://github.com/se-edu/
 
 ---
 
@@ -85,16 +95,28 @@ The `UI` component,
 The person card UI is implemented using the following components:
 
 *   `PersonListCard.fxml`: Defines the layout of each person card, including:
-
     *   Name and ID
     *   Contact information (phone, email, address)
-    *   Policy information (policy number and renewal date)
     *   Tags
 
 *   `PersonCard.java`: Controls the display of person information in the card:
     *   Binds UI elements to person data
-    *   Formats the renewal date display with the prefix "Renewal date: " for clarity
     *   Manages tag display
+
+#### Person Details UI
+
+*   `PersonDetailPanel.fxml`: Defines the layout of the display for a person's details, including:
+    *   Policy Number
+    *   Renewal Date
+    *   Policy Type
+    *   Notes
+
+*   `PersonDetailPanel.java`: Controls the display and updating of information of current selected person:
+    *   Binds UI elements (labels for policy number, renewal date, and notes) to the underlying person data model
+    *   Formats the renewal date display with the prefix "Renewal date: " for clarity
+    *   Dynamically updates the panel’s content when a different person is selected in the main list
+    *   Ensures that the Notes field, if it contains a lengthy string, wraps onto multiple lines without expanding the panel’s width beyond its allocated space
+
 
 The person card provides a compact view of all essential client information, making it easy for insurance agents to quickly access client details and track policy renewals. The renewal date is prominently displayed with a clear label to help agents quickly identify when policies need to be renewed.
 
@@ -250,7 +272,7 @@ The renewal date update functionality is implemented through the `RenewCommand` 
 
 The following class diagram shows the structure of the Renew Command:
 
-<puml src="diagrams/RenewCommandClassDiagram.puml" width="800"/>
+<puml src="diagrams/RenewCommandClassDiagram.puml" width="400"/>
 
 The feature works through the following process flow:
 
@@ -302,7 +324,7 @@ The `FindCommand` allows users to search for persons in the address book by spec
 
 #### FindCommand
 
-The `FindCommand` enables users to search for persons based on any attribute, such as name, address, phone number, email, tags or policy. It is implemented using the following components:
+The `FindCommand` enables users to search for persons based on any attribute, such as name, address, phone number, email, tags or policy number. It is implemented using the following components:
 
 * `FindCommand`: Executes the search operation.
 * `FindCommandParser`: Parses and validates the user input into a FindCommand object.
@@ -342,7 +364,28 @@ The following partial sequence diagram shows how the test operation works:
     * Pros: More user-friendly and flexible, accommodating various input styles.
     * Cons: May result in unintended matches if search values are too general.
 
-### \[Proposed\] Undo/redo feature
+### Filter Command
+
+The `filter` command allows users to view policies due for renewal within a specified date range:
+
+*   Takes two parameters, startDate and endDate to specify the date range
+*   Optional sort parameter (by date or name); defaults to date
+*   Filters the person list based on policy renewal dates
+*   Updates the UI to show filtered results, and the filter specified when calling this command
+
+#### Implementation
+
+The following class diagram shows how the filter command updates the UI:
+
+<puml src="diagrams/FilterDateCommandClassDiagram.puml" width="800"/>
+
+The following sequence diagram shows how the filter command works:
+
+<puml src="diagrams/FilterDateCommandSequenceDiagram.puml" width="800"/>
+
+
+
+### Policy Type Feature
 
 #### Current Implementation
 
@@ -411,32 +454,19 @@ The implementation consists of the following key components:
 
 #### Example Usage
 
-The following diagram shows how the policy type feature interacts with the existing components:
+The following sequence diagram shows how adding a person with a policy type works:
 
-```
-User Input: add n/John Doe pt/Life ...
-    v
-AddCommandParser (parses policy type prefix)
-    v
-AddCommand (creates Person with Policy that includes PolicyType)
-    v
-Model (stores Person)
-    v
-UI (displays policy type in PersonCard and RenewalsTable)
-```
+<puml src="diagrams/AddPersonWithPolicyTypeSequenceDiagram.puml" width="800"/>
 
 When the user adds a new person with a policy type:
 
-1. The `AddCommandParser` parses the policy type prefix and value.
-1. A new `Policy` object is created with the specified policy type.
-1. This `Policy` is included in the new `Person` object.
-1. The UI components display the policy type along with other person information.
+1. The `AddCommandParser` parses the command including the policy type prefix.
+2. A new `Policy` object is created with the specified policy type.
+3. This `Policy` is included in the new `Person` object.
+4. The Model stores the new person and returns success.
+5. A `CommandResult` is returned to indicate success.
 
-Similarly, when editing a person's policy type or finding persons by policy type, the appropriate parsers handle the policy type prefix and create the necessary commands or predicates.
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
+The UI components will automatically update to reflect the changes in the Model.
 
 ---
 
@@ -481,6 +511,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | Insurance Agent | set reminders for renewals       | never miss important deadlines               |
 | `* * *`  | Insurance Agent | persist client data              | ensure no data is lost                       |
 | `* * *`  | Insurance Agent | filter and sort clients by tags  | manage clients more efficiently              |
+| `* *`  | Insurance Agent | add notes to a client’s profile  | remember key details about them              |
+| `* *`  | Insurance Agent | sort my clients by tag  | so that I can easily rank my clients based on how they were previously tagged              |
+
 
 _{More to be added}_
 
