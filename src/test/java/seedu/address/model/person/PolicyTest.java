@@ -144,13 +144,18 @@ public class PolicyTest {
         assertFalse(Policy.isValidRenewalDate("31-09-2024")); // invalid date (September has 30 days)
         assertFalse(Policy.isValidRenewalDate("31-11-2024")); // invalid date (November has 30 days)
 
-        // valid dates
-        assertTrue(Policy.isValidRenewalDate("15-03-2024")); // valid date
-        assertTrue(Policy.isValidRenewalDate("01-01-2025")); // valid date
-        assertTrue(Policy.isValidRenewalDate("31-12-2024")); // valid date
-        assertTrue(Policy.isValidRenewalDate("29-02-2024")); // valid date (leap year)
-        assertTrue(Policy.isValidRenewalDate("30-04-2024")); // valid date (30 days month)
-        assertTrue(Policy.isValidRenewalDate("31-01-2024")); // valid date (31 days month)
+        // past dates and today should be invalid
+        String pastDate = LocalDate.now().minusDays(1).format(RenewalDate.DATE_FORMATTER);
+        assertFalse(Policy.isValidRenewalDate(pastDate)); // yesterday
+        assertFalse(Policy.isValidRenewalDate(LocalDate.now().format(RenewalDate.DATE_FORMATTER))); // today
+
+        // valid future dates
+        String tomorrow = LocalDate.now().plusDays(1).format(RenewalDate.DATE_FORMATTER);
+        String nextMonth = LocalDate.now().plusMonths(1).format(RenewalDate.DATE_FORMATTER);
+        String nextYear = LocalDate.now().plusYears(1).format(RenewalDate.DATE_FORMATTER);
+        assertTrue(Policy.isValidRenewalDate(tomorrow)); // tomorrow
+        assertTrue(Policy.isValidRenewalDate(nextMonth)); // next month
+        assertTrue(Policy.isValidRenewalDate(nextYear)); // next year
     }
 
     @Test
@@ -202,22 +207,6 @@ public class PolicyTest {
                 .plusDays(5)
                 .format(RenewalDate.DATE_FORMATTER)));
         assertEquals(5, policy.getDaysUntilRenewal());
-    }
-
-    @Test
-    public void getDaysUntilRenewal_pastDate_returnsNegativeDays() {
-        Policy policy = new Policy(
-            "123456",
-            new RenewalDate(LocalDate.now()
-                .minusDays(5)
-                .format(RenewalDate.DATE_FORMATTER)));
-        assertEquals(-5, policy.getDaysUntilRenewal());
-    }
-
-    @Test
-    public void getDaysUntilRenewal_today_returnsZero() {
-        Policy policy = new Policy("123456", new RenewalDate(LocalDate.now().format(RenewalDate.DATE_FORMATTER)));
-        assertEquals(0, policy.getDaysUntilRenewal());
     }
 
     @Test

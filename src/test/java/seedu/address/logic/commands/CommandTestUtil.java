@@ -14,6 +14,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.RenewalDate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.FindPersonsPredicateBuilder;
 
@@ -41,8 +43,10 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_POLICY_AMY = "123456";
     public static final String VALID_POLICY_BOB = "654321";
-    public static final String VALID_RENEWAL_DATE_AMY = "31-12-2024";
-    public static final String VALID_RENEWAL_DATE_BOB = "30-06-2024";
+    public static final String VALID_RENEWAL_DATE_AMY = LocalDate.now().plusYears(1)
+            .format(RenewalDate.DATE_FORMATTER);
+    public static final String VALID_RENEWAL_DATE_BOB = LocalDate.now().plusMonths(6)
+            .format(RenewalDate.DATE_FORMATTER);
     public static final String VALID_POLICY_TYPE_LIFE = "Life";
     public static final String VALID_POLICY_TYPE_HEALTH = "Health";
     public static final String VALID_NOTE_AMY = "some note amy";

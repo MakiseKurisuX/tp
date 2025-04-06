@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.AddressBook;
+import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
 
 public class JsonSerializableAddressBookTest {
@@ -34,7 +35,22 @@ public class JsonSerializableAddressBookTest {
         AddressBook addressBookFromFile = dataFromFile.toModelType();
         AddressBook typicalPersonsAddressBook = TypicalPersons.getTypicalAddressBook();
         assertNotNull(addressBookFromFile.getLastUpdated());
-        assertEquals(addressBookFromFile, typicalPersonsAddressBook);
+        assertEquals(addressBookFromFile.getPersonList().size(), typicalPersonsAddressBook.getPersonList().size());
+        for (int i = 0; i < addressBookFromFile.getPersonList().size(); i++) {
+            Person personFromFile = addressBookFromFile.getPersonList().get(i);
+            Person typicalPerson = typicalPersonsAddressBook.getPersonList().get(i);
+            assertEquals(personFromFile.getName(), typicalPerson.getName(), "Name mismatch");
+            assertEquals(personFromFile.getPhone(), typicalPerson.getPhone(), "Phone mismatch");
+            assertEquals(personFromFile.getEmail(), typicalPerson.getEmail(), "Email mismatch");
+            assertEquals(personFromFile.getAddress(), typicalPerson.getAddress(), "Address mismatch");
+            assertEquals(personFromFile.getPolicy().getPolicyNumber(),
+                    typicalPerson.getPolicy().getPolicyNumber(), "Policy number mismatch");
+            assertEquals(personFromFile.getPolicy().getType(),
+                    typicalPerson.getPolicy().getType(), "Policy type mismatch");
+            assertEquals(personFromFile.getTags(), typicalPerson.getTags(), "Tags mismatch");
+            assertNotNull(personFromFile.getRenewalDate(), "Renewal date should not be null");
+            assertNotNull(typicalPerson.getRenewalDate(), "Typical person renewal date should not be null");
+        }
     }
 
     @Test

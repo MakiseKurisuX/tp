@@ -29,6 +29,7 @@ import seedu.address.model.person.TagContainsKeywordsPredicate;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
+    public static final String TAG_EMPTY = "Tag cannot be empty. Use a valid tag.";
     public static final String MESSAGE_INVALID_SORT = "Invalid sort order. Use 'name' or 'tag'";
 
     /**
@@ -74,6 +75,10 @@ public class FindCommandParser implements Parser<FindCommand> {
                     new HashSet<>(argMultimap.getAllValues(PREFIX_POLICY_TYPE))));
         }
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            String tagInput = argMultimap.getValue(PREFIX_TAG).get();
+            if (tagInput.trim().isEmpty()) {
+                throw new ParseException(TAG_EMPTY);
+            }
             findPersonsPredicate.setTagPredicate(new TagContainsKeywordsPredicate(
                     ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG))));
         }

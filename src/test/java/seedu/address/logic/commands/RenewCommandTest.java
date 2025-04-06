@@ -19,6 +19,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.RenewalDate;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
 
 /**
@@ -64,12 +65,7 @@ public class RenewCommandTest {
                 .withPolicy(existingPolicy)
                 .build();
 
-        model.addPerson(duplicatePolicyPerson);
-
-        RenewCommand renewCommand = new RenewCommand(existingPolicy, new RenewalDate(VALID_RENEWAL_DATE_BOB));
-
-        String expectedMessage = String.format(RenewCommand.MESSAGE_MULTIPLE_POLICIES, existingPolicy);
-        assertThrows(CommandException.class, expectedMessage, () -> renewCommand.execute(model));
+        assertThrows(DuplicatePersonException.class, () -> model.addPerson(duplicatePolicyPerson));
     }
 
     @Test

@@ -41,6 +41,8 @@ public class EditPersonDescriptorBuilder {
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
         descriptor.setPolicy(person.getPolicy());
+        descriptor.setRenewalDate(person.getPolicy().renewalDate);
+        descriptor.setPolicyType(person.getPolicy().getType());
         descriptor.setNote(person.getNote());
         descriptor.setTags(person.getTags());
     }
@@ -81,7 +83,9 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code Policy} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withPolicy(String policy) {
-        descriptor.setPolicy(new Policy(policy));
+        Policy newPolicy = new Policy(policy, descriptor.getRenewalDate().orElse(new RenewalDate()),
+                descriptor.getPolicyType().orElse(PolicyType.LIFE));
+        descriptor.setPolicy(newPolicy);
         return this;
     }
 

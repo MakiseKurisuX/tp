@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,8 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_POLICY = "654321";
+    public static final String DEFAULT_RENEWAL_DATE = LocalDate.now().plusYears(1)
+            .format(RenewalDate.DATE_FORMATTER);
 
     private Name name;
     private Phone phone;
@@ -42,7 +45,7 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
-        policy = new Policy(DEFAULT_POLICY);
+        policy = new Policy(DEFAULT_POLICY, new RenewalDate(DEFAULT_RENEWAL_DATE));
         note = Note.EMPTY;
         tags = new HashSet<>();
     }

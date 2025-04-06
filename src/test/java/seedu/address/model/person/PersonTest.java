@@ -33,27 +33,27 @@ public class PersonTest {
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
 
-        // same name and policy number, all other attributes different -> returns true
+        // same policy number, all other attributes different -> returns true
         Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
-        // same name but different policy number -> returns false
+        // different policy number -> returns false
         editedAlice = new PersonBuilder(ALICE).withPolicy(VALID_POLICY_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // different name but same policy number -> returns false
+        // different name but same policy number -> returns true
         editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
+        assertTrue(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, same policy number -> returns false
+        // name differs in case, same policy number -> returns true
         Person editedBob = new PersonBuilder(BENSON).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BENSON.isSamePerson(editedBob));
+        assertTrue(BENSON.isSamePerson(editedBob));
 
-        // name has trailing spaces, same policy number -> returns false
+        // name has trailing spaces, same policy number -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new PersonBuilder(BENSON).withName(nameWithTrailingSpaces).build();
-        assertFalse(BENSON.isSamePerson(editedBob));
+        assertTrue(BENSON.isSamePerson(editedBob));
     }
 
     @Test

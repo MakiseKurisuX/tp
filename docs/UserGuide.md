@@ -6,7 +6,12 @@
 
 # InsureBook User Guide
 
-InsureBook is a **desktop app for managing contacts, optimized for use via a Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, InsureBook can get your contact management tasks done faster than traditional GUI apps.
+**InsureBook** is a **desktop application** built to help insurance agents **manage and organize their client information more effectively**. Its primary purpose is to streamline the day-to-day workflow of agents, allowing them to **store, access, update and keep track of client data with ease**.
+
+By combining the speed of a **Command Line Interface (CLI)** with the familiarity of a **Graphical User Interface (GUI)**, InsureBook is optimized for fast, efficient use. If you're a quick typist, you'll find that InsureBook lets you **perform contact management tasks faster than traditional point-and-click apps** — all while maintaining clarity and control over your client base.
+
+As a result, with InsureBook, we're not just insuring policies—we're insuring smiles!
+
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -20,9 +25,9 @@ InsureBook is a **desktop app for managing contacts, optimized for use via a Lin
 
 1. Download the latest `.jar` file from [here](https://github.com/AY2425S2-CS2103-F08-2/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+1. Copy the file to the folder you want to use as the _home folder_ for your InsureBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar InsureBook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -86,9 +91,24 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [pt/POLIC
 **Tip:** A person can have any number of tags (including 0)
 </box>
 
+*   Name: Names must only include alphanumeric characters and spaces.
+*   Phone Number: Phone numbers must follow the E.164 standard.
+*   Email: The email must be in the localpart@domain format.
+*   Address: The address can be any string value, but it must not be blank.
+*   Policy Number: The policy number must consist only of digits, ensuring that it is numeric and non‑blank.
+*   Policy Type: Only the following case‑insensitive policy types are allowed: Life, Health, Property, Vehicle, Travel.
+*   Renewal Date: The date must follow the DD-MM-YYYY format.
+*   Note: There are no specific restrictions for notes; any string is accepted as a valid note.
+*   Tag: A valid tag name must be entirely alphanumeric.
+
 Examples:
 *   `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024 note/Basketball Player`
 *   `add n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+
+<box type="tip" seamless>
+
+**Tip:** Names such as X Æ A-Xii Musk is not valid unfortunately.
+</box>
 
 ### Listing all persons : `list`
 
@@ -147,6 +167,7 @@ Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_N
 *   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag`. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first.
 
 <box type="info" seamless>
+
 **Note:** The sorting order is case-sensitive and follows ASCII values. This means lowercase letters are ordered after uppercase ones. For example, `alice` will appear after `Bernice`.
 </box>
 
@@ -257,17 +278,17 @@ Examples:
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+InsureBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+InsureBook data are saved automatically as a JSON file `[JAR file location]/data/insurebook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, InsureBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the InsureBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
 
@@ -277,7 +298,7 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous InsureBook home folder.
 
 ---
 

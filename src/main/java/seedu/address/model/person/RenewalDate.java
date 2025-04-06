@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class RenewalDate {
     public static final String DATE_CONSTRAINTS =
-            "Renewal date should be a valid date in DD-MM-YYYY format";
+            "Renewal date should be a valid date in DD-MM-YYYY format and must be a future date";
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public final LocalDate value;
@@ -72,8 +72,9 @@ public class RenewalDate {
             if (day < 1 || day > maxDays) {
                 return false;
             }
-            LocalDate.parse(test, DATE_FORMATTER);
-            return true;
+            LocalDate inputDate = LocalDate.parse(test, DATE_FORMATTER);
+            LocalDate now = LocalDate.now();
+            return inputDate.isAfter(now);
         } catch (Exception e) {
             return false;
         }

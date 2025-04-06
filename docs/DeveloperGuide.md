@@ -499,20 +499,20 @@ The UI components will automatically update to reflect the changes in the Model.
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​         | I want to …​                     | So that I can…​                              |
-| -------- | --------------- | -------------------------------- | -------------------------------------------- |
-| `* * *`  | Insurance Agent | add new clients                  | reach out to them when needed                |
-| `* * *`  | Insurance Agent | view a list of clients           | quickly access current and potential clients |
-| `* * *`  | Insurance Agent | update client information        | ensure records remain accurate               |
-| `* * *`  | Insurance Agent | delete a client entry            | remove outdated clients                      |
-| `* * *`  | Insurance Agent | search for a client              | quickly find them through their details      |
-| `* * *`  | Insurance Agent | filter clients by renewal date   | prioritize follow-ups effectively            |
-| `* * *`  | Insurance Agent | tag clients for sorting & search | organize and categorize my clients           |
-| `* * *`  | Insurance Agent | set reminders for renewals       | never miss important deadlines               |
-| `* * *`  | Insurance Agent | persist client data              | ensure no data is lost                       |
-| `* * *`  | Insurance Agent | filter and sort clients by tags  | manage clients more efficiently              |
-| `* *`  | Insurance Agent | add notes to a client’s profile  | remember key details about them              |
-| `* *`  | Insurance Agent | sort my clients by tag  | so that I can easily rank my clients based on how they were previously tagged              |
+| Priority | As a …​         | I want to …​                     | So that I can…​                                                        |
+| -------- | --------------- | -------------------------------- | --------------------------------------------------------------------|
+| `* * *`  | Insurance Agent | add new clients                  | reach out to them when needed                                       |
+| `* * *`  | Insurance Agent | view a list of clients           | quickly access current and potential clients                        |
+| `* * *`  | Insurance Agent | update client information        | ensure records remain accurate                                      |
+| `* * *`  | Insurance Agent | delete a client entry            | remove outdated clients                                             |
+| `* * *`  | Insurance Agent | search for a client              | quickly find them through their details                             |
+| `* * *`  | Insurance Agent | filter clients by renewal date   | prioritize follow-ups effectively                                   |
+| `* * *`  | Insurance Agent | tag clients for sorting & search | organize and categorize my clients                                  |
+| `* * *`  | Insurance Agent | set reminders for renewals       | never miss important deadlines                                      |
+| `* * *`  | Insurance Agent | persist client data              | ensure no data is lost                                              |
+| `* * *`  | Insurance Agent | filter and sort clients by tags  | manage clients more efficiently                                     |
+| `* *`    | Insurance Agent | add notes to a client’s profile  | remember key details about them                                     |
+| `* *`    | Insurance Agent | sort my clients by tag  | so that I can quickly rank my clients based on the number of tags they have. |
 
 
 _{More to be added}_
@@ -739,16 +739,13 @@ testers are expected to do more _exploratory_ testing.
 
     1. Download the jar file and copy into an empty folder
 
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Use the `java -jar InsureBook.jar` command to run the application.
 
-1. Saving window preferences
+<box type="info" seamless>
 
-    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+**Note:** The Application will default to full-screen mode.
 
-    1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
-
-1. _{ more test cases …​ }_
+</box>
 
 ### Deleting a person
 

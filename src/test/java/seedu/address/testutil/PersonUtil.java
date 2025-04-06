@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -45,6 +46,7 @@ public class PersonUtil {
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         sb.append(PREFIX_POLICY + person.getPolicy().policyNumber + " ");
         sb.append(PREFIX_RENEWAL_DATE + person.getRenewalDate() + " ");
+        sb.append(PREFIX_POLICY_TYPE + person.getPolicy().getType().toString() + " ");
         if (!person.getNote().toString().isEmpty()) {
             sb.append(PREFIX_NOTE + person.getNote().toString() + " ");
         }
@@ -66,6 +68,9 @@ public class PersonUtil {
         descriptor.getPolicy().ifPresent(policy -> sb.append(PREFIX_POLICY).append(policy.policyNumber).append(" "));
         descriptor.getRenewalDate()
                 .ifPresent(renewalDate -> sb.append(PREFIX_RENEWAL_DATE).append(renewalDate)
+                .append(" "));
+        descriptor.getPolicyType()
+                .ifPresent(policyType -> sb.append(PREFIX_POLICY_TYPE).append(policyType.toString())
                 .append(" "));
         descriptor.getNote().ifPresent(n -> sb.append(PREFIX_NOTE).append(n.toString()).append(" "));
         if (descriptor.getTags().isPresent()) {

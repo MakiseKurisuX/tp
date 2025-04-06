@@ -1,7 +1,6 @@
 package seedu.address.model;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,7 +68,6 @@ public class RenewalProcessor {
     public static RenewalTableData processRenewals(List<Person> persons) {
         List<RenewalEntry> entries = persons.stream()
                 .map(RenewalEntry::new)
-                .sorted(Comparator.comparingLong(RenewalEntry::getDaysLeft))
                 .collect(Collectors.toList());
         return new RenewalTableData(entries);
     }

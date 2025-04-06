@@ -11,7 +11,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ViewRenewalsCommandParser implements Parser<ViewRenewalsCommand> {
 
-    public static final String MESSAGE_INVALID_DAYS = "NEXT_N_DAYS must be a positive number between 1 and 365";
+    public static final String MESSAGE_INVALID_DAYS = "NEXT_N_DAYS must be a positive integer between 1 and 365";
     public static final String MESSAGE_INVALID_SORT = "Invalid sort order. Use 'date' or 'name'";
 
     /**

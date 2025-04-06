@@ -7,12 +7,14 @@ import static seedu.address.logic.commands.CommandTestUtil.POLICY_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.RENEWAL_DATE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_RENEWAL_DATE_AMY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POLICY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RENEWAL_DATE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.RenewCommand;
 import seedu.address.model.person.Policy;
 import seedu.address.model.person.RenewalDate;
@@ -58,5 +60,20 @@ public class RenewCommandParserTest {
 
         // invalid policy number and invalid renewal date
         assertParseFailure(parser, INVALID_POLICY_DESC + INVALID_RENEWAL_DATE_DESC, Policy.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_failure() {
+        // duplicate policy prefix
+        assertParseFailure(parser, POLICY_DESC_AMY + RENEWAL_DATE_DESC_AMY + POLICY_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_POLICY));
+
+        // duplicate renewal date prefix
+        assertParseFailure(parser, POLICY_DESC_AMY + RENEWAL_DATE_DESC_AMY + RENEWAL_DATE_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_RENEWAL_DATE));
+
+        // both prefixes duplicated
+        assertParseFailure(parser, POLICY_DESC_AMY + RENEWAL_DATE_DESC_AMY + POLICY_DESC_AMY + RENEWAL_DATE_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_POLICY, PREFIX_RENEWAL_DATE));
     }
 }

@@ -30,30 +30,29 @@ public class RenewalProcessorTest {
     }
 
     @Test
-    public void processRenewals_withMultiplePersons_sortedByDaysLeft() {
-        // Create persons with different renewal dates
+    public void processRenewals_withMultiplePersons_preservesOrder() {
         Person person1 = new PersonBuilder()
                 .withName("Alice")
-                .withPolicy("12345", LocalDate.now().plusDays(10).format(RenewalDate.DATE_FORMATTER))
+                .withPolicy("111111", LocalDate.now().plusDays(10).format(RenewalDate.DATE_FORMATTER))
                 .build();
         Person person2 = new PersonBuilder()
                 .withName("Bob")
-                .withPolicy("67890", LocalDate.now().plusDays(5).format(RenewalDate.DATE_FORMATTER))
+                .withPolicy("222222", LocalDate.now().plusDays(5).format(RenewalDate.DATE_FORMATTER))
                 .build();
         Person person3 = new PersonBuilder()
                 .withName("Charlie")
-                .withPolicy("11111", LocalDate.now().plusDays(15).format(RenewalDate.DATE_FORMATTER))
+                .withPolicy("333333", LocalDate.now().plusDays(15).format(RenewalDate.DATE_FORMATTER))
                 .build();
 
         List<Person> persons = Arrays.asList(person1, person2, person3);
         RenewalTableData tableData = RenewalProcessor.processRenewals(persons);
         List<RenewalEntry> entries = tableData.getEntries();
 
-        // Check sorting
+        // Check that order is preserved
         assertEquals(3, entries.size());
-        assertEquals("Bob", entries.get(0).getClient()); // Closest renewal date
-        assertEquals("Alice", entries.get(1).getClient());
-        assertEquals("Charlie", entries.get(2).getClient()); // Furthest renewal date
+        assertEquals("Alice", entries.get(0).getClient());
+        assertEquals("Bob", entries.get(1).getClient());
+        assertEquals("Charlie", entries.get(2).getClient());
     }
 
     @Test

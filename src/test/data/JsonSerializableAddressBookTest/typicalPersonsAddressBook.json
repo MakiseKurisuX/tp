@@ -7,7 +7,7 @@
             "email": "alice@example.com",
             "address": "123, Jurong West Ave 6, #08-111",
             "policy": "135792",
-            "renewalDate": "15-04-2025",
+            "renewalDate": "06-04-2026",
             "policyType": "Life",
             "tags": ["friends"]
         },
@@ -17,7 +17,7 @@
             "email": "johnd@example.com",
             "address": "311, Clementi Ave 2, #02-25",
             "policy": "792468",
-            "renewalDate": "20-04-2025",
+            "renewalDate": "11-04-2026",
             "policyType": "Health",
             "note": "some note",
             "tags": ["owesMoney", "friends"]
@@ -28,7 +28,7 @@
             "email": "heinz@example.com",
             "address": "wall street",
             "policy": "877665",
-            "renewalDate": "25-04-2025",
+            "renewalDate": "16-04-2026",
             "policyType": "Property",
             "note": "some note",
             "tags": []
@@ -39,7 +39,7 @@
             "email": "cornelia@example.com",
             "address": "10th street",
             "policy": "233445",
-            "renewalDate": "30-04-2025",
+            "renewalDate": "21-04-2026",
             "policyType": "Vehicle",
             "tags": ["friends"]
         },
@@ -49,7 +49,7 @@
             "email": "werner@example.com",
             "address": "michegan ave",
             "policy": "321098",
-            "renewalDate": "05-05-2025",
+            "renewalDate": "26-04-2026",
             "policyType": "Travel",
             "tags": []
         },
@@ -59,7 +59,7 @@
             "email": "lydia@example.com",
             "address": "little tokyo",
             "policy": "789012",
-            "renewalDate": "10-05-2025",
+            "renewalDate": "01-05-2026",
             "policyType": "Life",
             "note": "some note",
             "tags": []
@@ -70,11 +70,11 @@
             "email": "anna@example.com",
             "address": "4th street",
             "policy": "678901",
-            "renewalDate": "15-05-2025",
+            "renewalDate": "06-05-2026",
             "policyType": "Health",
             "note": "some note",
             "tags": []
         }
     ],
-    "lastUpdated": "3/13/2025 0028"
+    "lastUpdated": "4/6/2025 0323"
 }

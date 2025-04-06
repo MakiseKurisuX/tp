@@ -28,13 +28,13 @@ deactivate RenewCommandParser
 AddressBookParser -> RenewCommand : execute
 activate RenewCommand
 
-RenewCommand -> Model : filter by policy
+RenewCommand -> Model : getAddressBook().getPersonList()
 activate Model
 
-Model --> RenewCommand : filtered list
+Model --> RenewCommand : unfiltered list
 deactivate Model
 
-RenewCommand -> Model : update Person
+RenewCommand -> Model : setPerson(personToUpdate, updatedPerson)
 activate Model
 deactivate Model
 

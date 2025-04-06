@@ -30,6 +30,8 @@ public class RenewCommandParser implements Parser<RenewCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RenewCommand.MESSAGE_USAGE));
         }
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_POLICY, PREFIX_RENEWAL_DATE);
+
         String policyNumber = argMultimap.getValue(PREFIX_POLICY).get();
         String renewalDate = argMultimap.getValue(PREFIX_RENEWAL_DATE).get();
 

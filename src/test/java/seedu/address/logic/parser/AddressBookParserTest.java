@@ -112,8 +112,8 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_filter() throws Exception {
-        LocalDate startDate = LocalDate.of(2025, 3, 1);
-        LocalDate endDate = LocalDate.of(2025, 3, 31);
+        LocalDate startDate = LocalDate.now().plusMonths(1);
+        LocalDate endDate = startDate.plusMonths(1);
 
         // Test with default parameters
         FilterDateCommand defaultCommand = (FilterDateCommand) parser.parseCommand(
