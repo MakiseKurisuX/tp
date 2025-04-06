@@ -41,7 +41,7 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_POLICY + "123456 "
-            + PREFIX_RENEWAL_DATE + "31-12-2024 "
+            + PREFIX_RENEWAL_DATE + "31-12-2025 "
             + PREFIX_POLICY_TYPE + "Life "
             + PREFIX_NOTE + "Likes reading "
             + PREFIX_TAG + "friends "

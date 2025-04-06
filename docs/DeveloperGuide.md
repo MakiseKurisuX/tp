@@ -598,13 +598,9 @@ _{More to be added}_
 
 **Extensions**
 
--   2a. The list is empty.
-
-    -   2a1. System shows "No clients available."
-
--   3a. The given index is invalid.
-    -   3a1. System shows an error message.
-    -   3a2. Use case resumes at step 2.
+-   2a. The given index is invalid.
+    -   2a1. System shows an error message.
+    -   2a2. Use case resumes at step 2.
 
 ---
 

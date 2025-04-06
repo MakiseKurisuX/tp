@@ -60,6 +60,16 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
+        Policy policy = createPolicy(argMultimap);
+        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        Note note = createNote(argMultimap);
+
+        Person person = new Person(name, phone, email, address, policy, note, tagList);
+
+        return new AddCommand(person);
+    }
+
+    private Policy createPolicy(ArgumentMultimap argMultimap) throws ParseException {
         Policy policy;
         if (argMultimap.getValue(PREFIX_RENEWAL_DATE).isPresent()) {
             try {
@@ -74,19 +84,22 @@ public class AddCommandParser implements Parser<AddCommand> {
                 throw pe;
             }
         } else {
-            policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get());
+            if (argMultimap.getValue(PREFIX_POLICY_TYPE).isPresent()) {
+                PolicyType policyType = ParserUtil.parsePolicyType(argMultimap.getValue(PREFIX_POLICY_TYPE).get());
+                policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get(), new RenewalDate(), policyType);
+            } else {
+                policy = new Policy(argMultimap.getValue(PREFIX_POLICY).get());
+            }
         }
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        Note note;
+        return policy;
+    }
+
+    private Note createNote(ArgumentMultimap argMultimap) throws ParseException {
         if (argMultimap.getValue(PREFIX_NOTE).isPresent()) {
-            note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
+            return ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
         } else {
-            note = Note.EMPTY;
+            return Note.EMPTY;
         }
-
-        Person person = new Person(name, phone, email, address, policy, note, tagList);
-
-        return new AddCommand(person);
     }
 
     /**
