@@ -14,8 +14,8 @@ public class PolicyTypeContainsKeywordsPredicateTest {
 
     @Test
     public void equals() {
-        Set<String> firstPredicateKeywordSet = Set.of("Life");
-        Set<String> secondPredicateKeywordSet = Set.of("Life", "Health");
+        Set<PolicyType> firstPredicateKeywordSet = Set.of(PolicyType.LIFE);
+        Set<PolicyType> secondPredicateKeywordSet = Set.of(PolicyType.LIFE, PolicyType.HEALTH);
 
         PolicyTypeContainsKeywordsPredicate firstPredicate =
                 new PolicyTypeContainsKeywordsPredicate(firstPredicateKeywordSet);
@@ -44,15 +44,16 @@ public class PolicyTypeContainsKeywordsPredicateTest {
     public void test_policyTypeContainsKeywords_returnsTrue() {
         // Exact match
         PolicyTypeContainsKeywordsPredicate predicate =
-                new PolicyTypeContainsKeywordsPredicate(Set.of("Life"));
+                new PolicyTypeContainsKeywordsPredicate(Set.of(PolicyType.LIFE));
         assertTrue(predicate.test(new PersonBuilder().withPolicyType("Life").build()));
 
         // Case insensitive
-        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of("life"));
+        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of(PolicyType.fromString("life")));
         assertTrue(predicate.test(new PersonBuilder().withPolicyType("LIFE").build()));
 
         // Multiple keywords, one matching
-        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of("PROPERTY", "LIFE"));
+        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of(PolicyType.fromString("PROPERTY"),
+                PolicyType.fromString("LIFE")));
         assertTrue(predicate.test(new PersonBuilder().withPolicyType("LIFE").build()));
     }
 
@@ -63,18 +64,13 @@ public class PolicyTypeContainsKeywordsPredicateTest {
         assertFalse(predicate.test(new PersonBuilder().withPolicyType("LIFE").build()));
 
         // Non-matching keyword
-        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of("VEHICLE"));
+        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of(PolicyType.fromString("VEHICLE")));
         assertFalse(predicate.test(new PersonBuilder().withPolicyType("LIFE").build()));
-
-        // Keywords match name, phone, but not policy type
-        predicate = new PolicyTypeContainsKeywordsPredicate(Set.of("Alice", "12345"));
-        assertFalse(predicate.test(new PersonBuilder().withPolicyType("LIFE")
-                .withName("Alice").withPhone("12345").build()));
     }
 
     @Test
     public void toStringMethod() {
-        Set<String> keywords = Set.of("Health", "Life");
+        Set<PolicyType> keywords = Set.of(PolicyType.HEALTH, PolicyType.LIFE);
         PolicyTypeContainsKeywordsPredicate predicate = new PolicyTypeContainsKeywordsPredicate(keywords);
 
         String actual = predicate.toString();

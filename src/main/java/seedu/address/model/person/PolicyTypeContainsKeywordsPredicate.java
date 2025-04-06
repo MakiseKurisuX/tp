@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import seedu.address.commons.util.ToStringBuilder;
 
@@ -18,11 +17,8 @@ public class PolicyTypeContainsKeywordsPredicate implements Predicate<Person> {
      * Constructs a {@code PolicyTypeContainsKeywordsPredicate}.
      * @param keywords A set of strings to match against policy types
      */
-    public PolicyTypeContainsKeywordsPredicate(Set<String> keywords) {
-        this.keywords = keywords.stream()
-                .filter(PolicyType::isValidPolicyType)
-                .map(PolicyType::fromString)
-                .collect(Collectors.toSet());
+    public PolicyTypeContainsKeywordsPredicate(Set<PolicyType> keywords) {
+        this.keywords = keywords;
     }
 
     /**

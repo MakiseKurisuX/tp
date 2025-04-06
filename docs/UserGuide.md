@@ -12,6 +12,94 @@ By combining the speed of a **Command Line Interface (CLI)** with the familiarit
 
 As a result, with InsureBook, we're not just insuring policies—we're insuring smiles!
 
+## How to Use This Guide
+
+This User Guide is designed to help you get the most out of InsureBook. Here's how to navigate it effectively:
+
+1. **[Quick Start](#quick-start)** (For New Users)
+   * If you're new to InsureBook, start with the Quick Start section
+   * This section provides step-by-step instructions to get you up and running quickly
+
+2. **[Commands](#commands)** (For All Users)
+   * The Commands section contains detailed information about all available commands
+   * Commands are organized into categories:
+     * Client Management ([add](#adding-a-person-add), [edit](#editing-a-person-edit), [delete](#deleting-a-person-delete))
+     * Policy Management ([renew](#updating-a-policy-renewal-date-renew), [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals), [filter](#view-policy-renewals-in-the-specified-date-range-filter))
+     * Search and List ([find](#locating-persons-by-keyword-find), [list](#listing-all-persons-list))
+     * General Commands ([help](#viewing-help-help), [clear](#clearing-all-entries-clear), [exit](#exiting-the-program-exit))
+
+3. **[Command Summary](#command-summary)** (For Quick Reference)
+   * The Command Summary section provides a quick overview of all commands
+   * Use this section as a quick reference when you're familiar with the commands
+
+4. **Additional Resources**
+   * [FAQ](#faq): Answers to common questions
+   * [Known Issues](#known-issues): Solutions to common issues
+   * [Saving the data](#saving-the-data): How to save and edit data files
+
+<br>
+---
+
+## Understanding Callout Boxes
+
+Throughout this guide, you'll encounter different types of callout boxes that provide important information:
+
+<box type="info" seamless>
+
+**Note Box** 📝
+
+Provides additional information or clarifications about a feature or command. Look for these when you need more details about how something works.
+</box>
+
+<box type="tip" seamless>
+
+**Tip Box** 💡
+
+Offers helpful tips and best practices. These can help you use InsureBook more effectively.
+</box>
+
+<box type="warning" seamless>
+
+**Warning Box** ⚠️
+
+Highlights important warnings or potential issues. Pay special attention to these to avoid problems.
+</box>
+
+<box type="danger" seamless>
+
+**Danger Box** ⛔
+
+Indicates critical warnings or irreversible actions. Always read these carefully before proceeding.
+</box>
+<br>
+---  
+
+## Table of Contents
+
+1. [How to Use This Guide](#how-to-use-this-guide)
+2. [Understanding Callout Boxes](#understanding-callout-boxes)
+3. [Quick Start](#quick-start)
+4. [Commands](#commands)
+   * [Client Management Commands](#client-management-commands)
+     * [Adding a person](#adding-a-person-add)
+     * [Editing a person](#editing-a-person-edit)
+     * [Deleting a person](#deleting-a-person-delete)
+   * [Policy Management Commands](#policy-management-commands)
+     * [Updating a policy renewal date](#updating-a-policy-renewal-date-renew)
+     * [Viewing upcoming policy renewals](#viewing-upcoming-policy-renewals-viewrenewals)
+     * [View policy renewals in date range](#view-policy-renewals-in-the-specified-date-range-filter)
+   * [Search Commands](#search-commands)
+     * [Listing all persons](#listing-all-persons-list)
+     * [Locating persons by keyword](#locating-persons-by-keyword-find)
+   * [General Commands](#general-commands)
+     * [Viewing help](#viewing-help-help)
+     * [Clearing all entries](#clearing-all-entries-clear)
+     * [Saving the data](#saving-the-data)
+     * [Editing the data file](#editing-the-data-file)
+     * [Exiting the program](#exiting-the-program-exit)
+5. [FAQ](#faq)
+6. [Known Issues](#known-issues)
+7. [Command Summary](#command-summary)
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -44,47 +132,67 @@ As a result, with InsureBook, we're not just insuring policies—we're insuring 
 
     * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+<box type="warning" seamless>
+
+**Warning: Data Corruption**
+
+If the data file is corrupted:
+* InsureBook will start with an empty address book
+* Your previous data will not be loaded
+</box>
+
+Refer to the [Commands](#commands) below for details of each command.
 
 ---
 
-## Features
+## Commands
+
+InsureBook provides you with several types of commands to manage your client information effectively:
+
+### [Client Management Commands](#client-management-commands)
+* [Adding a person](#adding-a-person-add) - <span class="command-word" style="color: #CC0000">`add`</span>
+* [Editing a person](#editing-a-person-edit) - <span class="command-word" style="color: #CC0000">`edit`</span>
+* [Deleting a person](#deleting-a-person-delete) - <span class="command-word" style="color: #CC0000">`delete`</span>
+
+### [Policy Management Commands](#policy-management-commands)
+* [Updating a policy renewal date](#updating-a-policy-renewal-date-renew) - <span class="command-word" style="color: #CC0000">`renew`</span>
+* [Viewing upcoming policy renewals](#viewing-upcoming-policy-renewals-viewrenewals) - <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
+* [View policy renewals in date range](#view-policy-renewals-in-the-specified-date-range-filter) - <span class="command-word" style="color: #CC0000">`filter`</span>
+
+### [Search Commands](#search-commands)
+* [Listing all persons](#listing-all-persons-list) - <span class="command-word" style="color: #CC0000">`list`</span>
+* [Locating persons by keyword](#locating-persons-by-keyword-find) - <span class="command-word" style="color: #CC0000">`find`</span>
+
+### [General Commands](#general-commands)
+* [Viewing help](#viewing-help-help) - <span class="command-word" style="color: #CC0000">`help`</span>
+* [Clearing all entries](#clearing-all-entries-clear) - <span class="command-word" style="color: #CC0000">`clear`</span>
+* [Saving the data](#saving-the-data) - <span class="command-word" style="color: #CC0000">`save`</span>
+* [Editing the data file](#editing-the-data-file) - <span class="command-word" style="color: #CC0000">`edit`</span>
+* [Exiting the program](#exiting-the-program-exit) - <span class="command-word" style="color: #CC0000">`exit`</span>
+
+A command consists of a <span class="command-word" style="color: #CC0000">command word</span> and zero or more <span class="parameter" style="color: #FF8C00">parameters</span>.
+
+Example: <span class="command-word" style="color: #CC0000">add</span> <span class="parameter" style="color: #FF8C00">n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456</span>
 
 <box type="info" seamless>
 
-**Notes about the command format:**<br>
+**Note**
 
-*   Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-    e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-
-*   Items in square brackets are optional.<br>
-    e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-
-*   Items with `…`​ after them can be used multiple times including zero times.<br>
-    e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
-*   Parameters can be in any order.<br>
-    e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
-
-*   Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-    e.g. if the command specifies `help 123`, it will be interpreted as `help`.
-
-*   If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* For each command, the correct syntax is specified under "Format"
+* Command words are case-insensitive
+* Words in <span class="parameter" style="color: #FF8C00">`UPPER_CASE`</span> are the parameters to be supplied by the user
+* Items in <span class="optional" style="color: #808080">[square brackets]</span> are optional
+* Items with <span class="repeatable" style="color: #0066CC">`…`</span>​ after them can be used multiple times including zero times
+* Extraneous parameters for commands that do not take parameters (such as <span class="command-word" style="color: #CC0000">`help`</span>, <span class="command-word" style="color: #CC0000">`list`</span>, <span class="command-word" style="color: #CC0000">`exit`</span> and <span class="command-word" style="color: #CC0000">`clear`</span>) will be ignored
     </box>
 
-### Viewing help : `help`
+### Client Management Commands
 
-Shows a message explaining how to access the help page.
-
-![help message](images/helpMessage.png)
-
-Format: `help`
-
-### Adding a person: `add`
+#### Adding a person : <span class="command-word" style="color: #CC0000">`add`</span>
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [pt/POLICY_TYPE] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]…​`
+Format: <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER</span> <span class="optional" style="color: #808080">[pt/POLICY_TYPE] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span>
 
 <box type="tip" seamless>
 
@@ -101,20 +209,153 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [pt/POLIC
 *   Note: There are no specific restrictions for notes; any string is accepted as a valid note.
 *   Tag: A valid tag name must be entirely alphanumeric.
 
+<box type="warning" seamless>
+
+**Warning: Duplicate Names**
+
+If you attempt to add a person with a name that already exists:
+* An error message will be shown
+* The person will not be added
+* Consider adding a unique identifier (e.g., middle name or initial) to distinguish between clients with the same name
+</box>
+
 Examples:
-*   `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024 note/Basketball Player`
-*   `add n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024 note/Basketball Player</span>
+* <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</span>
+
+<box type="warning" seamless>
+
+**Warning: Duplicate Policy Numbers**
+
+Each policy number must be unique in the system. If you attempt to add a person with a policy number that already exists:
+* An error message will be shown
+* The person will not be added
+* You should verify the correct policy number and try again
+</box>
 
 <box type="tip" seamless>
 
 **Tip:** Names such as X Æ A-Xii Musk is not valid unfortunately.
 </box>
 
-### Listing all persons : `list`
+#### Editing a person : <span class="command-word" style="color: #CC0000">`edit`</span>
+
+Format: <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">INDEX</span> <span class="optional" style="color: #808080">[n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY_NUMBER] [pt/POLICY_TYPE] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span>
+
+*   Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+*   At least one of the optional fields must be provided.
+*   Existing values will be updated to the input values.
+*   When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+*   You can remove all the person's tags by typing `t/` without
+    specifying any tags after it.
+
+<box type="warning" seamless>
+
+**Warning: Duplicate Names**
+
+If you edit a person's name to one that already exists:
+* An error message will be shown
+* The person will not be edited
+* Consider adding a unique identifier (e.g., middle name or initial) to distinguish between clients with the same name
+</box>
+
+Examples:
+
+* <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2024</span>
+* <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">2 n/Betsy Crower t/</span>
+
+#### Deleting a person : <span class="command-word" style="color: #CC0000">`delete`</span>
+
+Format: <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">INDEX</span>
+
+*   Deletes the person at the specified `INDEX`.
+*   The index refers to the index number shown in the displayed person list.
+*   The index **must be a positive integer** 1, 2, 3, …​
+
+<box type="danger" seamless>
+
+**Warning: Irreversible Action ⛔**
+
+* The delete command permanently removes the client's data
+* This action cannot be undone
+* Make sure you have selected the correct index before deleting
+</box>
+
+Examples:
+
+* <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">2</span>
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">Betsy</span> followed by <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">1</span>
+
+### Policy Management Commands
+
+#### Updating a policy renewal date : <span class="command-word" style="color: #CC0000">`renew`</span>
+
+Format: <span class="command-word" style="color: #CC0000">`renew`</span> <span class="parameter" style="color: #FF8C00">pol/POLICY_NUMBER r/RENEWAL_DATE</span>
+
+<box type="warning" seamless>
+
+**Warning: Single Policy Renewal ⚠️**
+
+* Only one policy can be renewed at a time
+* To renew multiple policies, use the command separately for each policy
+</box>
+
+*   The `pol/POLICY_NUMBER` parameter must be a valid policy number in the system.
+*   The `r/RENEWAL_DATE` parameter must be in the format `DD-MM-YYYY`.
+
+Examples:
+
+* <span class="command-word" style="color: #CC0000">`renew`</span> <span class="parameter" style="color: #FF8C00">pol/123456 r/31-12-2025</span>
+
+#### Viewing upcoming policy renewals : <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
+
+Format: <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="optional" style="color: #808080">[n/NEXT_N_DAYS] [s/SORT_ORDER]</span>
+
+<box type="warning" seamless>
+
+**Warning: Integer Days Only ⚠️**
+
+* The NEXT_N_DAYS parameter must be a positive integer
+* Decimal numbers or negative values are not accepted
+* Example: Use `n/30` for next 30 days, not `n/30.5` or `n/-30`
+</box>
+
+Examples:
+
+* <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
+* <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="parameter" style="color: #FF8C00">n/60</span>
+* <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="parameter" style="color: #FF8C00">n/60 s/name</span>
+
+#### View policy renewals in date range : <span class="command-word" style="color: #CC0000">`filter`</span>
+
+Format: <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/START_DATE ed/END_DATE</span> <span class="optional" style="color: #808080">[s/SORT_ORDER]</span>
+
+<box type="warning" seamless>
+
+**Warning: Valid Date Range ⚠️**
+
+* The END_DATE must be later than or equal to the START_DATE
+* Both dates must be in DD-MM-YYYY format
+* Example: `sd/01-01-2024 ed/31-12-2024` is valid
+* Example: `sd/31-12-2024 ed/01-01-2024` is invalid (end date before start date)
+</box>
+
+*   The `sd/START_DATE` parameter must be in the format `DD-MM-YYYY`.
+*   The `ed/END_DATE` parameter must be in the format `DD-MM-YYYY`.
+*   The search results will include policy renewals between the specified start date and end date.
+
+Examples:
+
+* <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/2025-03-01 ed/2025-03-31</span>
+* <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/2025-01-01 ed/2025-06-30 s/name</span>
+
+### Search Commands
+
+#### Listing all persons : <span class="command-word" style="color: #CC0000">`list`</span>
 
 Shows a list of all persons in the address book.
 
-Format: `list`
+Format: <span class="command-word" style="color: #CC0000">`list`</span>
 
 Each person card in the list displays:
 
@@ -129,33 +370,16 @@ Each person card in the list displays:
 
 The policy type and renewal date are clearly labeled to help insurance agents quickly identify the types of policies and when they need to be renewed.
 
-### Editing a person : `edit`
-
-Edits an existing person in the address book.
-
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY_NUMBER] [pt/POLICY_TYPE] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]…​`
-
-*   Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-*   At least one of the optional fields must be provided.
-*   Existing values will be updated to the input values.
-*   When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-*   You can remove all the person's tags by typing `t/` without
-    specifying any tags after it.
-
-Examples:
-
-*   `edit 1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2024` Edits the phone number, email address, policy type and renewal date of the 1st person to be `91234567`, `johndoe@example.com`, `Health` and `31-12-2024` respectively.
-*   `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
-
-### Locating persons by keyword: `find`
+#### Locating persons by keyword : <span class="command-word" style="color: #CC0000">`find`</span>
 
 Searches given person fields by specific keyword and returns any matching entries
+Format: <span class="command-word" style="color: #CC0000">`find`</span> <span class="optional" style="color: #808080">[n/NAME]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[p/PHONE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[e/EMAIL]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[a/ADDRESS]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pol/POLICY_NUMBER]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pt/POLICY_TYPE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[s/SORT_ORDER]</span><span class="repeatable" style="color: #0066CC">…​</span>
 
-Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [pt/POLICY_TYPE]… [t/TAG]… [s/SORT_ORDER]…`
+
 
 *   At least one of the optional fields must be provided.
-*   Each field may be provided more than once.
-*   Each field may contain more than one word.
+*   Each field may be provided more than once except `SORT_ORDER`.
+*   `NAME` and `ADDRESS` field may contain more than one word.
 *   The search is case-insensitive. e.g `hans` will match `Hans`
 *   The order of the values matter for a field but not for different fields. e.g. `n/Hans Bo` will not match `Bo Hans` but `n/Hans n/Bo` will match `Bo Hans`
 *   Partial words will also be matched e.g. `n/Han` will match `Hans`
@@ -164,162 +388,156 @@ Format: `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_N
     e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
 *   Tags are supported. You can add one or more tags using `t/TAG`. The search for tags is not case-sensitive and must be an exact word.
 *   Policy types are supported. You can search for specific policy types using `pt/POLICY_TYPE`. Valid policy types are: Life, Health, Property, Vehicle, and Travel. The search is not case-sensitive.
-*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag`. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first.
+*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag` only. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first.
 
 <box type="info" seamless>
 
-**Note:** The sorting order is case-sensitive and follows ASCII values. This means lowercase letters are ordered after uppercase ones. For example, `alice` will appear after `Bernice`.
+**Note:** The sorting order is case-sensitive and follows ASCII values. This means lowercase letters are ordered after uppercase ones. For example, `Bernice` will appear after `alice`.
 </box>
 
 Examples:
 
-*   `find n/John` returns `john` and `John Doe`
-*   `find n/Amy p/999` returns `Amy Goh (96372716)` and `Local Police (999)`
-*   `find n/alex n/david` returns `Alex Yeoh`, `David Li`
-*   `find e/ice@example.com e/bob@ex` returns `alice@example.com` and `bob@example.com`<br>
-*   `find t/colleagues` returns `Bernice Yu` and `Roy Balakrishnan`
-*   `find pt/Health` returns all persons with health insurance policies
-*   `find pt/Life pt/Health` returns all persons with either life or health insurance policies
-*   `find t/friends t/colleagues s/tag` returns entries containing one or more of the tags `friends` or `colleagues`, sorted by entries with most number of tags first.
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/John</span>
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/Amy p/999</span>
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/alex n/david</span>
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">t/friends t/colleagues s/tag</span>
 
-### Deleting a person : `delete`
+### General Commands
 
-Deletes the specified person from the address book.
+#### Viewing help : <span class="command-word" style="color: #CC0000">`help`</span>
 
-Format: `delete INDEX`
+Shows a message explaining how to access the help page.
 
-*   Deletes the person at the specified `INDEX`.
-*   The index refers to the index number shown in the displayed person list.
-*   The index **must be a positive integer** 1, 2, 3, …​
+Format: <span class="command-word" style="color: #CC0000">`help`</span>
 
-Examples:
+#### Clearing all entries : <span class="command-word" style="color: #CC0000">`clear`</span>
 
-*   `list` followed by `delete 2` deletes the 2nd person in the address book.
-*   `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+Format: <span class="command-word" style="color: #CC0000">`clear`</span>
 
-### Clearing all entries : `clear`
+<box type="danger" seamless>
 
-Clears all entries from the address book.
+**Warning: Irreversible Action ⛔**
 
-Format: `clear`
-
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
-
-### Updating a policy renewal date : `renew`
-
-Updates the renewal date of a client's policy by directly using their policy number, without needing to search for their index.
-
-Format: `renew pol/POLICY_NUMBER r/RENEWAL_DATE`
-
-*   The `pol/POLICY_NUMBER` parameter must be a valid policy number in the system.
-*   The `r/RENEWAL_DATE` parameter must be in the format `DD-MM-YYYY`.
-*   If multiple clients have the same policy number, an error message will be shown. In this case, use the `edit` command with the client's index instead.
-
-Examples:
-
-*   `renew pol/123456 r/31-12-2025` - Updates the renewal date for policy 123456 to December 31, 2025
-
-### Viewing upcoming policy renewals : `viewrenewals`
-
-Helps insurance agents proactively track and manage upcoming policy renewals for their clients.
-
-Format: `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`
-
-*   The `n/NEXT_N_DAYS` parameter is optional:
-
-    *   Acceptable values: Positive integer between 1-365
-    *   If omitted: Defaults to 30 days
-    *   Error message: "NEXT_N_DAYS must be a positive number between 1 and 365"
-    *   Rationale: Setting an upper limit prevents performance issues with extremely large ranges
-
-*   The `s/SORT_ORDER` parameter is optional:
-    *   Acceptable values: "date" (chronological order), "name" (alphabetical order)
-    *   Case-insensitive: Both "DATE" and "date" are valid
-    *   If omitted: Defaults to "date"
-    *   Error message: "Invalid sort order. Use 'date' or 'name'"
-    *   Rationale: These two sort orders cover the most common use cases for reviewing renewals
-
-The renewal table displays the following information for each policy:
-
-*   Client name
-*   Policy number
-*   Policy type (Life, Health, Property, Vehicle, or Travel)
-*   Renewal date
-*   Days left until renewal
-*   Contact number
-
-Examples:
-
-*   `viewrenewals` - Shows renewals due in the next 30 days, sorted by date
-*   `viewrenewals n/60` - Shows renewals due in the next 60 days, sorted by date
-*   `viewrenewals n/60 s/name` - Shows renewals due in the next 60 days, sorted alphabetically by name
-
-### View policy renewals in the specified date range: `filter`
-
-Enables insurance agents to find clients with policy renewals falling within a specific calendar range.
-
-Format: `filter sd/START_DATE ed/END_DATE [s/SORT_ORDER]`
-
-The `s/SORT_ORDER` parameter is optional:
-*   Acceptable values: "date" (chronological) or "name" (alphabetical).
-*   Case-insensitive: Both "DATE" and "date" are valid.
-*   Default: "date" if omitted.
-*   Error message: "Invalid sort. Use 'date' or 'name' (case-insensitive)".
-*   Rationale: These two sort options cover the most common use cases for reviewing renewals.
-
-Examples:
-
-*   `filter sd/2025-03-01 ed/2025-03-31` - Shows renewals due from 2025-03-01 to 2025-03-31, sorted by date by default
-*   `filter sd/2025-01-01 ed/2025-06-30 s/name` - Shows renewals due from 2025-01-01 to 2025-06-30, sorted by name
-
-### Saving the data
-
-InsureBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
-
-### Editing the data file
-
-InsureBook data are saved automatically as a JSON file `[JAR file location]/data/insurebook.json`. Advanced users are welcome to update data directly by editing that data file.
-
-<box type="warning" seamless>
-
-**Caution:**
-If your changes to the data file makes its format invalid, InsureBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the InsureBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+* The clear command permanently removes ALL client data
+* This action CANNOT be undone
+* Double-check that you really want to delete everything
 </box>
 
+#### Exiting the program : <span class="command-word" style="color: #CC0000">`exit`</span>
 
+Format: <span class="command-word" style="color: #CC0000">`exit`</span>
+
+### FAQ
+
+**Q:** How do I add a new person to the address book?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`add`</span> command. For example, <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024 note/Basketball Player</span>.
+
+**Q:** How do I edit a person's information?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`edit`</span> command. For example, <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2024</span>.
+
+**Q:** How do I delete a person from the address book?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`delete`</span> command. For example, <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">1</span>.
+
+**Q:** How do I clear all entries from the address book?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`clear`</span> command. For example, <span class="command-word" style="color: #CC0000">`clear`</span>.
+
+**Q:** How do I exit the program?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`exit`</span> command. For example, <span class="command-word" style="color: #CC0000">`exit`</span>.
+
+**Q:** How do I update a policy renewal date?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`renew`</span> command. For example, <span class="command-word" style="color: #CC0000">`renew`</span> <span class="parameter" style="color: #FF8C00">pol/123456 r/31-12-2025</span>.
+
+**Q:** How do I view upcoming policy renewals?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`viewrenewals`</span> command. For example, <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="parameter" style="color: #FF8C00">n/60</span>.
+
+**Q:** How do I filter policy renewals in a date range?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`filter`</span> command. For example, <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/2025-03-01 ed/2025-03-31</span>.
+
+**Q:** How do I save the data?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`save`</span> command. For example, <span class="command-word" style="color: #CC0000">`save`</span> <span class="parameter" style="color: #FF8C00">addressbook.json</span>.
+
+**Q:** How do I edit the data file?
+
+**A:** Use the <span class="command-word" style="color: #CC0000">`edit`</span> command. For example, <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">addressbook.json</span>.
+
+### Known Issues
+
+**I:** I'm unable to add a new person to the address book.
+
+**A:** Ensure that all fields are filled out correctly and that the phone number, email, and policy number are in the correct format.
+
+**I:** I'm unable to edit a person's information.
+
+**A:** Ensure that the index is correct and that all fields are filled out correctly.
+
+**I:** I'm unable to delete a person from the address book.
+
+**A:** Ensure that the index is correct and that the person exists in the address book.
+
+**I:** I'm unable to clear all entries from the address book.
+
+**A:** Ensure that you have the correct permissions to clear the address book.
+
+**I:** I'm unable to exit the program.
+
+**A:** Ensure that you have saved all changes before exiting the program.
+
+**I:** I'm unable to update a policy renewal date.
+
+**A:** Ensure that the policy number is correct and that the renewal date is in the correct format.
+
+**I:** I'm unable to view upcoming policy renewals.
+
+**A:** Ensure that the program is up to date and that there are no issues with the data file.
+
+**I:** I'm unable to filter policy renewals in a date range.
+
+**A:** Ensure that the start and end dates are in the correct format and that the data file is up to date.
+
+**I:** I'm unable to save the data.
+
+**A:** Ensure that the file name is correct and that you have the correct permissions to save the file.
+
+**I:** I'm unable to edit the data file.
+
+**A:** Ensure that the file name is correct and that you have the correct permissions to edit the file.
+
+### Command Summary
+
+### Client Management Commands
+| Command | Format |
+|---------|---------|
+| <span class="command-word" style="color: #CC0000">`add`</span> | <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER</span> <span class="optional" style="color: #808080">[pt/POLICY_TYPE] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span> |
+| <span class="command-word" style="color: #CC0000">`edit`</span> | <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">INDEX</span> <span class="optional" style="color: #808080">[n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [pol/POLICY_NUMBER] [pt/POLICY_TYPE] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span> |
+| <span class="command-word" style="color: #CC0000">`delete`</span> | <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">INDEX</span> |
+
+### Policy Management Commands
+| Command | Format |
+|---------|---------|
+| <span class="command-word" style="color: #CC0000">`renew`</span> | <span class="command-word" style="color: #CC0000">`renew`</span> <span class="parameter" style="color: #FF8C00">pol/POLICY_NUMBER r/RENEWAL_DATE</span> |
+| <span class="command-word" style="color: #CC0000">`viewrenewals`</span> | <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="optional" style="color: #808080">[n/NEXT_N_DAYS] [s/SORT_ORDER]</span> |
+| <span class="command-word" style="color: #CC0000">`filter`</span> | <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/START_DATE ed/END_DATE</span> <span class="optional" style="color: #808080">[s/SORT_ORDER]</span> |
+
+### Search Commands
+| Command | Format |
+|---------|---------|
+| <span class="command-word" style="color: #CC0000">`list`</span> | <span class="command-word" style="color: #CC0000">`list`</span> |
+| <span class="command-word" style="color: #CC0000">`find`</span> | <span class="command-word" style="color: #CC0000">`find`</span> <span class="optional" style="color: #808080">[n/NAME]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[p/PHONE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[e/EMAIL]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[a/ADDRESS]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pol/POLICY_NUMBER]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pt/POLICY_TYPE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[s/SORT_ORDER]</span><span class="repeatable" style="color: #0066CC">…​</span> |
+
+### General Commands
+| Command | Format |
+|---------|---------|
+| <span class="command-word" style="color: #CC0000">`help`</span> | <span class="command-word" style="color: #CC0000">`help`</span> |
+| <span class="command-word" style="color: #CC0000">`clear`</span> | <span class="command-word" style="color: #CC0000">`clear`</span> |
+| <span class="command-word" style="color: #CC0000">`exit`</span> | <span class="command-word" style="color: #CC0000">`exit`</span> |
 
 ---
-
-## FAQ
-
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous InsureBook home folder.
-
----
-
-## Known issues
-
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-1. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
----
-
-## Command summary
-
-| Action            | Format, Examples                                                                                                                                                                                                                               |
-|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add**           | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS pol/POLICY_NUMBER [r/RENEWAL_DATE] [note/NOTE] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 pol/183548 note/Is lovely t/friend t/colleague` |
-| **Clear**         | `clear`                                                                                                                                                                                                                                        |
-| **Delete**        | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                            |
-| **Edit**          | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [pol/POLICY_NUMBER] [r/RENEWAL_DATE] [note/NOTE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                   |
-| **Find**          | `find [n/NAME]… [p/PHONE]… [e/EMAIL]… [a/ADDRESS]… [pol/POLICY_NUMBER]… [t/TAG]… [s/SORT_ORDER]`<br> e.g., `find n/James n/Jake p/98765432`                                                                                                    |
-| **List**          | `list`                                                                                                                                                                                                                                         |
-| **Help**          | `help`                                                                                                                                                                                                                                         |
-| **Renew**         | `renew pol/POLICY_NUMBER r/RENEWAL_DATE`<br> e.g., `renew pol/123456 r/31-12-2025`                                                                                                                                                             |
-| **View Renewals** | `viewrenewals [n/NEXT_N_DAYS] [s/SORT_ORDER]`<br> e.g., `viewrenewals n/60 s/name`                                                                                                                                                             |
-| **Filter**        | `filter sd/START_DATE ed/END_DATE [s/SORT_ORDER]`<br> e.g., `filter sd/2025-01-01 ed/2025-06-30 s/name`                                                                                                                                        |

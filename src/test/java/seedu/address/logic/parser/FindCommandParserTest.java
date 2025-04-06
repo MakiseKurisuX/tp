@@ -32,11 +32,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_TYPE_LIFE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT_ORDER;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -188,6 +190,11 @@ public class FindCommandParserTest {
                 + INVALID_EMAIL_DESC;
 
         assertParseFailure(parser, userInput, Name.MESSAGE_CONSTRAINTS);
+
+        // multiple sort orders
+        userInput = NAME_DESC_AMY + PHONE_DESC_BOB + SORT_ORDER_DESC_NAME + SORT_ORDER_DESC_TAG;
+
+        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_SORT_ORDER));
     }
 
     @Test
