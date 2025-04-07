@@ -35,7 +35,6 @@ This User Guide is designed to help you get the most out of InsureBook. Here's h
 4. **Additional Resources**
    * [FAQ](#faq): Answers to common questions
    * [Known Issues](#known-issues): Solutions to common issues
-   * [Saving the data](#saving-the-data): How to save and edit data files
 
 <br>
 ---
@@ -183,7 +182,6 @@ Example: <span class="command-word" style="color: #CC0000">add</span> <span clas
 * Words in <span class="parameter" style="color: #FF8C00">`UPPER_CASE`</span> are the parameters to be supplied by the user
 * Items in <span class="optional" style="color: #808080">[square brackets]</span> are optional
 * Items with <span class="repeatable" style="color: #0066CC">`…`</span>​ after them can be used multiple times including zero times
-* Extraneous parameters for commands that do not take parameters (such as <span class="command-word" style="color: #CC0000">`help`</span>, <span class="command-word" style="color: #CC0000">`list`</span>, <span class="command-word" style="color: #CC0000">`exit`</span> and <span class="command-word" style="color: #CC0000">`clear`</span>) will be ignored
     </box>
 
 ### Client Management Commands
@@ -199,15 +197,15 @@ Format: <span class="command-word" style="color: #CC0000">`add`</span> <span cla
 **Tip:** A person can have any number of tags (including 0)
 </box>
 
-*   Name: Names must only include alphanumeric characters and spaces.
-*   Phone Number: Phone numbers must follow the E.164 standard.
-*   Email: The email must be in the localpart@domain format.
-*   Address: The address can be any string value, but it must not be blank.
-*   Policy Number: The policy number must consist only of digits, ensuring that it is numeric and non‑blank.
-*   Policy Type: Only the following case‑insensitive policy types are allowed: Life, Health, Property, Vehicle, Travel.
-*   Renewal Date: The date must follow the DD-MM-YYYY format.
-*   Note: There are no specific restrictions for notes; any string is accepted as a valid note.
-*   Tag: A valid tag name must be entirely alphanumeric.
+*   NAME: Names must only include alphanumeric characters and spaces.
+*   PHONE_NUMBER: Phone numbers must follow the E.164 standard.
+*   EMAIL: The email must be in the localpart@domain format.
+*   ADDRESS: The address can be any string value, but it must not be blank.
+*   POLICY_NUMBER: The policy number must consist only of digits, ensuring that it is numeric and non‑blank.
+*   POLICY_TYPE: Only the following case‑insensitive policy types are allowed: Life, Health, Property, Vehicle, Travel.
+*   RENEWAL_DATE: The date must follow the DD-MM-YYYY format.
+*   NOTE: There are no specific restrictions for notes; any string is accepted as a valid note.
+*   TAG: A valid tag name must be entirely alphanumeric.
 
 <box type="warning" seamless>
 
@@ -225,7 +223,7 @@ If you attempt to add a person that matches any of these conditions:
 </box>
 
 Examples:
-* <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024 note/Basketball Player</span>
+* <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/12345678 pt/Life r/31-12-2025 note/Basketball Player</span>
 * <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</span>
 
 Expected Output:
@@ -248,7 +246,7 @@ Each policy number must be unique in the system. If you attempt to add a person 
 
 <box type="tip" seamless>
 
-**Tip:** Names such as X Æ A-Xii Musk is not valid unfortunately.
+**Tip:** Names such as X Æ A-Xii Musk is not valid unfortunately as it contains non-ASCII characters.
 </box>
 
 #### Editing a person : <span class="command-word" style="color: #CC0000">`edit`</span>
@@ -279,7 +277,7 @@ If your edit would create any of these duplicate conditions:
 
 Examples:
 
-* <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2024</span>
+* <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2025</span>
 * <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">2 n/Betsy Crower t/</span>
 
 Expected Output:
@@ -309,7 +307,7 @@ Format: <span class="command-word" style="color: #CC0000">`delete`</span> <span 
 Examples:
 
 * <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">2</span>
-* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">Betsy</span> followed by <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">1</span>
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/Betsy</span> followed by <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">1</span>
 
 Expected Output:
 * Before running the command:
@@ -557,7 +555,7 @@ Expected output after running `exit`: InsureBook **closes**.
 
 **I:** I'm unable to delete a person from the address book.
 
-**A:** Ensure that the index is correct and that the person exists in the address book.
+**A:** Ensure that the index is correct and that the index exists in the address book.
 
 **I:** I'm unable to clear all entries from the address book.
 
@@ -578,14 +576,6 @@ Expected output after running `exit`: InsureBook **closes**.
 **I:** I'm unable to filter policy renewals in a date range.
 
 **A:** Ensure that the start and end dates are in the correct format and that the data file is up to date.
-
-**I:** I'm unable to save the data.
-
-**A:** Ensure that the file name is correct and that you have the correct permissions to save the file.
-
-**I:** I'm unable to edit the data file.
-
-**A:** Ensure that the file name is correct and that you have the correct permissions to edit the file.
 
 ### Command Summary
 

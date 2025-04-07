@@ -189,7 +189,43 @@ The `Storage` component,
 
 ### Common classes
 
-Classes used by multiple components are in the `seedu.address.commons` package.
+Classes used by multiple components are in the `seedu.address.commons` package. These classes can be categorized into several groups:
+
+#### Core Classes
+
+* **`Config`**: Stores configuration values used by the app, including log levels and file paths.
+* **`GuiSettings`**: A serializable class containing GUI settings like window dimensions and coordinates.
+* **`LogsCenter`**: Configures and manages loggers and handlers, supporting file and console logging.
+* **`Version`**: Represents version information with major, minor, and patch numbers.
+
+#### Utility Classes
+
+* **`AppUtil`**: Contains app-specific utility functions for image loading and argument validation.
+* **`CollectionUtil`**: Provides utility methods for collection operations and null checking.
+* **`FileUtil`**: Handles file operations like reading, writing, and path validation.
+* **`JsonUtil`**: Manages JSON serialization/deserialization using Jackson library.
+* **`StringUtil`**: Offers string manipulation utilities including case-insensitive search and integer validation.
+* **`ConfigUtil`**: Provides access to configuration file operations.
+* **`ToStringBuilder`**: Helps build consistent string representations of objects.
+
+#### Index Classes
+
+* **`Index`**: Represents a zero-based or one-based index, facilitating index conversions between components.
+
+#### Exception Classes
+
+* **`DataLoadingException`**: Represents errors during data loading from files.
+* **`IllegalValueException`**: Signals that given data does not fulfill certain constraints.
+
+These common classes provide essential functionality that is shared across different components of the application, promoting code reuse and maintaining consistency in how common operations are handled.
+
+The classes are designed to be:
+- Reusable across different components
+- Independent of application-specific logic
+- Focused on a single responsibility
+- Well-documented with clear purpose
+
+This organization helps maintain clean architecture by keeping common utilities separate from business logic while providing essential services to all components.
 
 ---
 
@@ -239,25 +275,23 @@ The following sequence diagram shows how the viewrenewals operation works:
 
 **Aspect: How to calculate renewal due dates**
 
-*   **Alternative 1 (current choice):** Calculate days until renewal on demand
+**Option 1 (Current Choice):** *Calculate days until renewal on demand*  
+*   **Pros:** More memory-efficient  
+*   **Cons:** May affect performance if calculated frequently  
 
-    *   Pros: More memory efficient
-    *   Cons: May impact performance if calculated frequently
-
-*   **Alternative 2:** Store days until renewal as a field
-    *   Pros: Faster retrieval
-    *   Cons: Needs to be updated daily
+**Option 2:** *Store days until renewal as a field*  
+*   **Pros:** Faster retrieval  
+*   **Cons:** Needs to be updated daily  
 
 **Aspect: Where to implement filtering logic**
 
-*   **Alternative 1 (current choice):** In the command
+**Option 1 (Current Choice):** *In the command*  
+*   **Pros:** Keeps filtering logic with the command that needs it  
+*   **Cons:** Logic may be duplicated if needed elsewhere  
 
-    *   Pros: Keeps filtering logic with the command that needs it
-    *   Cons: Logic might be duplicated if needed elsewhere
-
-*   **Alternative 2:** In the Model
-    *   Pros: Centralizes filtering logic
-    *   Cons: Makes Model more complex
+**Option 2:** *In the Model*  
+*   **Pros:** Centralizes filtering logic  
+*   **Cons:** Makes the Model more complex  
 
 ### Renewal Date Update Feature
 
@@ -806,8 +840,8 @@ Use case ends.
 -   **Insurance Agent**: The primary user of InsureBook: someone who manages and tracks client details, insurance policies, and renewals.
 -   **Client**: An individual whose information is stored in InsureBook. This includes their name, contact details, address, associated policies, and optional notes or tags.
 -   **Policy**: An insurance agreement linked to a client, which includes details like policy number, type, and renewal date.
--   **Policy Number**: A unique numeric code that identifies a client’s insurance policy. It must be different for each policy entered.
--   **Renewal Date**: The date by which a client’s policy must be renewed to stay active. This date is managed using `renew`, `viewrenewals`, and `filter`.
+-   **Policy Number**: A unique numeric code that identifies a client's insurance policy. It must be different for each policy entered.
+-   **Renewal Date**: The date by which a client's policy must be renewed to stay active. This date is managed using `renew`, `viewrenewals`, and `filter`.
 -   **Policy Type**: The category of a policy. Supported types include: `Life`, `Health`, `Property`, `Vehicle`, and `Travel`.
 -   **Tag**: A label added to clients for categorization or filtering purposes. For example, `t/vip`, `t/family`, or `t/lead`.
 -   **User Interface (UI)**: The graphical layout and interactive components (e.g., windows, panels, forms) through which the insurance agent interacts with the system.
