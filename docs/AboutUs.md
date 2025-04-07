@@ -16,38 +16,38 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/nathtiekk.png" width="200px">
 
 [[github](http://github.com/nathtiekk)]
-[[portfolio](team/johndoe.md)]
 
-* Role: TBC
+* Role: Developer
+* Responsibilities: Integration
 
 ### John Gao Jiahao
 
 <img src="images/johngao122.png" width="200px">
 
 [[github](http://github.com/johngao122)]
-[[portfolio](team/johndo.md)]
+[[portfolio](https://portfolio-new-dl0.pages.dev/)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Developer
+* Responsibilities: Integration, Documentation, UI
 
 ### Tan Yu Yang
 
 <img src="images/yuyang011.png" width="200px">
 
 [[github](http://github.com/yuyang011)]
-[[portfolio](team/yuyang011.md)]
 
 * Role: Developer
-* Responsibilities: Still deciding
+* Responsibilities: Integration, Documentation
 
 ### Jovin Ang
 
 <img src="images/jovin-ang.png" width="200px">
 
 [[github](http://github.com/Jovin-Ang)]
+[[portfolio](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/418)]
 
 * Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Responsibilities: DevOps, Code Quality, Test Cases, Integration, Documentation
 
 ### Ervin Tan
 
@@ -57,4 +57,4 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](https://makisekurisux.github.io/)]
 
 * Role: Developer
-* Responsibilities: Still deciding
+* Responsibilities: Integration, UI, Documentation
