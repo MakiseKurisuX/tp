@@ -1,5 +1,6 @@
 @startuml
 !include style.puml
+skinparam defaultFontSize 20
 skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
@@ -20,4 +21,7 @@ Person *--> Email
 Person *--> Address
 Person *--> Policy
 Person *--> Note
+
+Policy *--> RenewalDate
+Policy *--> PolicyType
 @enduml

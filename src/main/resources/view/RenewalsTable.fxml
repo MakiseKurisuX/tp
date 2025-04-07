@@ -8,7 +8,7 @@
     <TableView fx:id="renewalsTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="clientColumn" text="Client" />
-            <TableColumn fx:id="policyColumn" text="Policy" />
+            <TableColumn fx:id="policyColumn" text="Policy Number" />
             <TableColumn fx:id="renewalDateColumn" text="Renewal Date" />
             <TableColumn fx:id="daysLeftColumn" text="Days left" />
             <TableColumn fx:id="typeColumn" text="Type" />

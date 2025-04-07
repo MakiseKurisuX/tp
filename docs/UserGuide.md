@@ -211,12 +211,17 @@ Format: <span class="command-word" style="color: #CC0000">`add`</span> <span cla
 
 <box type="warning" seamless>
 
-**Warning: Duplicate Names**
+**Warning: Duplicate Entries**
 
-If you attempt to add a person with a name that already exists:
-* An error message will be shown
+A person is considered a duplicate if they have:
+* The same policy number, OR
+* The same name and email, OR
+* The same name and phone number
+
+If you attempt to add a person that matches any of these conditions:
+* An error message will be shown indicating which condition was matched
 * The person will not be added
-* Consider adding a unique identifier (e.g., middle name or initial) to distinguish between clients with the same name
+* You should verify the information and try again with unique details
 </box>
 
 Examples:
@@ -251,12 +256,17 @@ Format: <span class="command-word" style="color: #CC0000">`edit`</span> <span cl
 
 <box type="warning" seamless>
 
-**Warning: Duplicate Names**
+**Warning: Duplicate Entries**
 
-If you edit a person's name to one that already exists:
-* An error message will be shown
-* The person will not be edited
-* Consider adding a unique identifier (e.g., middle name or initial) to distinguish between clients with the same name
+A person is considered a duplicate if the edit would result in:
+* The same policy number as another person, OR
+* The same name and email as another person, OR
+* The same name and phone number as another person
+
+If your edit would create any of these duplicate conditions:
+* An error message will be shown indicating which condition was matched
+* The edit will not be applied
+* You should modify your edit to ensure the result is unique
 </box>
 
 Examples:

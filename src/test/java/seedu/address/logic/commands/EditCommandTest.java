@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_POLICY_TYPE_HEALTH;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -130,7 +132,38 @@ public class EditCommandTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
 
-        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_POLICY);
+        String expectedMessage = String.format(EditCommand.MESSAGE_DUPLICATE_PERSON, "policy number");
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_duplicateNameAndEmailUnfilteredList_failure() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(firstPerson.getName().toString())
+                .withEmail(firstPerson.getEmail().toString())
+                .withPhone(VALID_PHONE_BOB)
+                .withPolicy(VALID_POLICY_BOB)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
+
+        assertCommandFailure(editCommand, model,
+            String.format(EditCommand.MESSAGE_DUPLICATE_PERSON, "name and email"));
+    }
+
+    @Test
+    public void execute_duplicateNameAndPhoneUnfilteredList_failure() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(firstPerson.getName().toString())
+                .withPhone(firstPerson.getPhone().toString())
+                .withEmail(VALID_EMAIL_BOB)
+                .withPolicy(VALID_POLICY_BOB)
+                .build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
+
+        assertCommandFailure(editCommand, model,
+            String.format(EditCommand.MESSAGE_DUPLICATE_PERSON, "name and phone number"));
     }
 
     @Test
@@ -142,7 +175,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditPersonDescriptorBuilder(personInList).build());
 
-        assertThrows(DuplicatePersonException.class, () -> editCommand.execute(model));
+        String expectedMessage = String.format(EditCommand.MESSAGE_DUPLICATE_PERSON, "policy number");
+        assertThrows(DuplicatePersonException.class, () -> editCommand.execute(model), expectedMessage);
     }
 
     @Test

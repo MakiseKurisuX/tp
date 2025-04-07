@@ -83,16 +83,61 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same policy number.
-     * This defines a weaker notion of equality between two persons.
+     * Returns true if both persons are considered the same.
+     * Two persons are considered the same if they have:
+     * - the same policy number, OR
+     * - the same name and email, OR
+     * - the same name and phone number
      */
     public boolean isSamePerson(Person otherPerson) {
+        if (otherPerson == null) {
+            return false;
+        }
+
         if (otherPerson == this) {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getPolicy().getPolicyNumber().equals(getPolicy().getPolicyNumber());
+        return hasSamePolicyNumber(otherPerson)
+                || (hasSameNameAndEmail(otherPerson))
+                || (hasSameNameAndPhone(otherPerson));
+    }
+
+    /**
+     * Returns true if both persons have the same policy number.
+     */
+    public boolean hasSamePolicyNumber(Person otherPerson) {
+        return otherPerson.getPolicy().getPolicyNumber().equals(getPolicy().getPolicyNumber());
+    }
+
+    /**
+     * Returns true if both persons have the same name and email.
+     */
+    public boolean hasSameNameAndEmail(Person otherPerson) {
+        return this.getName().equals(otherPerson.getName())
+            && this.getEmail().equals(otherPerson.getEmail());
+    }
+
+    /**
+     * Returns true if both persons have the same name and phone.
+     */
+    public boolean hasSameNameAndPhone(Person otherPerson) {
+        return this.getName().equals(otherPerson.getName())
+            && this.getPhone().equals(otherPerson.getPhone());
+    }
+
+    /**
+     * Returns a message explaining why this person is considered the same as another person.
+     */
+    public String getDuplicateReason(Person otherPerson) {
+        if (hasSamePolicyNumber(otherPerson)) {
+            return "policy number";
+        } else if (hasSameNameAndEmail(otherPerson)) {
+            return "name and email";
+        } else if (hasSameNameAndPhone(otherPerson)) {
+            return "name and phone number";
+        }
+        return "";
     }
 
     /**

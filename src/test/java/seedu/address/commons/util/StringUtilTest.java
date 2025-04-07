@@ -16,33 +16,35 @@ public class StringUtilTest {
     public void isNonZeroUnsignedInteger() {
 
         // EP: empty strings
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("")); // Boundary value
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("  "));
+        assertFalse(StringUtil.isPlainInteger("")); // Boundary value
+        assertFalse(StringUtil.isPlainInteger("  "));
 
         // EP: not a number
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("a"));
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("aaa"));
-
-        // EP: zero
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("0"));
+        assertFalse(StringUtil.isPlainInteger("a"));
+        assertFalse(StringUtil.isPlainInteger("aaa"));
 
         // EP: zero as prefix
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("01"));
+        assertTrue(StringUtil.isPlainInteger("01"));
 
-        // EP: signed numbers
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("-1"));
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("+1"));
+        // EP: signed negative numbers
+        assertTrue(StringUtil.isPlainInteger("-1"));
+
+        // EP: signed positive numbers
+        assertFalse(StringUtil.isPlainInteger("+1"));
 
         // EP: numbers with white space
-        assertFalse(StringUtil.isNonZeroUnsignedInteger(" 10 ")); // Leading/trailing spaces
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("1 0")); // Spaces in the middle
+        assertFalse(StringUtil.isPlainInteger(" 10 ")); // Leading/trailing spaces
+        assertFalse(StringUtil.isPlainInteger("1 0")); // Spaces in the middle
 
-        // EP: number larger than Integer.MAX_VALUE
-        assertFalse(StringUtil.isNonZeroUnsignedInteger(Long.toString(Integer.MAX_VALUE + 1)));
+        // EP: number larger than Integer.MAX_VALUE. This results in -2147483648, which is now valid.
+        assertTrue(StringUtil.isPlainInteger(Long.toString(Integer.MAX_VALUE + 1)));
+
+        // EP: zero. Modified to true for better error checking.
+        assertTrue(StringUtil.isPlainInteger("0"));
 
         // EP: valid numbers, should return true
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("1")); // Boundary value
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("10"));
+        assertTrue(StringUtil.isPlainInteger("1")); // Boundary value
+        assertTrue(StringUtil.isPlainInteger("10"));
     }
 
 

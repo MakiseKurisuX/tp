@@ -49,7 +49,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON =
-        "A person with this policy number already exists in the address book";
+            "A person with the same %s already exists in the address book";
 
     private final Person toAdd;
 
@@ -66,7 +66,13 @@ public class AddCommand extends Command {
         requireNonNull(model);
 
         if (model.hasPerson(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            Person existingPerson = model.getFilteredPersonList().stream()
+                    .filter(p -> p.isSamePerson(toAdd))
+                    .findFirst()
+                    .get();
+            throw new CommandException(
+                    String.format(
+                            MESSAGE_DUPLICATE_PERSON, toAdd.getDuplicateReason(existingPerson)));
         }
 
         model.addPerson(toAdd);

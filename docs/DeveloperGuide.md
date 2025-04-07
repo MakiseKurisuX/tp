@@ -114,8 +114,8 @@ The person card UI is implemented using the following components:
 *   `PersonDetailPanel.java`: Controls the display and updating of information of current selected person:
     *   Binds UI elements (labels for policy number, renewal date, and notes) to the underlying person data model
     *   Formats the renewal date display with the prefix "Renewal date: " for clarity
-    *   Dynamically updates the panel’s content when a different person is selected in the main list
-    *   Ensures that the Notes field, if it contains a lengthy string, wraps onto multiple lines without expanding the panel’s width beyond its allocated space
+    *   Dynamically updates the panel's content when a different person is selected in the main list
+    *   Ensures that the Notes field, if it contains a lengthy string, wraps onto multiple lines without expanding the panel's width beyond its allocated space
 
 
 The person card provides a compact view of all essential client information, making it easy for insurance agents to quickly access client details and track policy renewals. The renewal date is prominently displayed with a clear label to help agents quickly identify when policies need to be renewed.
@@ -511,7 +511,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | Insurance Agent | set reminders for renewals       | never miss important deadlines                                      |
 | `* * *`  | Insurance Agent | persist client data              | ensure no data is lost                                              |
 | `* * *`  | Insurance Agent | filter and sort clients by tags  | manage clients more efficiently                                     |
-| `* *`    | Insurance Agent | add notes to a client’s profile  | remember key details about them                                     |
+| `* *`    | Insurance Agent | add notes to a client's profile  | remember key details about them                                     |
 | `* *`    | Insurance Agent | sort my clients by tag  | so that I can quickly rank my clients based on the number of tags they have. |
 
 
@@ -541,8 +541,14 @@ _{More to be added}_
     -   4a1. System shows an error message.
     -   4a2. Use case resumes at step 2.
 
--   4b. A client with the same name and phone number already exists.
-    -   4b1. System shows a duplicate warning and rejects the addition.
+-   4b. A duplicate client is detected.
+    -   4b1. System detects one of the following duplicate conditions:
+        * The same policy number exists
+        * The same name and email combination exists
+        * The same name and phone number combination exists
+    -   4b2. System shows a specific error message indicating which duplicate condition was matched.
+    -   4b3. System rejects the addition.
+    -   4b4. Use case resumes at step 2.
 
 ---
 
@@ -554,11 +560,6 @@ _{More to be added}_
 1. System displays all stored clients in alphabetical order.
 
     Use case ends.
-
-**Extensions**
-
--   2a. No clients have been added.
-    -   2a1. System shows "No clients added yet."
 
 ---
 
@@ -582,6 +583,15 @@ _{More to be added}_
 
 -   4b. Client does not exist.
     -   4b1. System shows an error message.
+
+-   4c. Update would create a duplicate client.
+    -   4c1. System detects that the update would result in:
+        * A policy number that matches another client
+        * A name and email combination that matches another client
+        * A name and phone number combination that matches another client
+    -   4c2. System shows a specific error message indicating which duplicate condition was matched.
+    -   4c3. System rejects the update.
+    -   4c4. Use case resumes at step 2.
 
 ---
 
@@ -712,9 +722,25 @@ _{More to be added}_
 
 ### Glossary
 
--   **Mainstream OS**: Windows, Linux, Unix, MacOS
+-   **Insurance Agent**: A professional who uses the system to manage clients and policies.
 -   **Client**: A person managed within the system with relevant details such as contact, policy information, and tags.
+-   **Policy**: An insurance contract that outlines coverage details, conditions, and terms agreed upon between the insurer and the client.
+-   **Policy Number**: A unique identifier assigned to each insurance policy, typically formatted as “POL-XXX”.
+-   **Renewal Date**: The date on which an insurance policy is due for renewal.
+-   **Policy Type**: A classification that categorizes policies into specific groups such as Life, Health, Property, Vehicle, or Travel.
+-   **User Interface (UI)**: The graphical layout and interactive components (e.g., windows, panels, forms) through which the insurance agent interacts with the system.
+-   **Logic**: The system component that processes user commands by coordinating between the UI and the data model.
+-   **Model**: The component that holds all the client and policy data in memory and represents the business entities.
+-   **Storage**: The component responsible for reading from and writing data to disk, ensuring data persists between sessions.
+-   **Command**: A directive issued by the insurance agent to perform actions such as adding, deleting, or updating a client.
+-   **Command Parser**: The module that interprets raw user input and converts it into a structured command object.
+-   **Command Result**: The outcome returned after a command is executed, including success confirmations or error messages.
+-   **User Preferences**: Settings that store the agent’s configuration choices for a personalized experience.
+-   **ObservableList**: A data structure that automatically notifies the UI of changes in the model, ensuring real-time updates.
+-   **Duplicate Entry**: A situation where a new client record matches an existing record based on key attributes like name and phone number.
 -   **Tag**: A custom keyword used to categorize clients for sorting and filtering.
+-   **Data Persistence**: The capability of the system to save client and policy data so that information is retained across sessions.
+-   **Mainstream OS**: Operating systems such as Windows, Linux, Unix, and MacOS.
 
 ---
 
@@ -757,13 +783,5 @@ testers are expected to do more _exploratory_ testing.
 
     1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
-
-1. _{ more test cases …​ }_
-
-### Saving data
-
-1. Dealing with missing/corrupted data files
-
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
