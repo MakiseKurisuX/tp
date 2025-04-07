@@ -572,9 +572,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | Insurance Agent | add notes to a client's profile  | remember key details about them                                     |
 | `* *`    | Insurance Agent | sort my clients by tag  | so that I can quickly rank my clients based on the number of tags they have. |
 
-
-_{More to be added}_
-
 ### Use Cases
 
 (For all use cases below, the **System** is the `Client Management System` and the **Actor** is the `Insurance Agent`, unless specified otherwise)
