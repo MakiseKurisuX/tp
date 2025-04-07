@@ -199,7 +199,7 @@ Format: <span class="command-word" style="color: #CC0000">`add`</span> <span cla
 
 *   NAME: Names must only include alphanumeric characters and spaces.
 *   PHONE_NUMBER: Phone numbers must follow the E.164 standard.
-*   EMAIL: The email must be in the localpart@domain format.
+*   EMAIL: The email must be in the localpart@domainname format. The localpart should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters. The domain name must: end with a domain label at least 2 characters long, have each domain label start and end with alphanumeric characters, and have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
 *   ADDRESS: The address can be any string value, but it must not be blank.
 *   POLICY_NUMBER: The policy number must consist only of digits, ensuring that it is numeric and non‑blank.
 *   POLICY_TYPE: Only the following case‑insensitive policy types are allowed: Life, Health, Property, Vehicle, Travel.
@@ -358,6 +358,9 @@ Format: <span class="command-word" style="color: #CC0000">`viewrenewals`</span> 
 * Example: Use `n/30` for next 30 days, not `n/30.5` or `n/-30`
 </box>
 
+*   The `n/NEXT_N_DAYS` parameter must be between 0 and 365.
+*   The `s/SORT_ORDER` parameter must be either `name` or `date`. The default sort order is by `date`.
+
 Examples:
 
 * <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
@@ -428,8 +431,6 @@ The policy type and renewal date are clearly labeled to help insurance agents qu
 
 Searches given person fields by specific keyword and returns any matching entries
 Format: <span class="command-word" style="color: #CC0000">`find`</span> <span class="optional" style="color: #808080">[n/NAME]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[p/PHONE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[e/EMAIL]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[a/ADDRESS]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pol/POLICY_NUMBER]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pt/POLICY_TYPE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[s/SORT_ORDER]</span><span class="repeatable" style="color: #0066CC">…​</span>
-
-
 
 *   At least one of the optional fields must be provided.
 *   Each field may be provided more than once except `SORT_ORDER`.
