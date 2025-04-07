@@ -1,5 +1,7 @@
 @startuml
-skinparam classAttributeIconSize 0
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
 skinparam classBackgroundColor LOGIC_COLOR
 
 class FilterDateCommand {
@@ -17,15 +19,15 @@ class FilterDateCommandParser {
     + parse(args : String) : FilterDateCommand
 }
 
-interface Parser {
+class "<<interface>>\nParser" as Parser {
     + parse(userInput : String) : T
 }
 
-abstract class Command {
+abstract class "{abstract}\nCommand" as Command {
     + execute(model : Model) : CommandResult
 }
 
-interface Model {
+class "<<interface>>\nModel" as Model {
     + getRenewalsList() : ObservableList<Person>
     + updateRenewalsList(predicate : Predicate<Person>) : void
     + updateSortedRenewalsList(comparator : Comparator<Person>) : void
@@ -40,7 +42,7 @@ class MainWindow {
     + updateFilterLabel(startDate : LocalDate, endDate : LocalDate) : void
 }
 
-interface Logic {
+class "<<interface>>\nLogic" as Logic {
     + execute(commandText : String) : CommandResult
 }
 

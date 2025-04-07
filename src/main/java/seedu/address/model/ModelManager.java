@@ -34,6 +34,7 @@ public class ModelManager implements Model {
     private final ObservableList<Person> renewalsListSource;
     private final FilteredList<Person> filteredRenewalsList;
     private Comparator<Person> renewalsComparator;
+    private Predicate<Person> lastRenewalsPredicate;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -128,6 +129,9 @@ public class ModelManager implements Model {
 
         addressBook.setPerson(target, editedPerson);
         addressBook.setLastUpdated(LocalDateTime.now());
+        if (lastRenewalsPredicate != null && !renewalsListSource.isEmpty()) {
+            updateRenewalsList(lastRenewalsPredicate);
+        }
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -155,6 +159,7 @@ public class ModelManager implements Model {
     @Override
     public void updateRenewalsList(Predicate<Person> predicate) {
         requireNonNull(predicate);
+        lastRenewalsPredicate = predicate;
         // Clear the current renewals list
         renewalsListSource.clear();
         // Add all persons that match the predicate

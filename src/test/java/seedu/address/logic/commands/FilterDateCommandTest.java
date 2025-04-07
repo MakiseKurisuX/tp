@@ -50,7 +50,9 @@ public class FilterDateCommandTest {
         LocalDate endDate = baseDate.plusDays(30);
         FilterDateCommand command = new FilterDateCommand(startDate, endDate, "date");
         CommandResult result = command.execute(model);
-        assertEquals(String.format(FilterDateCommand.MESSAGE_NO_RESULTS, startDate, endDate),
+        assertEquals(String.format(FilterDateCommand.MESSAGE_NO_RESULTS,
+                startDate.format(RenewalDate.DATE_FORMATTER),
+                endDate.format(RenewalDate.DATE_FORMATTER)),
                 result.getFeedbackToUser());
         assertTrue(model.getFilteredPersonList().isEmpty());
     }
@@ -68,7 +70,9 @@ public class FilterDateCommandTest {
         FilterDateCommand command = new FilterDateCommand(startDate, endDate, "date");
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(FilterDateCommand.MESSAGE_FILTER_SUCCESS, 2, startDate, endDate),
+        assertEquals(String.format(FilterDateCommand.MESSAGE_FILTER_SUCCESS, 2,
+                startDate.format(RenewalDate.DATE_FORMATTER),
+                endDate.format(RenewalDate.DATE_FORMATTER)),
                 result.getFeedbackToUser());
         List<Person> filteredList = model.getRenewalsList();
         assertEquals(2, filteredList.size());
@@ -134,7 +138,9 @@ public class FilterDateCommandTest {
         FilterDateCommand command = new FilterDateCommand(startDate, endDate, null);
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(FilterDateCommand.MESSAGE_NO_RESULTS, startDate, endDate),
+        assertEquals(String.format(FilterDateCommand.MESSAGE_NO_RESULTS,
+                startDate.format(RenewalDate.DATE_FORMATTER),
+                endDate.format(RenewalDate.DATE_FORMATTER)),
                 result.getFeedbackToUser());
         assertTrue(model.getRenewalsList().isEmpty());
     }

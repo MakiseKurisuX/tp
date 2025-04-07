@@ -37,6 +37,8 @@ deactivate AddCommand
 AddCommandParser --> AddressBookParser : addCommand
 deactivate AddCommandParser
 
+[<-- AddressBookParser : addCommand
+
 [-> AddressBookParser : execute
 AddressBookParser -> AddCommand : execute
 activate AddCommand

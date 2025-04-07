@@ -283,8 +283,8 @@ public class MainWindow extends UiPart<Stage> {
                     if (parts.length >= 2) {
                         String[] dates = parts[1].trim().split(" and ");
                         if (dates.length == 2) {
-                            LocalDate startDate = LocalDate.parse(dates[0].trim());
-                            LocalDate endDate = LocalDate.parse(dates[1].trim());
+                            LocalDate startDate = LocalDate.parse(dates[0].trim(), RenewalDate.DATE_FORMATTER);
+                            LocalDate endDate = LocalDate.parse(dates[1].trim(), RenewalDate.DATE_FORMATTER);
                             updateFilterLabel(startDate, endDate);
                         }
                     }
@@ -308,7 +308,7 @@ public class MainWindow extends UiPart<Stage> {
 
             // Update renewals table after each command
             renewalsTable.updateRenewals(logic.getModel());
-
+            renewalsTable.getRenewalsTable().refresh();
             if (logic.getFilteredPersonList().isEmpty()) {
                 renewalsTable.clear();
                 personDetailPanel.clear();

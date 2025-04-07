@@ -366,7 +366,7 @@ The following partial sequence diagram shows how the test operation works:
 
 ### Filter Command
 
-The `filter` command allows users to view policies due for renewal within a specified date range:
+The `filter` command allows users to view policies due for renewal within a specified date range. This helps agents proactively manage upcoming renewals.
 
 *   Takes two parameters, startDate and endDate to specify the date range
 *   Optional sort parameter (by date or name); defaults to date
@@ -374,6 +374,9 @@ The `filter` command allows users to view policies due for renewal within a spec
 *   Updates the UI to show filtered results, and the filter specified when calling this command
 
 #### Implementation
+
+* `FilterDateCommand`: Executes the filtering and sorting of clients based on the provided date range and sort order.
+* `FilterDateCommandParser`: Parses and validates the user input into a FilterCommand object.
 
 The following class diagram shows how the filter command updates the UI:
 
@@ -383,7 +386,25 @@ The following sequence diagram shows how the filter command works:
 
 <puml src="diagrams/FilterDateCommandSequenceDiagram.puml" width="800"/>
 
+#### Design Considerations
 
+* Aspect: Sort Order Options
+
+* Current Choice: Accept only date or name as valid sort orders, case-insensitive. Defaults to date when not specified.
+  * Pros: Simple and supports the most common use cases.
+  * Cons: Doesn't support complex custom sorting (e.g., by policy number or tags).
+* Alternative: Expand to include additional sort fields.
+  * Pros: More customization.
+  * Cons: Increases complexity in command parsing and validation.
+
+* Aspect: Type for startDate and endDate
+
+* Current Choice: Uses LocalDate for variables startDate and endDate.
+    * Pros: Simple and has predefined methods.
+    * Cons: Might be difficult to add custom fields or methods.
+* Alternative: Use RenewalDate class.
+    * Pros: More customization.
+    * Cons: Increases coupling with the Renewal Date class which may not be tailored for the specific needs of the FilterDateCommand.
 
 ### Policy Type Feature
 
@@ -550,13 +571,16 @@ _{More to be added}_
     -   4b3. System rejects the addition.
     -   4b4. Use case resumes at step 2.
 
+-   4c. User adds duplicate tag.
+    -   4c1. System ignores the duplicate and does not repeat the duplicate tag.
+
 ---
 
 **Use case: View a list of clients**
 
 **MSS**
 
-1. Insurance Agent requests to list clients.
+1. Insurance Agent types the command to list clients.
 1. System displays all stored clients in alphabetical order.
 
     Use case ends.
@@ -567,7 +591,7 @@ _{More to be added}_
 
 **MSS**
 
-1. Insurance Agent requests to update a client's information.
+1. Insurance Agent types the command to update a client's information.
 1. System prompts for the client index and new details.
 1. Insurance Agent provides updates.
 1. System validates and updates the information.
@@ -593,15 +617,18 @@ _{More to be added}_
     -   4c3. System rejects the update.
     -   4c4. Use case resumes at step 2.
 
+-   4c. User adds duplicate tag.
+    -   4c1. System ignores the duplicate and does not repeat the duplicate tag.
+
 ---
 
 **Use case: Delete a client**
 
 **MSS**
 
-1. Insurance Agent requests to list clients.
+1. Insurance Agent types the command to list clients.
 1. System shows a list of clients.
-1. Insurance Agent requests to delete a specific client.
+1. Insurance Agent types the command to delete a specific client.
 1. System deletes the client.
 
     Use case ends.
@@ -614,11 +641,26 @@ _{More to be added}_
 
 ---
 
-**Use case: Search for a client**
+### Use case: Clear all client data
 
 **MSS**
 
-1. Insurance Agent requests to search for a client by specific criteria.
+1. Insurance Agent types the command to clear all client data.
+1. System permanently deletes all stored client data immediately.
+
+Use case ends.
+
+**Warning:**  
+- This action is **irreversible**.  
+- All client data will be permanently lost.
+
+---
+
+**Use case: Find a client**
+
+**MSS**
+
+1. Insurance Agent types the command to find a client by specific criteria.
 1. System displays matching clients.
 
     Use case ends.
@@ -626,59 +668,86 @@ _{More to be added}_
 **Extensions**
 
 -   2a. No matching clients found.
-    -   2a1. System shows "No clients found."
+    -   2a1. System shows "0 persons listed!"
+
+-   2b. User searches for duplicate tag in 'find' command.
+    -   2b1. System ignores the duplicate searched tag.
 
 ---
 
-**Use case: Filter clients by renewal date**
+**Use case: Filter and sort clients by tags**
 
 **MSS**
 
-1. Insurance Agent requests to filter clients by renewal date.
-1. System displays clients with renewals within the specified period.
+1. Insurance Agent types the command to filter clients by specific tags, and adds a sort by either name or tag.
+1. System displays a list of clients with the matching tags.
 
     Use case ends.
 
 **Extensions**
 
--   2a. No clients match the criteria.
-    -   2a1. System shows "No upcoming renewals."
+-   2a. No clients match the specified tags.
+    -   2a1. System shows "0 persons listed!"
+
+-   2b. User searches for duplicate tag in 'find' command.
+    -   2b1. System ignores the duplicate searched tag.
 
 ---
 
-**Use case: Tag clients for sorting & search**
+### Use case: View upcoming renewals within a period
 
 **MSS**
 
-1. Insurance Agent requests to tag a client.
-1. System adds the tag to the client's record.
+1. Insurance Agent inputs the `viewrenewals` command with an optional timeframe and sort order.
+2. System displays policies due for renewal within the specified period.
 
-    Use case ends.
+Use case ends.
 
 **Extensions**
 
--   2a. Tag exceeds character limit.
+- 2a. Provided period is not a valid positive integer.
+  - 2a1. System defaults to 30 days and shows clients that match the 30 day renewal criteria.
 
-    -   2a1. System truncates the tag and shows a warning.
-
--   2b. Tag is a duplicate.
-    -   2b1. System shows "Tag already exists."
+- 2b. No policies match the specified period.
+  - 2b1. System shows "No upcoming renewals within [X] days.", where X is the number of days requested [30 default otherwise].
 
 ---
 
-**Use case: Set reminders for renewals**
+### Use case: View policy renewals within a date range
 
 **MSS**
 
-1. Insurance Agent requests to set a renewal reminder for a client.
-1. System schedules the reminder.
+1. Insurance Agent inputs the `filter` command with start date, end date, and optional sort order.
+2. System validates and displays policy renewals within the specified range.
 
-    Use case ends.
+Use case ends.
 
 **Extensions**
 
--   2a. Client does not have a policy renewal date.
-    -   2a1. System shows an error message.
+- 2a. Date range is invalid (end date is before start date).
+  - 2a1. System shows an error message.
+
+- 2b. No policies match the provided date range.
+  - 2b1. System shows "No renewals found between [STARTDATE] and [ENDDATE]."
+
+---
+
+### Use case: Update policy renewal date
+
+**MSS**
+
+1. Insurance Agent inputs the `renew` command with policy number and renewal date.
+1. System validates and updates the renewal date.
+
+Use case ends.
+
+**Extensions**
+
+-   2a. Provided policy number does not exist.
+    -   2a1. System shows an error message that shows that policy number does not exist.
+
+-   2b. Provided renewal date is invalid.
+    -   2b1. System shows an error message indicating date format requirements.
 
 ---
 
@@ -697,48 +766,55 @@ _{More to be added}_
 
 ---
 
-**Use case: Filter and sort clients by tags**
+### Use case: View help information
 
 **MSS**
 
-1. Insurance Agent requests to filter clients by specific tags.
-1. System displays a list of clients with the matching tags.
+1.  Insurance Agent inputs the `help` command.
+1.  System displays instructions and available commands.
 
     Use case ends.
 
-**Extensions**
-
--   2a. No clients match the specified tags.
-    -   2a1. System shows "No clients found for the selected tags."
-
 ---
+
+### Use case: Exit the Client Management System
+
+**MSS**
+
+1. Insurance Agent inputs the `exit` command.
+1. System terminates the session safely.
+
+    Use case ends.
 
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+1. The system should be intuitive for insurance agents who may not be tech-savvy but are proficient at typing.
 1. Should be able to hold up to 1000 clients without noticeable sluggishness in performance.
+1. Should start up and be ready to use in under 2 seconds on a modern machine.
+1. Should be deliver response to user within 5 seconds of user carrying out the command.
+1. Should not require an internet connection to function.
 1. A user with above-average typing speed should be able to accomplish most tasks faster using commands than using the mouse.
 1. Client data should persist even if the system shuts down unexpectedly.
+1. All error messages should be clear and actionable to help users recover quickly from mistakes.
 
 ### Glossary
 
--   **Insurance Agent**: A professional who uses the system to manage clients and policies.
--   **Client**: A person managed within the system with relevant details such as contact, policy information, and tags.
--   **Policy**: An insurance contract that outlines coverage details, conditions, and terms agreed upon between the insurer and the client.
--   **Policy Number**: A unique identifier assigned to each insurance policy, typically formatted as “POL-XXX”.
--   **Renewal Date**: The date on which an insurance policy is due for renewal.
--   **Policy Type**: A classification that categorizes policies into specific groups such as Life, Health, Property, Vehicle, or Travel.
+-   **Insurance Agent**: The primary user of InsureBook: someone who manages and tracks client details, insurance policies, and renewals.
+-   **Client**: An individual whose information is stored in InsureBook. This includes their name, contact details, address, associated policies, and optional notes or tags.
+-   **Policy**: An insurance agreement linked to a client, which includes details like policy number, type, and renewal date.
+-   **Policy Number**: A unique numeric code that identifies a client’s insurance policy. It must be different for each policy entered.
+-   **Renewal Date**: The date by which a client’s policy must be renewed to stay active. This date is managed using `renew`, `viewrenewals`, and `filter`.
+-   **Policy Type**: The category of a policy. Supported types include: `Life`, `Health`, `Property`, `Vehicle`, and `Travel`.
+-   **Tag**: A label added to clients for categorization or filtering purposes. For example, `t/vip`, `t/family`, or `t/lead`.
 -   **User Interface (UI)**: The graphical layout and interactive components (e.g., windows, panels, forms) through which the insurance agent interacts with the system.
 -   **Logic**: The system component that processes user commands by coordinating between the UI and the data model.
 -   **Model**: The component that holds all the client and policy data in memory and represents the business entities.
 -   **Storage**: The component responsible for reading from and writing data to disk, ensuring data persists between sessions.
--   **Command**: A directive issued by the insurance agent to perform actions such as adding, deleting, or updating a client.
+-   **Command**: A typed instruction entered in the command box (e.g., `add`, `edit`, `viewrenewals`) that tells InsureBook what action to perform.
 -   **Command Parser**: The module that interprets raw user input and converts it into a structured command object.
 -   **Command Result**: The outcome returned after a command is executed, including success confirmations or error messages.
--   **User Preferences**: Settings that store the agent’s configuration choices for a personalized experience.
--   **ObservableList**: A data structure that automatically notifies the UI of changes in the model, ensuring real-time updates.
--   **Duplicate Entry**: A situation where a new client record matches an existing record based on key attributes like name and phone number.
--   **Tag**: A custom keyword used to categorize clients for sorting and filtering.
+-   **Duplicate Entry**: An entry that conflicts with existing data due to matching policy number, name + email, or name + phone. These entries are rejected to maintain data accuracy.
 -   **Data Persistence**: The capability of the system to save client and policy data so that information is retained across sessions.
 -   **Mainstream OS**: Operating systems such as Windows, Linux, Unix, and MacOS.
 
@@ -769,19 +845,192 @@ testers are expected to do more _exploratory_ testing.
 
 </box>
 
+### Adding a person
+
+1. Adding a person into InsureBook
+
+    1. Prerequisites: List all persons using the `list` command. InsureBook default sample list used.
+
+    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/999999 pt/Life r/31-12-2025 note/Basketball Player`<br>
+       Expected: Person added successfully into the end of the list, and their details are displayed in the status message.
+
+    1. Test case: `add n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/91234567 t/criminal`<br>
+       Expected: Person added successfully into the end of the list, and their details are displayed in the status message.
+   
+    1. Incorrect add commands to try: `add n/bobby`, `...`<br>
+       Expected: Person not added into the list, error details are displayed in the status message.
+
+2. Adding a person with duplicate policy number into InsureBook
+
+    1. Prerequisites: There exist a person with the same policy number in the list as the person that is being added.
+
+    1. Test case: `add n/Alan Lim p/98761234 e/alan@gmail.com a/alan drive pol/123456`<br>
+       Expected: Person not added into the list, error details are displayed in the status message.
+
+### Editing a person
+
+1. Editing an existing person from InsureBook
+
+    1. Prerequisites: There is at least 1 person in the list.
+
+    1. Test case: `edit 1 n/Alexander e/alexander@example.com`<br>
+       Expected: Person edited successfully, and their details are displayed in the status message.
+
+    1. Test case: `edit 0`<br>
+       Expected: No person is edited. Error details are displayed in the status message.
+
+    1. Other incorrect edit commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
+
+2. Editing an existing person's policy number to a number that is used already from InsureBook
+
+   1. Prerequisites: There is at least 1 person in the list whose policy number match the policy number that is being edited into.
+
+   1. Test case: `edit 1 pol/123456`<br>
+      Expected: No person is edited. Error details are displayed in the status message.
+
 ### Deleting a person
 
-1. Deleting a person while all persons are being shown
+1. Deleting an existing person while all persons are being shown
 
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
     1. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       Expected: First person is deleted from the list. Details of the deleted person are displayed in the status message.
 
     1. Test case: `delete 0`<br>
-       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+       Expected: No person is deleted. Error details are displayed in the status message.
 
     1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+
+### Updating a policy renewal date
+
+1. Updating a policy renewal date of a person
+
+    1. Prerequisites: There exist a person in the list with the policy number that is being tested and the rd/RENEWAL_DATE must be later than the current date e.g.20-04-2025.
+
+    1. Test case: `renew pol/234567 r/31-12-2025`<br>
+       Expected: Person policy renewal date updated successfully, and details are displayed in the status message.
+
+    1. Test case: `renew pol/234567 r/2025-06-11`<br>
+       Expected: No person policy renewal date updated. Error details are displayed in the status message.
+
+    1. Other incorrect delete commands to try: `renew`, `...`<br>
+       Expected: Similar to previous.
+
+2. Updating a policy renewal date of a person whose policy number does not exist
+
+    1. Prerequisites: There exists a person in the list whose policy number does not match what is being tested and the rd/RENEWAL_DATE must be later than the current date e.g.20-04-2025.
+
+    1. Test case: `renew pol/969696 r/06-11-2025`<br> 
+       Expected: No person policy renewal date updated. No policy was found, and details are displayed in the status message
+
+### Viewing upcoming policy renewals
+
+1. Viewing upcoming policy renewals from the list
+
+    1. Prerequisites: There is at least 1 person in the list.
+
+    1. Test case: `viewrenewals`<br>
+       Expected: Shows persons with upcoming renewals in the next 30 days, sorted by date, and details are displayed in the status message.
+
+    1. Test case: `viewrenewals n/60 s/name`<br>
+       Expected: Shows persons with upcoming renewals in next 60 days, sorted by name, and details are displayed in the status message.
+
+    1. Test case: `viewrenewals n/0`<br>
+       Expected: No persons with upcoming renewals shown. Error details are displayed in the status message.
+
+    1. Other incorrect delete commands to try: `viewrenewals n/366`, `...`<br>
+       Expected: Similar to previous.
+
+2. Viewing upcoming policy renewals for policy that falls after the specified test day.
+
+    1. Prerequisites: There is at least one person who has a policy renewal date that falls after the specified test day.
+
+    1. Test case: `viewrenewals n/60 s/name`<br>
+       Expected: No persons with upcoming renewals shown, and details are displayed in the status message.
+
+### Viewing policy renewals in date range
+
+1. Viewing policy renewals in a filtered range from the list
+
+    1. Prerequisites: There is at least 1 person in the list and the sd/START_DATE and ed/END_DATE must be later than the current date e.g.20-04-2025.
+
+    1. Test case: `filter sd/20-04-2025 ed/20-12-2026`<br>
+       Expected: Show a filtered list with persons with renewal dates within the provided range, sorted by date, and details are displayed in the status message.
+
+    1. Test case: `filter sd/20-4-2025 ed/20-12-2026 s/name`<br>
+       Expected: Show a filtered list with persons with renewal dates within the provided range, sorted by date, and details are displayed in the status message.
+
+    1. Test case: `filter sd/20-04-2025`<br>
+       Expected: list of person is not filtered. Error details are displayed in the status message.
+
+    1. Other incorrect delete commands to try: `filter`, `...`<br>
+       Expected: Similar to previous.
+
+2. Viewing policy renewals in a filtered range from the list for a policy that falls after the specified test date  and the sd/START_DATE and ed/END_DATE must be later than the current date e.g.20-04-2025.
+
+    1. Prerequisites: There is at least 1 person in the list who has a policy renewal date that falls after the specified test date.
+
+    1. Test case: `filter sd/20-04-2025 ed/20-12-2026`<br>
+       Expected: No persons shown, and details are displayed in the status message.
+
+### Listing all persons
+
+1. Viewing all persons in the list
+
+    1. Prerequisites: There is at least 1 person in the list.
+
+    1. Test case: `list`<br>
+       Expected: Show a list of all person in InsureBook, and details are displayed in the status message.
+
+### Locating persons by keyword
+
+1. Locating persons from the list by using keyword 
+
+    1. Prerequisites: There is at least 1 person in the list which matches with the keyword that is being tested.
+
+    1. Test case: `find n/John`<br>
+       Expected: Show the quantity and list of people who matches the keyword, sorted by name, partial matches is considered a success, and details are displayed in the status message.
+
+    1. Test case: `find t/friends t/colleagues s/tag`<br>
+       Expected: Show the quantity and list of people who matches the keyword, sorted by number of tag, only exact matches is considered a success, and details are displayed in the status message.
+
+    1. Test case: `find n/bernice n/david`<br>
+       Expected: Show the quantity and list of people who matches the keyword, sorted by name, partial matches is considered a success, and details are displayed in the status message.
+
+    1. Test case: `find`<br>
+       Expected: list of person is not updated. Error details are displayed in the status bar.
+   
+    1. Other incorrect delete commands to try: `find 0`, `...`<br>
+       Expected: Similar to previous.
+
+2. Locating persons from the list by using keyword that does not match
+
+    1. Prerequisites: All persons in the list does not match with the keyword that is being tested.
+
+    1. Test case: `find n/bob`<br>
+       Expected: No one is listed, and details are displayed in the status message.
+
+### Viewing help
+
+1. Show help
+
+    1. Test case: `help`<br>
+       Expected: New window is opened with the link to InsureBook's UserGuide, and details are displayed in the status message.
+
+### Clearing InsureBook entries
+
+1. Clear existing list of person in InsureBook
+
+    1. Test case: `clear`<br>
+       Expected: All person in list is removed, and details are displayed in the status message.
+
+### Exiting InsureBook
+
+1. Exit InsureBook
+
+    1. Test case: `exit`<br>
+       Expected: InsureBook successfully closes.

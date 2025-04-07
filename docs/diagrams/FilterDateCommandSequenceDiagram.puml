@@ -24,6 +24,8 @@ deactivate FilterDateCommand
 FilterDateCommandParser --> AddressBookParser : FilterDateCommand
 deactivate FilterDateCommandParser
 
+[<-- AddressBookParser : FilterDateCommand
+
 [-> AddressBookParser : execute
 AddressBookParser -> FilterDateCommand : execute
 activate FilterDateCommand

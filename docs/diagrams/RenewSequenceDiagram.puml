@@ -24,6 +24,8 @@ deactivate RenewCommand
 RenewCommandParser --> AddressBookParser : RenewCommand
 deactivate RenewCommandParser
 
+[<-- AddressBookParser : RenewCommand
+
 [-> AddressBookParser : execute
 AddressBookParser -> RenewCommand : execute
 activate RenewCommand
