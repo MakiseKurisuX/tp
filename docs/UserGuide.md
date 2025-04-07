@@ -547,14 +547,6 @@ Expected output after running `exit`: InsureBook **closes**.
 
 **A:** Use the <span class="command-word" style="color: #CC0000">`filter`</span> command. For example, <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-03-2025 ed/31-03-2025</span>.
 
-**Q:** How do I save the data?
-
-**A:** Use the <span class="command-word" style="color: #CC0000">`save`</span> command. For example, <span class="command-word" style="color: #CC0000">`save`</span> <span class="parameter" style="color: #FF8C00">addressbook.json</span>.
-
-**Q:** How do I edit the data file?
-
-**A:** Use the <span class="command-word" style="color: #CC0000">`edit`</span> command. For example, <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">addressbook.json</span>.
-
 ### Known Issues
 
 **I:** I'm unable to add a new person to the address book.
