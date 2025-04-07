@@ -446,6 +446,7 @@ Format: <span class="command-word" style="color: #CC0000">`find`</span> <span cl
 
 *   At least one of the optional fields must be provided.
 *   Each field may be provided more than once except `SORT_ORDER`.
+*   The fields follow the same rules and constraints as detailed in the [add](#adding-a-person-add) command.
 *   `NAME` and `ADDRESS` field may contain more than one word.
 *   The search is case-insensitive. e.g `hans` will match `Hans`
 *   The order of the values matter for a field but not for different fields. e.g. `n/Hans Bo` will not match `Bo Hans` but `n/Hans n/Bo` will match `Bo Hans`
