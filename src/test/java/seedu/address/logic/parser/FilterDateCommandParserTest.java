@@ -1,12 +1,13 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.FilterDateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -29,43 +30,56 @@ public class FilterDateCommandParserTest {
     @Test
     public void parse_missingStartDate_throwsParseException() {
         String userInput = "filter ed/31-03-2025 s/date";
-        assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_REQUIRED_PREFIXES_NOT_FOUND);
     }
 
     @Test
     public void parse_missingEndDate_throwsParseException() {
         String userInput = "filter sd/01-03-2025 s=name";
-        assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_REQUIRED_PREFIXES_NOT_FOUND);
     }
 
     @Test
     public void parse_startDateAfterEndDate_throwsParseException() {
         String userInput = "filter sd/01-04-2025 ed/01-03-2025";
-        assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_INVALID_START_DATE);
     }
 
     @Test
     public void parse_endDateBeyondMaxYears_throwsParseException() {
         String userInput = "filter sd/01-03-2025 ed/01-03-2031";
-        assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_INVALID_END_DATE);
     }
 
     @Test
     public void parse_invalidDateFormat_throwsParseException() {
         String userInput = "filter sd/2025-01-01 ed/2025-03-31 s/date"; // Incorrect date format
-        assertThrows(IllegalArgumentException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_INVALID_DATE_FORMAT);
     }
 
     @Test
     public void parse_nonExistentDate_throwsParseException() {
         String userInput = "filter sd/30-02-2025 ed/31-03-2025 s/date"; // Feb 30 does not exist
-        assertThrows(IllegalArgumentException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_INVALID_DATE_FORMAT);
+    }
+
+    @Test
+    public void parse_leapYearDate_success() throws ParseException {
+        String userInput = "filter sd/29-02-2024 ed/31-03-2024 s/date"; // 2024 is a leap year
+
+        FilterDateCommand expectedCommand = new FilterDateCommand(
+                LocalDate.of(2024, 2, 29),
+                LocalDate.of(2024, 3, 31),
+                "date"
+        );
+
+        assertEquals(expectedCommand, parser.parse(userInput));
     }
 
     @Test
     public void parse_nonExistentSortType_throwsParseException() {
         String userInput = "filter sd/11-02-2025 ed/31-03-2025 s/value"; // value is not a valid sort type
-        assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_INVALID_SORT);
     }
 
     @Test
@@ -107,7 +121,7 @@ public class FilterDateCommandParserTest {
     @Test
     public void parse_emptyInput_throwsParseException() {
         String userInput = "";
-        assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertParseFailure(parser, userInput, FilterDateCommandParser.MESSAGE_REQUIRED_PREFIXES_NOT_FOUND);
     }
 
     @Test
@@ -131,5 +145,12 @@ public class FilterDateCommandParserTest {
         FilterDateCommand expectedCommand = new FilterDateCommand(startDate, endDate, "date");
 
         assertEquals(expectedCommand, parser.parse(userInput));
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_throwsParseException() {
+        String userInput = "filter sd/01-01-2025 ed/31-12-2025 s/date sd/15-01-2025"; // Conflicting start dates
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_START_DATE));
     }
 }

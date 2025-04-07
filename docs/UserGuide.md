@@ -356,8 +356,8 @@ Format: <span class="command-word" style="color: #CC0000">`filter`</span> <span 
 
 Examples:
 
-* <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/2025-03-01 ed/2025-03-31</span>
-* <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/2025-01-01 ed/2025-06-30 s/name</span>
+* <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-03-2025 ed/31-03-2025</span>
+* <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-01-2025 ed/30-06-2025 s/name</span>
 
 ### Search Commands
 
@@ -469,7 +469,7 @@ Format: <span class="command-word" style="color: #CC0000">`exit`</span>
 
 **Q:** How do I filter policy renewals in a date range?
 
-**A:** Use the <span class="command-word" style="color: #CC0000">`filter`</span> command. For example, <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/2025-03-01 ed/2025-03-31</span>.
+**A:** Use the <span class="command-word" style="color: #CC0000">`filter`</span> command. For example, <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-03-2025 ed/31-03-2025</span>.
 
 **Q:** How do I save the data?
 

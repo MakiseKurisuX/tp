@@ -304,8 +304,6 @@ public class MainWindow extends UiPart<Stage> {
                 } else {
                     updateFilterLabelEmpty();
                 }
-            } else {
-                updateFilterLabelEmpty();
             }
 
             // Update renewals table after each command

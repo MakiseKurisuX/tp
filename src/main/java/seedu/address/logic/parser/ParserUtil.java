@@ -292,7 +292,7 @@ public class ParserUtil {
      * @return The parsed {@code LocalDate} object.
      * @throws ParseException if the given {@code dateStr} is invalid.
      */
-    public static LocalDate parseDate(String dateStr) throws IllegalArgumentException {
+    public static LocalDate parseDate(String dateStr) throws ParseException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         try {
@@ -300,12 +300,12 @@ public class ParserUtil {
 
             //Ensure the formatted date matches the original input to prevent the invalid date to go through
             if (!dateStr.equals(parsedDate.format(formatter))) {
-                throw new IllegalArgumentException(FilterDateCommandParser.MESSAGE_INVALID_DATE_FORMAT);
+                throw new ParseException(FilterDateCommandParser.MESSAGE_INVALID_DATE_FORMAT);
             }
 
             return parsedDate;
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException(FilterDateCommandParser.MESSAGE_INVALID_DATE_FORMAT);
+            throw new ParseException(FilterDateCommandParser.MESSAGE_INVALID_DATE_FORMAT);
         }
     }
 }
