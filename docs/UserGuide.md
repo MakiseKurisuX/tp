@@ -358,8 +358,19 @@ Format: <span class="command-word" style="color: #CC0000">`viewrenewals`</span> 
 * Example: Use `n/30` for next 30 days, not `n/30.5` or `n/-30`
 </box>
 
-*   The `n/NEXT_N_DAYS` parameter must be between 0 and 365.
-*   The `s/SORT_ORDER` parameter must be either `name` or `date`. The default sort order is by `date`.
+* The `n/NEXT_N_DAYS` parameter must be between 0 and 365.  
+* The search results can be sorted using `s/SORT_ORDER` by `name` or by `date` only. The default sort order is by date if unspecified.
+
+<box type="info" seamless>
+
+**Note on Sorting Order for name:**
+
+The sorting order is case-sensitive and follows standard computer ordering rules. This means that:
+* Capital letters (A-Z) first
+* Then lowercase letters (a-z)
+
+For example: Alice, Bernice, Zebra, alpha, echo, zulu
+</box>
 
 Examples:
 
@@ -392,6 +403,7 @@ Format: <span class="command-word" style="color: #CC0000">`filter`</span> <span 
 *   The `sd/START_DATE` parameter must be in the format `DD-MM-YYYY`.
 *   The `ed/END_DATE` parameter must be in the format `DD-MM-YYYY`.
 *   The search results will include policy renewals between the specified start date and end date.
+*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `date` only. The default sort order is by date if unspecified. Name sorting follows the same rules as mentioned in the [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals) command.
 
 Examples:
 
@@ -434,6 +446,7 @@ Format: <span class="command-word" style="color: #CC0000">`find`</span> <span cl
 
 *   At least one of the optional fields must be provided.
 *   Each field may be provided more than once except `SORT_ORDER`.
+*   The fields follow the same rules and constraints as detailed in the [add](#adding-a-person-add) command.
 *   `NAME` and `ADDRESS` field may contain more than one word.
 *   The search is case-insensitive. e.g `hans` will match `Hans`
 *   The order of the values matter for a field but not for different fields. e.g. `n/Hans Bo` will not match `Bo Hans` but `n/Hans n/Bo` will match `Bo Hans`
@@ -446,12 +459,7 @@ Format: <span class="command-word" style="color: #CC0000">`find`</span> <span cl
     e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
 *   Tags are supported. You can add one or more tags using `t/TAG`. The search for tags is not case-sensitive and must be an exact word.
 *   Policy types are supported. You can search for specific policy types using `pt/POLICY_TYPE`. Valid policy types are: Life, Health, Property, Vehicle, and Travel. The search is not case-sensitive.
-*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag` only. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first.
-
-<box type="info" seamless>
-
-**Note:** The sorting order is case-sensitive and follows ASCII values. This means lowercase letters are ordered after uppercase ones. For example, `Bernice` will appear after `alice`.
-</box>
+*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag` only. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first. Name sorting follows the same rules as mentioned in the [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals) command.
 
 Examples:
 
@@ -629,7 +637,6 @@ Expected output after running `exit`: InsureBook **closes**.
 | <span class="command-word" style="color: #CC0000">`Parameter`</span> | <span class="command-word" style="color: #000000">Additional information following a command word, usually prefixed with a letter and slash (e.g., <code>n/NAME</code>, <code>p/PHONE_NUMBER</code>).</span> |
 | <span class="command-word" style="color: #CC0000">`Index`</span> | <span class="command-word" style="color: #000000">The number shown beside a client’s entry in the displayed list. Used to identify which client to edit or delete.</span> |
 | <span class="command-word" style="color: #CC0000">`Duplicate Entries`</span> | <span class="command-word" style="color: #000000">If you try to add or edit a client so that it shares a policy number or certain combination of name/phone/email with an existing client, InsureBook treats it as a duplicate and blocks the action.</span> |
-| <span class="command-word" style="color: #CC0000">`Lexicographical Order`</span> | <span class="command-word" style="color: #000000">Sorting based on alphabetical character order, comparing strings from left to right.</span> |
 | <span class="command-word" style="color: #CC0000">`Sort Order`</span> | <span class="command-word" style="color: #000000">Some commands (like <code>viewrenewals</code> and <code>find</code>) let you sort results by <code>name</code> or <code>tag</code>.</span> |
 | <span class="command-word" style="color: #CC0000">`Data File`</span> | <span class="command-word" style="color: #000000">The file (often named <code>addressbook.json</code>) where InsureBook stores all client data. Used by commands like <code>save</code> and <code>edit</code>.</span> |
 
