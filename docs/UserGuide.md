@@ -123,7 +123,7 @@ Indicates critical warnings or irreversible actions. Always read these carefully
 
     * `list` : Lists all contacts.
 
-    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456` : Adds a contact named `John Doe` to the Address Book.
+    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/1234567` : Adds a contact named `John Doe` to the Address Book.
 
     * `delete 3` : Deletes the 3rd contact shown in the current list.
 
