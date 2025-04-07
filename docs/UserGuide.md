@@ -228,6 +228,14 @@ Examples:
 * <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 pol/123456 pt/Life r/31-12-2024 note/Basketball Player</span>
 * <span class="command-word" style="color: #CC0000">`add`</span> <span class="parameter" style="color: #FF8C00">n/Betsy Crowe t/friend pol/654321 pt/Health e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</span>
 
+Expected Output:
+
+* Before running the command:
+![Before Renew](images/add_before.png)
+
+* After running the command:
+![After Renew](images/add_success.png)
+
 <box type="warning" seamless>
 
 **Warning: Duplicate Policy Numbers**
@@ -274,6 +282,13 @@ Examples:
 * <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">1 p/91234567 e/johndoe@example.com pt/Health r/31-12-2024</span>
 * <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">2 n/Betsy Crower t/</span>
 
+Expected Output:
+* Before running the command:
+![Before Edit](images/edit_before.png)
+
+* After running the command:
+![Before Edit](images/edit_success.png)
+
 #### Deleting a person : <span class="command-word" style="color: #CC0000">`delete`</span>
 
 Format: <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">INDEX</span>
@@ -296,6 +311,13 @@ Examples:
 * <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">2</span>
 * <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">Betsy</span> followed by <span class="command-word" style="color: #CC0000">`delete`</span> <span class="parameter" style="color: #FF8C00">1</span>
 
+Expected Output:
+* Before running the command:
+![Before Delete](images/delete_before.png)
+
+* After running the command:
+![After Delete](images/delete_success.png)
+
 ### Policy Management Commands
 
 #### Updating a policy renewal date : <span class="command-word" style="color: #CC0000">`renew`</span>
@@ -315,7 +337,15 @@ Format: <span class="command-word" style="color: #CC0000">`renew`</span> <span c
 
 Examples:
 
-* <span class="command-word" style="color: #CC0000">`renew`</span> <span class="parameter" style="color: #FF8C00">pol/123456 r/31-12-2025</span>
+* <span class="command-word" style="color: #CC0000">`renew`</span> <span class="parameter" style="color: #FF8C00">pol/123456 r/01-01-2026</span>
+<Br>
+
+Expected Output:
+* Before running the renew command:
+![Before Renew](images/RenewCommandBefore.png)
+
+* After running `renew pol/123456 r/01-01-2026`:
+![After Renew](images/RenewCommandAfter.png)
 
 #### Viewing upcoming policy renewals : <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
 
@@ -335,6 +365,14 @@ Examples:
 * <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
 * <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="parameter" style="color: #FF8C00">n/60</span>
 * <span class="command-word" style="color: #CC0000">`viewrenewals`</span> <span class="parameter" style="color: #FF8C00">n/60 s/name</span>
+
+Expected Output:
+* Before running the viewrenewals command:
+![Before View Renewals](images/ViewRenewalCommandBefore.png)
+
+* After running `viewrenewals n/200 s/name`:
+![After View Renewals](images/ViewRenewalCommandAfter.png)
+
 
 #### View policy renewals in date range : <span class="command-word" style="color: #CC0000">`filter`</span>
 
@@ -358,6 +396,14 @@ Examples:
 
 * <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-03-2025 ed/31-03-2025</span>
 * <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-01-2025 ed/30-06-2025 s/name</span>
+
+Expected Output:
+* Before running the filter command:
+![Before Filter](images/FilterBefore.png)
+
+* After running `filter sd/01-06-2025 ed/01-01-2026`:
+![After Filter](images/FilterAfter.png)
+
 
 ### Search Commands
 
@@ -407,10 +453,24 @@ Format: <span class="command-word" style="color: #CC0000">`find`</span> <span cl
 
 Examples:
 
-* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/John</span>
+* <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/olive</span>
 * <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/Amy p/999</span>
 * <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">n/alex n/david</span>
 * <span class="command-word" style="color: #CC0000">`find`</span> <span class="parameter" style="color: #FF8C00">t/friends t/colleagues s/tag</span>
+
+Expected Output (Partial name searching example):
+* Before running the find command:
+  ![Before Find Command Example 1](images/FindCommandBefore.png)
+
+* After running `find n/olive`:
+  ![After Find Command Example 1](images/FindCommandAfter.png)
+
+Expected Output (Tag searching example):
+* Before running the find command:
+  ![Before Find Command Example 2](images/FindCommand2Before.png)
+
+* After running `find t/friends t/colleagues s/tag`:
+  ![After Find Command Example 2](images/FindCommand2After.png)
 
 ### General Commands
 
@@ -419,6 +479,8 @@ Examples:
 Shows a message explaining how to access the help page.
 
 Format: <span class="command-word" style="color: #CC0000">`help`</span>
+
+Expected output after running `help` : ![Help](images/Help.png)
 
 #### Clearing all entries : <span class="command-word" style="color: #CC0000">`clear`</span>
 
@@ -433,9 +495,13 @@ Format: <span class="command-word" style="color: #CC0000">`clear`</span>
 * Double-check that you really want to delete everything
 </box>
 
+Expected output after running `clear`: ![Clear](images/Clear.png)
+
 #### Exiting the program : <span class="command-word" style="color: #CC0000">`exit`</span>
 
 Format: <span class="command-word" style="color: #CC0000">`exit`</span>
+
+Expected output after running `exit`: InsureBook **closes**.
 
 ### FAQ
 
@@ -549,5 +615,28 @@ Format: <span class="command-word" style="color: #CC0000">`exit`</span>
 | <span class="command-word" style="color: #CC0000">`help`</span> | <span class="command-word" style="color: #CC0000">`help`</span> |
 | <span class="command-word" style="color: #CC0000">`clear`</span> | <span class="command-word" style="color: #CC0000">`clear`</span> |
 | <span class="command-word" style="color: #CC0000">`exit`</span> | <span class="command-word" style="color: #CC0000">`exit`</span> |
+
+---
+
+## Glossary
+
+| Term | Meaning |
+|---------|---------|
+| <span class="command-word" style="color: #CC0000">`Agent`</span> | <span class="command-word" style="color: #000000">Refers to the insurance agent who uses InsureBook to manage and organize client information.</span> |
+| <span class="command-word" style="color: #CC0000">`Client`</span> | <span class="command-word" style="color: #000000">Refers to an individual’s entry in InsureBook, containing contact information (name, phone, email, address) and at least one insurance policy.</span> |
+| <span class="command-word" style="color: #CC0000">`InsureBook`</span> | <span class="command-word" style="color: #000000">A desktop application (with both a CLI and GUI) that helps insurance agents manage and organize client information.</span> |
+| <span class="command-word" style="color: #CC0000">`CLI (Command Line Interface)`</span> | <span class="command-word" style="color: #000000">A text-based interface where users type commands to interact with the application.</span> |
+| <span class="command-word" style="color: #CC0000">`GUI (Graphical User Interface)`</span> | <span class="command-word" style="color: #000000">A visual interface that displays buttons, text fields, and other elements, providing a more familiar point-and-click experience.</span> |
+| <span class="command-word" style="color: #CC0000">`Policy`</span> | <span class="command-word" style="color: #000000">An insurance policy associated with the client. The policy number is a unique numeric identifier (e.g., “123456”).</span> |
+| <span class="command-word" style="color: #CC0000">`Policy Type`</span> | <span class="command-word" style="color: #000000">Category of an insurance policy. Valid options include Life, Health, Property, Vehicle, or Travel.</span> |
+| <span class="command-word" style="color: #CC0000">`Renewal Date`</span> | <span class="command-word" style="color: #000000">The date (DD‑MM‑YYYY) on which the policy is due to be renewed. Used by commands like <code>renew</code>, <code>viewrenewals</code>, and <code>filter</code>.</span> |
+| <span class="command-word" style="color: #CC0000">`Tag`</span> | <span class="command-word" style="color: #000000">A label that can be attached to a client for categorization or quick reference (e.g., “friend,” “colleague,” “VIP”).</span> |
+| <span class="command-word" style="color: #CC0000">`Command Word`</span> | <span class="command-word" style="color: #000000">The keyword used to invoke a specific operation in InsureBook (e.g., <code>add</code>, <code>edit</code>, <code>delete</code>, <code>find</code>).</span> |
+| <span class="command-word" style="color: #CC0000">`Parameter`</span> | <span class="command-word" style="color: #000000">Additional information following a command word, usually prefixed with a letter and slash (e.g., <code>n/NAME</code>, <code>p/PHONE_NUMBER</code>).</span> |
+| <span class="command-word" style="color: #CC0000">`Index`</span> | <span class="command-word" style="color: #000000">The number shown beside a client’s entry in the displayed list. Used to identify which client to edit or delete.</span> |
+| <span class="command-word" style="color: #CC0000">`Duplicate Entries`</span> | <span class="command-word" style="color: #000000">If you try to add or edit a client so that it shares a policy number or certain combination of name/phone/email with an existing client, InsureBook treats it as a duplicate and blocks the action.</span> |
+| <span class="command-word" style="color: #CC0000">`Lexicographical Order`</span> | <span class="command-word" style="color: #000000">Sorting based on alphabetical character order, comparing strings from left to right.</span> |
+| <span class="command-word" style="color: #CC0000">`Sort Order`</span> | <span class="command-word" style="color: #000000">Some commands (like <code>viewrenewals</code> and <code>find</code>) let you sort results by <code>name</code> or <code>tag</code>.</span> |
+| <span class="command-word" style="color: #CC0000">`Data File`</span> | <span class="command-word" style="color: #000000">The file (often named <code>addressbook.json</code>) where InsureBook stores all client data. Used by commands like <code>save</code> and <code>edit</code>.</span> |
 
 ---

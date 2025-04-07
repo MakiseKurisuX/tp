@@ -75,13 +75,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2425S2-CS2103-F08-2/tp/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `RenewalsTable`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2425S2-CS2103-F08-2/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2425S2-CS2103-F08-2/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -122,7 +122,7 @@ The person card provides a compact view of all essential client information, mak
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2425S2-CS2103-F08-2/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -156,7 +156,7 @@ How the parsing works:
 
 ### Model component
 
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2425S2-CS2103-F08-2/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
 
@@ -177,7 +177,7 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2425S2-CS2103-F08-2/tp/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
@@ -351,18 +351,21 @@ The following partial sequence diagram shows how the test operation works:
 
 * Aspect: How to handle multiple search criteria
 
-  * Current Choice: Combine all criteria using logical OR.
+  * Alternative 1 (current choice): Combine all criteria using logical OR.
     * Pros: Ensures that a person is considered a match if any of the specified attributes match, providing more flexible search results.
     * Cons: May result in more matches if multiple criteria are specified.
-  * Alternative: Use logical AND to require all criteria to match.
+  * Alternative 2: Use logical AND to require all criteria to match.
     * Pros: Ensures that all specified attributes must match, providing precise search results.
     * Cons: May result in fewer matches if multiple criteria are specified.
 
 * Aspect: Case sensitivity and partial matches
 
-  * Current Choice: Use case-insensitive and partial matches.
+  * Alternative 1 (current choice): Use case-insensitive and partial matches.
     * Pros: More user-friendly and flexible, accommodating various input styles.
     * Cons: May result in unintended matches if search values are too general.
+  * Alternative 2: Case-sensitive with exact matches
+    * Pros: Highest precision in search results, ideal for technical/specialized searches and minimizes irrelevant matches
+    * Cons: Most restrictive option for users, steeper learning curve and requires perfect knowledge of stored data format
 
 ### Filter Command
 
@@ -814,7 +817,9 @@ Use case ends.
 -   **Command**: A typed instruction entered in the command box (e.g., `add`, `edit`, `viewrenewals`) that tells InsureBook what action to perform.
 -   **Command Parser**: The module that interprets raw user input and converts it into a structured command object.
 -   **Command Result**: The outcome returned after a command is executed, including success confirmations or error messages.
+-   **ObservableList**: A data structure that automatically notifies the UI of changes in the model, ensuring real-time updates.
 -   **Duplicate Entry**: An entry that conflicts with existing data due to matching policy number, name + email, or name + phone. These entries are rejected to maintain data accuracy.
+-   **Tag**: A custom keyword used to categorize clients for sorting and filtering.
 -   **Data Persistence**: The capability of the system to save client and policy data so that information is retained across sessions.
 -   **Mainstream OS**: Operating systems such as Windows, Linux, Unix, and MacOS.
 
@@ -858,14 +863,14 @@ testers are expected to do more _exploratory_ testing.
        Expected: Person added successfully into the end of the list, and their details are displayed in the status message.
    
     1. Incorrect add commands to try: `add n/bobby`, `...`<br>
-       Expected: Person not added into the list, error details are displayed in the status message.
+       Expected: Person not added into the list, error details are displayed in the status message and command entered stays in the command box.
 
 2. Adding a person with duplicate policy number into InsureBook
 
     1. Prerequisites: There exist a person with the same policy number in the list as the person that is being added.
 
     1. Test case: `add n/Alan Lim p/98761234 e/alan@gmail.com a/alan drive pol/123456`<br>
-       Expected: Person not added into the list, error details are displayed in the status message.
+       Expected: Person not added into the list, error details are displayed in the status message and command entered stays in the command box.
 
 ### Editing a person
 
@@ -877,7 +882,7 @@ testers are expected to do more _exploratory_ testing.
        Expected: Person edited successfully, and their details are displayed in the status message.
 
     1. Test case: `edit 0`<br>
-       Expected: No person is edited. Error details are displayed in the status message.
+       Expected: No person is edited. Error details are displayed in the status message and command entered stays in the command box.
 
     1. Other incorrect edit commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
@@ -886,8 +891,8 @@ testers are expected to do more _exploratory_ testing.
 
    1. Prerequisites: There is at least 1 person in the list whose policy number match the policy number that is being edited into.
 
-   1. Test case: `edit 1 pol/123456`<br>
-      Expected: No person is edited. Error details are displayed in the status message.
+   1. Test case: `edit 2 pol/123456`<br>
+      Expected: No person is edited. Error details are displayed in the status message and command entered stays in the command box.
 
 ### Deleting a person
 
@@ -899,7 +904,7 @@ testers are expected to do more _exploratory_ testing.
        Expected: First person is deleted from the list. Details of the deleted person are displayed in the status message.
 
     1. Test case: `delete 0`<br>
-       Expected: No person is deleted. Error details are displayed in the status message.
+       Expected: No person is deleted. Error details are displayed in the status message and command entered stays in the command box.
 
     1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
@@ -909,23 +914,23 @@ testers are expected to do more _exploratory_ testing.
 
 1. Updating a policy renewal date of a person
 
-    1. Prerequisites: There exist a person in the list with the policy number that is being tested and the rd/RENEWAL_DATE must be later than the current date e.g.20-04-2025.
+    1. Prerequisites: There exist a person in the list with the policy number that is being tested and the rd/RENEWAL_DATE must be later than the current date e.g. 20-04-2025.
 
     1. Test case: `renew pol/234567 r/31-12-2025`<br>
        Expected: Person policy renewal date updated successfully, and details are displayed in the status message.
 
     1. Test case: `renew pol/234567 r/2025-06-11`<br>
-       Expected: No person policy renewal date updated. Error details are displayed in the status message.
+       Expected: No person policy renewal date updated. Error details are displayed in the status message and command entered stays in the command box.
 
     1. Other incorrect delete commands to try: `renew`, `...`<br>
        Expected: Similar to previous.
 
 2. Updating a policy renewal date of a person whose policy number does not exist
 
-    1. Prerequisites: There exists a person in the list whose policy number does not match what is being tested and the rd/RENEWAL_DATE must be later than the current date e.g.20-04-2025.
+    1. Prerequisites: There exists a person in the list whose policy number does not match what is being tested and the rd/RENEWAL_DATE must be later than the current date e.g. 20-04-2025.
 
     1. Test case: `renew pol/969696 r/06-11-2025`<br> 
-       Expected: No person policy renewal date updated. No policy was found, and details are displayed in the status message
+       Expected: No person policy renewal date updated. No policy was found, details are displayed in the status message and command entered stays in the command box.
 
 ### Viewing upcoming policy renewals
 
@@ -936,11 +941,11 @@ testers are expected to do more _exploratory_ testing.
     1. Test case: `viewrenewals`<br>
        Expected: Shows persons with upcoming renewals in the next 30 days, sorted by date, and details are displayed in the status message.
 
-    1. Test case: `viewrenewals n/60 s/name`<br>
-       Expected: Shows persons with upcoming renewals in next 60 days, sorted by name, and details are displayed in the status message.
+    1. Test case: `viewrenewals n/300 s/name`<br>
+       Expected: Shows persons with upcoming renewals in next 300 days, sorted by name, and details are displayed in the status message.
 
     1. Test case: `viewrenewals n/0`<br>
-       Expected: No persons with upcoming renewals shown. Error details are displayed in the status message.
+       Expected: No persons with upcoming renewals shown. Error details are displayed in the status message and command entered stays in the command box.
 
     1. Other incorrect delete commands to try: `viewrenewals n/366`, `...`<br>
        Expected: Similar to previous.
@@ -956,25 +961,25 @@ testers are expected to do more _exploratory_ testing.
 
 1. Viewing policy renewals in a filtered range from the list
 
-    1. Prerequisites: There is at least 1 person in the list and the sd/START_DATE and ed/END_DATE must be later than the current date e.g.20-04-2025.
+    1. Prerequisites: There is at least 1 person in the list and the sd/START_DATE and ed/END_DATE must be later than the current date e.g. 20-04-2025.
 
     1. Test case: `filter sd/20-04-2025 ed/20-12-2026`<br>
        Expected: Show a filtered list with persons with renewal dates within the provided range, sorted by date, and details are displayed in the status message.
 
-    1. Test case: `filter sd/20-4-2025 ed/20-12-2026 s/name`<br>
+    1. Test case: `filter sd/20-04-2025 ed/20-12-2026 s/name`<br>
        Expected: Show a filtered list with persons with renewal dates within the provided range, sorted by date, and details are displayed in the status message.
 
     1. Test case: `filter sd/20-04-2025`<br>
-       Expected: list of person is not filtered. Error details are displayed in the status message.
+       Expected: list of person is not filtered. Error details are displayed in the status message and command entered stays in the command box.
 
     1. Other incorrect delete commands to try: `filter`, `...`<br>
        Expected: Similar to previous.
 
-2. Viewing policy renewals in a filtered range from the list for a policy that falls after the specified test date  and the sd/START_DATE and ed/END_DATE must be later than the current date e.g.20-04-2025.
+2. Viewing policy renewals in a filtered range from the list for a policy that falls after the specified test date and the sd/START_DATE and ed/END_DATE must be later than the current date e.g. 20-04-2025.
 
     1. Prerequisites: There is at least 1 person in the list who has a policy renewal date that falls after the specified test date.
 
-    1. Test case: `filter sd/20-04-2025 ed/20-12-2026`<br>
+    1. Test case: `filter sd/20-04-2025 ed/20-05-2025`<br>
        Expected: No persons shown, and details are displayed in the status message.
 
 ### Listing all persons
@@ -1002,7 +1007,7 @@ testers are expected to do more _exploratory_ testing.
        Expected: Show the quantity and list of people who matches the keyword, sorted by name, partial matches is considered a success, and details are displayed in the status message.
 
     1. Test case: `find`<br>
-       Expected: list of person is not updated. Error details are displayed in the status bar.
+       Expected: list of person is not updated. Error details are displayed in the status bar and command entered stays in the command box.
    
     1. Other incorrect delete commands to try: `find 0`, `...`<br>
        Expected: Similar to previous.
