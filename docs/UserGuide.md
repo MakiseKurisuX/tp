@@ -6,7 +6,7 @@
 
 # InsureBook User Guide
 
-**InsureBook** is a **desktop application** built to help insurance agents **manage and organize their client information more effectively**. Its primary purpose is to streamline the day-to-day workflow of agents, allowing them to **store, access, update and keep track of client data with ease**.
+**InsureBook** is an address book **desktop application** built to help insurance agents **manage and organize their client information more effectively**. Its primary purpose is to streamline the day-to-day workflow of agents, allowing them to **store, access, update and keep track of client data with ease**.
 
 By combining the speed of a **Command Line Interface (CLI)** with the familiarity of a **Graphical User Interface (GUI)**, InsureBook is optimized for fast, efficient use. If you're a quick typist, you'll find that InsureBook lets you **perform contact management tasks faster than traditional point-and-click apps** — all while maintaining clarity and control over your client base.
 
@@ -24,7 +24,7 @@ This User Guide is designed to help you get the most out of InsureBook. Here's h
    * The Commands section contains detailed information about all available commands
    * Commands are organized into categories:
      * Client Management ([add](#adding-a-person-add), [edit](#editing-a-person-edit), [delete](#deleting-a-person-delete))
-     * Policy Management ([renew](#updating-a-policy-renewal-date-renew), [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals), [filter](#view-policy-renewals-in-the-specified-date-range-filter))
+     * Policy Management ([renew](#updating-a-policy-renewal-date-renew), [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals), [filter](#view-policy-renewals-in-date-range-filter))
      * Search and List ([find](#locating-persons-by-keyword-find), [list](#listing-all-persons-list))
      * General Commands ([help](#viewing-help-help), [clear](#clearing-all-entries-clear), [exit](#exiting-the-program-exit))
 
@@ -86,7 +86,7 @@ Indicates critical warnings or irreversible actions. Always read these carefully
    * [Policy Management Commands](#policy-management-commands)
      * [Updating a policy renewal date](#updating-a-policy-renewal-date-renew)
      * [Viewing upcoming policy renewals](#viewing-upcoming-policy-renewals-viewrenewals)
-     * [View policy renewals in date range](#view-policy-renewals-in-the-specified-date-range-filter)
+     * [View policy renewals in date range](#view-policy-renewals-in-date-range-filter)
    * [Search Commands](#search-commands)
      * [Listing all persons](#listing-all-persons-list)
      * [Locating persons by keyword](#locating-persons-by-keyword-find)
@@ -199,7 +199,7 @@ Format: <span class="command-word" style="color: #CC0000">`add`</span> <span cla
 
 *   NAME: Names must only include alphanumeric characters and spaces.
 *   PHONE_NUMBER: Phone numbers must follow the E.164 standard.
-*   EMAIL: The email must be in the localpart@domain format.
+*   EMAIL: The email must be in the localpart@domainname format. The localpart should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters. The domain name must: end with a domain label at least 2 characters long, have each domain label start and end with alphanumeric characters, and have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
 *   ADDRESS: The address can be any string value, but it must not be blank.
 *   POLICY_NUMBER: The policy number must consist only of digits, ensuring that it is numeric and non‑blank.
 *   POLICY_TYPE: Only the following case‑insensitive policy types are allowed: Life, Health, Property, Vehicle, Travel.
@@ -358,6 +358,20 @@ Format: <span class="command-word" style="color: #CC0000">`viewrenewals`</span> 
 * Example: Use `n/30` for next 30 days, not `n/30.5` or `n/-30`
 </box>
 
+* The `n/NEXT_N_DAYS` parameter must be between 0 and 365.  
+* The search results can be sorted using `s/SORT_ORDER` by `name` or by `date` only. The default sort order is by date if unspecified.
+
+<box type="info" seamless>
+
+**Note on Sorting Order for name:**
+
+The sorting order is case-sensitive and follows standard computer ordering rules. This means that:
+* Capital letters (A-Z) first
+* Then lowercase letters (a-z)
+
+For example: Alice, Bernice, Zebra, alpha, echo, zulu
+</box>
+
 Examples:
 
 * <span class="command-word" style="color: #CC0000">`viewrenewals`</span>
@@ -389,6 +403,7 @@ Format: <span class="command-word" style="color: #CC0000">`filter`</span> <span 
 *   The `sd/START_DATE` parameter must be in the format `DD-MM-YYYY`.
 *   The `ed/END_DATE` parameter must be in the format `DD-MM-YYYY`.
 *   The search results will include policy renewals between the specified start date and end date.
+*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `date` only. The default sort order is by date if unspecified. Name sorting follows the same rules as mentioned in the [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals) command.
 
 Examples:
 
@@ -429,25 +444,22 @@ The policy type and renewal date are clearly labeled to help insurance agents qu
 Searches given person fields by specific keyword and returns any matching entries
 Format: <span class="command-word" style="color: #CC0000">`find`</span> <span class="optional" style="color: #808080">[n/NAME]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[p/PHONE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[e/EMAIL]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[a/ADDRESS]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pol/POLICY_NUMBER]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[pt/POLICY_TYPE]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[t/TAG]</span><span class="repeatable" style="color: #0066CC">…​</span> <span class="optional" style="color: #808080">[s/SORT_ORDER]</span><span class="repeatable" style="color: #0066CC">…​</span>
 
-
-
 *   At least one of the optional fields must be provided.
 *   Each field may be provided more than once except `SORT_ORDER`.
+*   The fields follow the same rules and constraints as detailed in the [add](#adding-a-person-add) command.
 *   `NAME` and `ADDRESS` field may contain more than one word.
 *   The search is case-insensitive. e.g `hans` will match `Hans`
 *   The order of the values matter for a field but not for different fields. e.g. `n/Hans Bo` will not match `Bo Hans` but `n/Hans n/Bo` will match `Bo Hans`
-*   Partial words will also be matched e.g. `n/Han` will match `Hans`
+*   Partial search for Name, Phone number, Email address, Physical address and Policy number is allowed
+*   Exact search is required for Policy type and Tags
+*   Partial words e.g. `n/Han` will match `Hans`
+*   Partial numbers e.g. `p/123` will match `91234567` 
 *   Partial search for emails must be concatenated with `@` followed by at least 2 characters e.g. `e/ice@ex` will match `alice@example.com` but `alice@e` will not match `alice@example.com`
 *   Persons matching at least one field will be returned (i.e. `OR` search).
     e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
 *   Tags are supported. You can add one or more tags using `t/TAG`. The search for tags is not case-sensitive and must be an exact word.
 *   Policy types are supported. You can search for specific policy types using `pt/POLICY_TYPE`. Valid policy types are: Life, Health, Property, Vehicle, and Travel. The search is not case-sensitive.
-*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag` only. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first.
-
-<box type="info" seamless>
-
-**Note:** The sorting order is case-sensitive and follows ASCII values. This means lowercase letters are ordered after uppercase ones. For example, `Bernice` will appear after `alice`.
-</box>
+*   The search results can be sorted using `s/SORT_ORDER` by `name` or by `tag` only. The default sort order is by name. Tag sorting sorts by entries with the most number of tags first. Name sorting follows the same rules as mentioned in the [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals) command.
 
 Examples:
 
@@ -625,7 +637,6 @@ Expected output after running `exit`: InsureBook **closes**.
 | <span class="command-word" style="color: #CC0000">`Parameter`</span> | <span class="command-word" style="color: #000000">Additional information following a command word, usually prefixed with a letter and slash (e.g., <code>n/NAME</code>, <code>p/PHONE_NUMBER</code>).</span> |
 | <span class="command-word" style="color: #CC0000">`Index`</span> | <span class="command-word" style="color: #000000">The number shown beside a client’s entry in the displayed list. Used to identify which client to edit or delete.</span> |
 | <span class="command-word" style="color: #CC0000">`Duplicate Entries`</span> | <span class="command-word" style="color: #000000">If you try to add or edit a client so that it shares a policy number or certain combination of name/phone/email with an existing client, InsureBook treats it as a duplicate and blocks the action.</span> |
-| <span class="command-word" style="color: #CC0000">`Lexicographical Order`</span> | <span class="command-word" style="color: #000000">Sorting based on alphabetical character order, comparing strings from left to right.</span> |
 | <span class="command-word" style="color: #CC0000">`Sort Order`</span> | <span class="command-word" style="color: #000000">Some commands (like <code>viewrenewals</code> and <code>find</code>) let you sort results by <code>name</code> or <code>tag</code>.</span> |
 | <span class="command-word" style="color: #CC0000">`Data File`</span> | <span class="command-word" style="color: #000000">The file (often named <code>addressbook.json</code>) where InsureBook stores all client data. Used by commands like <code>save</code> and <code>edit</code>.</span> |
 
