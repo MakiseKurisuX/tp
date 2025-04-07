@@ -417,7 +417,7 @@ The `filter` command allows users to view policies due for renewal within a spec
 
 The following class diagram shows how the filter command updates the UI:
 
-<puml src="diagrams/FilterDateCommandClassDiagram.puml" width="800"/>
+<puml src="diagrams/FilterDateCommandClassDiagram.puml" width="450"/>
 
 The following sequence diagram shows how the filter command works:
 

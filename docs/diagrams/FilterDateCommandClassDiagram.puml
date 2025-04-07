@@ -3,7 +3,6 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 skinparam classBackgroundColor LOGIC_COLOR
-scale 0.55
 
 class FilterDateCommand {
     - startDate : LocalDate
