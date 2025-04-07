@@ -585,31 +585,29 @@ _{More to be added}_
 
 **MSS**
 
-1. Insurance Agent requests to add a new client.
-1. System prompts for client details.
-1. Insurance Agent enters required details.
+1. Insurance Agent inputs the `add` command with client details.
 1. System validates and saves the new client.
 
     Use case ends.
 
 **Extensions**
 
--   4a. The provided details are invalid.
+-   2a. The provided details are invalid.
 
-    -   4a1. System shows an error message.
-    -   4a2. Use case resumes at step 2.
+    -   2a1. System shows an error message.
+    -   2a2. Use case resumes at step 1.
 
--   4b. A duplicate client is detected.
-    -   4b1. System detects one of the following duplicate conditions:
+-   2b. A duplicate client is detected.
+    -   2b1. System detects one of the following duplicate conditions:
         * The same policy number exists
         * The same name and email combination exists
         * The same name and phone number combination exists
-    -   4b2. System shows a specific error message indicating which duplicate condition was matched.
-    -   4b3. System rejects the addition.
-    -   4b4. Use case resumes at step 2.
+    -   2b2. System shows a specific error message indicating which duplicate condition was matched.
+    -   2b3. System rejects the addition.
+    -   2b4. Use case resumes at step 1.
 
--   4c. User adds duplicate tag.
-    -   4c1. System ignores the duplicate and does not repeat the duplicate tag.
+-   2c. User adds duplicate tag.
+    -   2c1. System ignores the duplicate and does not repeat the duplicate tag.
 
 ---
 
@@ -617,7 +615,7 @@ _{More to be added}_
 
 **MSS**
 
-1. Insurance Agent types the command to list clients.
+1. Insurance Agent inputs the `list` command.
 1. System displays all stored clients in alphabetical order.
 
     Use case ends.
@@ -628,34 +626,31 @@ _{More to be added}_
 
 **MSS**
 
-1. Insurance Agent types the command to update a client's information.
-1. System prompts for the client index and new details.
-1. Insurance Agent provides updates.
-1. System validates and updates the information.
+1. Insurance Agent inputs the `edit` command with the client index and new details.
+1. System validates and updates the client information.
 
     Use case ends.
 
 **Extensions**
 
--   4a. Provided details are invalid.
+-   2a. Provided details are invalid.
+    -   2a1. System shows an error message.
+    -   2a2. Use case resumes at step 1.
 
-    -   4a1. System shows an error message.
-    -   4a2. Use case resumes at step 2.
+-   2b. Client does not exist.
+    -   2b1. System shows an error message.
 
--   4b. Client does not exist.
-    -   4b1. System shows an error message.
-
--   4c. Update would create a duplicate client.
-    -   4c1. System detects that the update would result in:
+-   2c. Update would create a duplicate client.
+    -   2c1. System detects that the update would result in:
         * A policy number that matches another client
         * A name and email combination that matches another client
         * A name and phone number combination that matches another client
-    -   4c2. System shows a specific error message indicating which duplicate condition was matched.
-    -   4c3. System rejects the update.
-    -   4c4. Use case resumes at step 2.
+    -   2c2. System shows a specific error message indicating which duplicate condition was matched.
+    -   2c3. System rejects the update.
+    -   2c4. Use case resumes at step 1.
 
--   4c. User adds duplicate tag.
-    -   4c1. System ignores the duplicate and does not repeat the duplicate tag.
+-   2c. User adds duplicate tag.
+    -   2c1. System ignores the duplicate and does not repeat the duplicate tag.
 
 ---
 
@@ -663,10 +658,8 @@ _{More to be added}_
 
 **MSS**
 
-1. Insurance Agent types the command to list clients.
-1. System shows a list of clients.
-1. Insurance Agent types the command to delete a specific client.
-1. System deletes the client.
+1. Insurance Agent inputs the `delete` command with the client identifier.
+1. System deletes the specified client.
 
     Use case ends.
 
@@ -674,7 +667,7 @@ _{More to be added}_
 
 -   2a. The given index is invalid.
     -   2a1. System shows an error message.
-    -   2a2. Use case resumes at step 2.
+    -   2a2. Use case resumes at step 1.
 
 ---
 
@@ -697,7 +690,7 @@ Use case ends.
 
 **MSS**
 
-1. Insurance Agent types the command to find a client by specific criteria.
+1. Insurance Agent inputs the `find` command with specific criteria.
 1. System displays matching clients.
 
     Use case ends.
@@ -706,9 +699,11 @@ Use case ends.
 
 -   2a. No matching clients found.
     -   2a1. System shows "0 persons listed!"
+    -   2a2. Use case resumes at step 1.
 
 -   2b. User searches for duplicate tag in 'find' command.
     -   2b1. System ignores the duplicate searched tag.
+    -   2b2. Use case resumes at step 1.
 
 ---
 
@@ -716,7 +711,7 @@ Use case ends.
 
 **MSS**
 
-1. Insurance Agent types the command to filter clients by specific tags, and adds a sort by either name or tag.
+1. Insurance Agent inputs the `filter` command with specific criteria and tags, and adds a sort by either name or tag.
 1. System displays a list of clients with the matching tags.
 
     Use case ends.
@@ -725,9 +720,11 @@ Use case ends.
 
 -   2a. No clients match the specified tags.
     -   2a1. System shows "0 persons listed!"
+    -   2a2. Use case resumes at step 1.
 
 -   2b. User searches for duplicate tag in 'find' command.
     -   2b1. System ignores the duplicate searched tag.
+    -   2b2. Use case resumes at step 1.
 
 ---
 
@@ -736,17 +733,19 @@ Use case ends.
 **MSS**
 
 1. Insurance Agent inputs the `viewrenewals` command with an optional timeframe and sort order.
-2. System displays policies due for renewal within the specified period.
+1. System displays policies due for renewal within the specified period.
 
 Use case ends.
 
 **Extensions**
 
 - 2a. Provided period is not a valid positive integer.
-  - 2a1. System defaults to 30 days and shows clients that match the 30 day renewal criteria.
+    -   2a1. System defaults to 30 days and shows clients that match the 30 day renewal criteria.
+    -   2a2. Use case resumes at step 1.
 
 - 2b. No policies match the specified period.
-  - 2b1. System shows "No upcoming renewals within [X] days.", where X is the number of days requested [30 default otherwise].
+    -   2b1. System shows "No upcoming renewals within [X] days.", where X is the number of days requested [30 default otherwise].
+    -   2b2. Use case resumes at step 1.
 
 ---
 
@@ -755,17 +754,19 @@ Use case ends.
 **MSS**
 
 1. Insurance Agent inputs the `filter` command with start date, end date, and optional sort order.
-2. System validates and displays policy renewals within the specified range.
+1. System validates and displays policy renewals within the specified range.
 
 Use case ends.
 
 **Extensions**
 
 - 2a. Date range is invalid (end date is before start date).
-  - 2a1. System shows an error message.
+    -   2a1. System shows an error message.
+    -   2a2. Use case resumes at step 1.
 
 - 2b. No policies match the provided date range.
-  - 2b1. System shows "No renewals found between [STARTDATE] and [ENDDATE]."
+    -   2b1. System shows "No renewals found between [STARTDATE] and [ENDDATE]."
+    -   2b2. Use case resumes at step 1.
 
 ---
 
@@ -782,9 +783,11 @@ Use case ends.
 
 -   2a. Provided policy number does not exist.
     -   2a1. System shows an error message that shows that policy number does not exist.
+    -   2a2. Use case resumes at step 1.
 
 -   2b. Provided renewal date is invalid.
     -   2b1. System shows an error message indicating date format requirements.
+    -   2b2. Use case resumes at step 1.
 
 ---
 
@@ -796,11 +799,6 @@ Use case ends.
 
     Use case ends.
 
-**Extensions**
-
--   1a. System encounters an error while saving.
-    -   1a1. System shows an error message.
-
 ---
 
 ### Use case: View help information
@@ -808,7 +806,7 @@ Use case ends.
 **MSS**
 
 1.  Insurance Agent inputs the `help` command.
-1.  System displays instructions and available commands.
+1.  System opens a new window with a link to the User Guide.
 
     Use case ends.
 
@@ -822,6 +820,8 @@ Use case ends.
 1. System terminates the session safely.
 
     Use case ends.
+
+---
 
 ### Non-Functional Requirements
 
