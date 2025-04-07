@@ -165,8 +165,6 @@ InsureBook provides you with several types of commands to manage your client inf
 ### [General Commands](#general-commands)
 * [Viewing help](#viewing-help-help) - <span class="command-word" style="color: #CC0000">`help`</span>
 * [Clearing all entries](#clearing-all-entries-clear) - <span class="command-word" style="color: #CC0000">`clear`</span>
-* [Saving the data](#saving-the-data) - <span class="command-word" style="color: #CC0000">`save`</span>
-* [Editing the data file](#editing-the-data-file) - <span class="command-word" style="color: #CC0000">`edit`</span>
 * [Exiting the program](#exiting-the-program-exit) - <span class="command-word" style="color: #CC0000">`exit`</span>
 
 A command consists of a <span class="command-word" style="color: #CC0000">command word</span> and zero or more <span class="parameter" style="color: #FF8C00">parameters</span>.
@@ -547,14 +545,6 @@ Expected output after running `exit`: InsureBook **closes**.
 
 **A:** Use the <span class="command-word" style="color: #CC0000">`filter`</span> command. For example, <span class="command-word" style="color: #CC0000">`filter`</span> <span class="parameter" style="color: #FF8C00">sd/01-03-2025 ed/31-03-2025</span>.
 
-**Q:** How do I save the data?
-
-**A:** Use the <span class="command-word" style="color: #CC0000">`save`</span> command. For example, <span class="command-word" style="color: #CC0000">`save`</span> <span class="parameter" style="color: #FF8C00">addressbook.json</span>.
-
-**Q:** How do I edit the data file?
-
-**A:** Use the <span class="command-word" style="color: #CC0000">`edit`</span> command. For example, <span class="command-word" style="color: #CC0000">`edit`</span> <span class="parameter" style="color: #FF8C00">addressbook.json</span>.
-
 ### Known Issues
 
 **I:** I'm unable to add a new person to the address book.
@@ -638,6 +628,6 @@ Expected output after running `exit`: InsureBook **closes**.
 | <span class="command-word" style="color: #CC0000">`Index`</span> | <span class="command-word" style="color: #000000">The number shown beside a client’s entry in the displayed list. Used to identify which client to edit or delete.</span> |
 | <span class="command-word" style="color: #CC0000">`Duplicate Entries`</span> | <span class="command-word" style="color: #000000">If you try to add or edit a client so that it shares a policy number or certain combination of name/phone/email with an existing client, InsureBook treats it as a duplicate and blocks the action.</span> |
 | <span class="command-word" style="color: #CC0000">`Sort Order`</span> | <span class="command-word" style="color: #000000">Some commands (like <code>viewrenewals</code> and <code>find</code>) let you sort results by <code>name</code> or <code>tag</code>.</span> |
-| <span class="command-word" style="color: #CC0000">`Data File`</span> | <span class="command-word" style="color: #000000">The file (often named <code>addressbook.json</code>) where InsureBook stores all client data. Used by commands like <code>save</code> and <code>edit</code>.</span> |
+| <span class="command-word" style="color: #CC0000">`Data File`</span> | <span class="command-word" style="color: #000000">The file (often named <code>addressbook.json</code>) where InsureBook stores all client data.</span> |
 
 ---
