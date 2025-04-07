@@ -24,7 +24,7 @@ This User Guide is designed to help you get the most out of InsureBook. Here's h
    * The Commands section contains detailed information about all available commands
    * Commands are organized into categories:
      * Client Management ([add](#adding-a-person-add), [edit](#editing-a-person-edit), [delete](#deleting-a-person-delete))
-     * Policy Management ([renew](#updating-a-policy-renewal-date-renew), [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals), [filter](#view-policy-renewals-in-the-specified-date-range-filter))
+     * Policy Management ([renew](#updating-a-policy-renewal-date-renew), [viewrenewals](#viewing-upcoming-policy-renewals-viewrenewals), [filter](#view-policy-renewals-in-date-range-filter))
      * Search and List ([find](#locating-persons-by-keyword-find), [list](#listing-all-persons-list))
      * General Commands ([help](#viewing-help-help), [clear](#clearing-all-entries-clear), [exit](#exiting-the-program-exit))
 
@@ -86,7 +86,7 @@ Indicates critical warnings or irreversible actions. Always read these carefully
    * [Policy Management Commands](#policy-management-commands)
      * [Updating a policy renewal date](#updating-a-policy-renewal-date-renew)
      * [Viewing upcoming policy renewals](#viewing-upcoming-policy-renewals-viewrenewals)
-     * [View policy renewals in date range](#view-policy-renewals-in-the-specified-date-range-filter)
+     * [View policy renewals in date range](#view-policy-renewals-in-date-range-filter)
    * [Search Commands](#search-commands)
      * [Listing all persons](#listing-all-persons-list)
      * [Locating persons by keyword](#locating-persons-by-keyword-find)
